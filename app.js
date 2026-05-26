@@ -578,6 +578,10 @@ const initApp = () => {
                     </svg>
                 `;
 
+                emailLink.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+
                 emailItem.appendChild(emailLink);
                 emailList.appendChild(emailItem);
                 proInfo.appendChild(emailList);
