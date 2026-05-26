@@ -3009,4 +3009,73 @@ body.admin-mode .pub-admin-actions {
     background: rgba(255, 255, 255, 0.02);
 }
 
+/* People Section Tabs Styling */
+.people-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0;
+}
+
+.people-tab-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 12px 10px;
+    position: relative;
+    transition: color 0.3s ease;
+    outline: none;
+}
+
+.people-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-blue);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.people-tab-btn:hover {
+    color: var(--color-blue);
+}
+
+.people-tab-btn.active {
+    color: var(--color-blue);
+    font-weight: 700;
+}
+
+.people-tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+.people-tab-content {
+    display: none;
+}
+
+.people-tab-content.active {
+    display: block;
+    animation: fadeInPeopleTab 0.3s ease-out forwards;
+}
+
+@keyframes fadeInPeopleTab {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 

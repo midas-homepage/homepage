@@ -1656,6 +1656,58 @@ const initApp = () => {
         };
         loadNewsTicker();
     }
+
+    // ==========================================================================
+    // 12. People Section Tab Toggle Logic
+    // ==========================================================================
+    const initPeopleTabs = () => {
+        const tabBtns = document.querySelectorAll('.people-tab-btn');
+        const tabContents = document.querySelectorAll('.people-tab-content');
+        if (tabBtns.length === 0 || tabContents.length === 0) return;
+
+        const switchTab = (tabName) => {
+            tabBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            tabContents.forEach(content => {
+                content.classList.toggle('active', content.dataset.tab === tabName);
+            });
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchTab(btn.dataset.tab);
+            });
+        });
+
+        // Intercept hash links to ensure tab switches before scroll target
+        const handleHash = (hash) => {
+            if (hash === '#alumni') {
+                switchTab('alumni');
+            } else if (hash === '#members' || hash === '#pf_info' || hash === '#people') {
+                switchTab('members');
+            }
+        };
+
+        // Check on load
+        if (window.location.hash) {
+            handleHash(window.location.hash);
+        }
+
+        // Listen for hash change
+        window.addEventListener('hashchange', () => {
+            handleHash(window.location.hash);
+        });
+
+        // Intercept clicks on links pointing to local hash tags
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                const href = link.getAttribute('href');
+                handleHash(href);
+            });
+        });
+    };
+    initPeopleTabs();
 };
 
 if (document.readyState === 'loading') {
