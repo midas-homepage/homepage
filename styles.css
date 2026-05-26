@@ -982,7 +982,8 @@ section[id] {
     content: none !important;
 }
 
-.member-email-btn {
+.member-email-btn,
+.prof-email-btn {
     background: none;
     border: none;
     padding: 4px;
@@ -993,38 +994,25 @@ section[id] {
     justify-content: center;
     transition: transform 0.2s ease, color 0.2s ease;
     border-radius: 4px;
+    text-decoration: none;
 }
 
-.member-email-btn:hover {
+.member-email-btn:hover,
+.prof-email-btn:hover {
     transform: scale(1.2);
     color: var(--color-navy);
 }
 
-.member-email-btn.active {
+.member-email-btn.active,
+.prof-email-btn.active {
     color: var(--color-navy);
 }
 
-.member-email-btn svg {
+.member-email-btn svg,
+.prof-email-btn svg {
     display: block;
     stroke: currentColor;
     fill: none;
-}
-
-.member-email-link {
-    font-size: 13px;
-    color: var(--text-muted);
-    text-decoration: none;
-    display: none;
-}
-
-.member-email-link.visible {
-    display: inline;
-    animation: fadeInEmail 0.25s ease-out forwards;
-}
-
-.member-email-link:hover {
-    text-decoration: underline;
-    color: var(--color-blue);
 }
 
 @keyframes fadeInEmail {
