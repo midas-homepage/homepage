@@ -472,6 +472,7 @@
 
             const syncPostsToServer = async () => {
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                localStorage.setItem('midas_posts_sync_time', Date.now().toString());
                 if (isLocal) {
                     try {
                         const res = await fetch('/api/save-posts', {
@@ -510,7 +511,7 @@
 
                 if (!isRebuilding) {
                     try {
-                        const response = await fetch('data/posts.json');
+                        const response = await fetch(`data/posts.json?t=${Date.now()}`);
                         if (response.ok) {
                             posts = await response.json();
                             localStorage.setItem('midas_board_posts', JSON.stringify(posts));

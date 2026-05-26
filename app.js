@@ -256,7 +256,7 @@ const initApp = () => {
 
         if (!isRebuilding) {
             try {
-                const response = await fetch('data/members.json');
+                const response = await fetch(`data/members.json?t=${Date.now()}`);
                 if (response.ok) {
                     members = await response.json();
                     localStorage.setItem('midas_members', JSON.stringify(members));
@@ -307,6 +307,7 @@ const initApp = () => {
 
     const syncPublicationsToServer = async () => {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        localStorage.setItem('midas_publications_sync_time', Date.now().toString());
         if (isLocal) {
             try {
                 const res = await fetch('/api/save-publications', {
@@ -1370,7 +1371,7 @@ const initApp = () => {
 
             if (!isRebuilding) {
                 try {
-                    const response = await fetch('data/publications.json');
+                    const response = await fetch(`data/publications.json?t=${Date.now()}`);
                     if (response.ok) {
                         publications = await response.json();
                         localStorage.setItem('midas_publications', JSON.stringify(publications));
@@ -1606,7 +1607,7 @@ const initApp = () => {
 
             if (!isRebuilding) {
                 try {
-                    const res = await fetch('data/posts.json');
+                    const res = await fetch(`data/posts.json?t=${Date.now()}`);
                     if (res.ok) {
                         posts = await res.json();
                         localStorage.setItem('midas_board_posts', JSON.stringify(posts));
