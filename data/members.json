@@ -131,7 +131,7 @@
   },
   {
     "id": "hyobin-kim",
-    "group": "undergraduate",
+    "group": "graduate",
     "nameKo": "김효빈",
     "nameEn": "Hyobin Kim",
     "role": "Undergraduate Intern",
@@ -144,7 +144,8 @@
         "degree": "B.S. in Integrative Engineering",
         "detail": "Chung-Ang University (2022 - Present)"
       }
-    ]
+    ],
+    "version": 1779771009559
   },
   {
     "id": "sanghyeon-nam",
