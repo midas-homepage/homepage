@@ -152,44 +152,124 @@ const initApp = () => {
     // ==========================================================================
     let members = [];
 
-    const syncMembersToServer = async () => {
+    const getGitHubRepoDetails = () => {
+        const hostname = window.location.hostname;
+        const pathname = window.location.pathname;
+        let owner = 'midas-homepage';
+        let repo = 'homepage';
+        if (hostname.endsWith('.github.io')) {
+            owner = hostname.replace('.github.io', '');
+            const parts = pathname.split('/').filter(Boolean);
+            if (parts.length > 0) {
+                repo = parts[0];
+            }
+        }
+        return { owner, repo };
+    };
+
+    const saveFileToGitHub = async (path, contentString, commitMessage) => {
+        const token = localStorage.getItem('midas_github_token');
+        if (!token) {
+            alert("GitHub Pages에서 변경 내용을 저장하려면 Admin Authentication 창에서 GitHub Personal Access Token을 먼저 입력해 주셔야 합니다.");
+            throw new Error("Missing GitHub Token");
+        }
+        
+        const { owner, repo } = getGitHubRepoDetails();
+        const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+        
+        let sha = null;
         try {
-            const res = await fetch('/api/save-members', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(members)
+            const getRes = await fetch(url, {
+                headers: { 'Authorization': `token ${token}` }
             });
-            if (!res.ok) {
-                console.error('Failed to sync members to server:', res.statusText);
-            } else {
-                console.log('Successfully synced members database to disk.');
+            if (getRes.ok) {
+                const fileInfo = await getRes.json();
+                sha = fileInfo.sha;
             }
         } catch (e) {
-            console.warn('Could not sync members to server (running on static host?):', e);
+            console.warn("File might not exist yet on GitHub:", e);
+        }
+        
+        const base64Content = btoa(unescape(encodeURIComponent(contentString)));
+        const body = {
+            message: commitMessage,
+            content: base64Content
+        };
+        if (sha) {
+            body.sha = sha;
+        }
+        
+        const putRes = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        
+        if (!putRes.ok) {
+            const errData = await putRes.json().catch(() => ({}));
+            throw new Error(errData.message || `GitHub API error: ${putRes.status}`);
+        }
+        console.log(`Successfully saved ${path} to GitHub: ${owner}/${repo}`);
+    };
+
+    const loadMembersFromLocalStorage = () => {
+        const storedMembers = localStorage.getItem('midas_members');
+        if (storedMembers) {
+            try {
+                members = JSON.parse(storedMembers);
+            } catch (e) {
+                console.error("Failed to parse stored members:", e);
+            }
+        }
+    };
+
+    const syncMembersToServer = async () => {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        localStorage.setItem('midas_members_sync_time', Date.now().toString());
+        if (isLocal) {
+            try {
+                const res = await fetch('/api/save-members', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(members)
+                });
+                if (!res.ok) console.error('Failed to sync members to local server');
+            } catch (e) {
+                console.error('Error syncing members locally:', e);
+            }
+        } else {
+            try {
+                await saveFileToGitHub('data/members.json', JSON.stringify(members, null, 2), 'Update members database');
+                alert("GitHub에 저장 요청이 전송되었습니다! 변경사항이 반영되기까지 약 1~2분이 소요됩니다.");
+            } catch (e) {
+                alert("GitHub에 저장하지 못했습니다: " + e.message);
+            }
         }
     };
 
     const initMembers = async () => {
-        try {
-            const response = await fetch('data/members.json');
-            if (response.ok) {
-                members = await response.json();
-                localStorage.setItem('midas_members', JSON.stringify(members));
-            } else {
-                throw new Error("Failed to load members.json");
-            }
-        } catch (err) {
-            console.warn("Failed to fetch members.json, falling back to localStorage:", err);
-            const storedMembers = localStorage.getItem('midas_members');
-            if (storedMembers) {
-                try {
-                    members = JSON.parse(storedMembers);
-                } catch (e) {
-                    console.error("Failed to parse stored members:", e);
+        const lastSync = parseInt(localStorage.getItem('midas_members_sync_time') || '0');
+        const isRebuilding = (Date.now() - lastSync) < 120000; // 2 minutes
+
+        if (!isRebuilding) {
+            try {
+                const response = await fetch('data/members.json');
+                if (response.ok) {
+                    members = await response.json();
+                    localStorage.setItem('midas_members', JSON.stringify(members));
+                } else {
+                    throw new Error("Failed to load members.json");
                 }
+            } catch (err) {
+                console.warn("Failed to fetch members.json, falling back to localStorage:", err);
+                loadMembersFromLocalStorage();
             }
+        } else {
+            console.log("GitHub Pages is rebuilding. Using local cache for members.");
+            loadMembersFromLocalStorage();
         }
 
         // Migrate to new email addresses requested by user
@@ -224,17 +304,29 @@ const initApp = () => {
 
     // Load or initialize publications database
     let publications = [];
-    const storedPubs = localStorage.getItem('midas_publications');
-    if (storedPubs) {
-        try {
-            const parsed = JSON.parse(storedPubs);
-            if (Array.isArray(parsed)) {
-                publications = parsed.filter(p => p && typeof p === 'object' && p.title && p.year);
+
+    const syncPublicationsToServer = async () => {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocal) {
+            try {
+                const res = await fetch('/api/save-publications', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(publications)
+                });
+                if (!res.ok) console.error('Failed to sync publications locally');
+            } catch (e) {
+                console.error('Error syncing publications locally:', e);
             }
-        } catch (e) {
-            console.error("Failed to parse stored publications:", e);
+        } else {
+            try {
+                await saveFileToGitHub('data/publications.json', JSON.stringify(publications, null, 2), 'Update publications database');
+                alert("GitHub에 저장 요청이 전송되었습니다! 변경사항이 반영되기까지 약 1~2분이 소요됩니다.");
+            } catch (e) {
+                alert("GitHub에 저장하지 못했습니다: " + e.message);
+            }
         }
-    }
+    };
 
     // Helper for initials
     function getInitials(nameEn) {
@@ -332,6 +424,10 @@ const initApp = () => {
                     adminPasswordInput.value = '';
                     adminPasswordInput.focus();
                 }
+                const tokenInput = document.getElementById('adminGithubToken');
+                if (tokenInput) {
+                    tokenInput.value = localStorage.getItem('midas_github_token') || '';
+                }
                 if (adminPasswordError) {
                     adminPasswordError.style.display = 'none';
                     adminPasswordError.textContent = '';
@@ -348,6 +444,10 @@ const initApp = () => {
             e.preventDefault();
             if (adminPasswordInput.value === 'midas123') {
                 sessionStorage.setItem('isAdmin', 'true');
+                const tokenInput = document.getElementById('adminGithubToken');
+                if (tokenInput) {
+                    localStorage.setItem('midas_github_token', tokenInput.value.trim());
+                }
                 adminPasswordModal.classList.remove('active');
                 syncAdminUI();
                 const activeFilter = document.querySelector('.filter-btn.active');
@@ -1253,30 +1353,43 @@ const initApp = () => {
         if (filterType) filterType.addEventListener('change', filterPublications);
 
         // Fetch / Seeding Publications Flow
-        if (Array.isArray(publications) && publications.length > 0) {
+        const initPublications = async () => {
+            const lastSync = parseInt(localStorage.getItem('midas_publications_sync_time') || '0');
+            const isRebuilding = (Date.now() - lastSync) < 120000;
+
+            const loadPubsFromLocalStorage = () => {
+                const storedPubs = localStorage.getItem('midas_publications');
+                if (storedPubs) {
+                    try {
+                        publications = JSON.parse(storedPubs);
+                    } catch (e) {
+                        console.error("Failed to parse stored publications:", e);
+                    }
+                }
+            };
+
+            if (!isRebuilding) {
+                try {
+                    const response = await fetch('data/publications.json');
+                    if (response.ok) {
+                        publications = await response.json();
+                        localStorage.setItem('midas_publications', JSON.stringify(publications));
+                    } else {
+                        throw new Error("Failed to load publications.json");
+                    }
+                } catch (err) {
+                    console.warn("Failed to fetch publications.json, falling back to localStorage:", err);
+                    loadPubsFromLocalStorage();
+                }
+            } else {
+                console.log("GitHub Pages is rebuilding. Using local cache for publications.");
+                loadPubsFromLocalStorage();
+            }
             renderPublicationsList(publications);
             updateYearFilterDropdown();
-        } else {
-            fetch('data/publications.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    publications = data;
-                    localStorage.setItem('midas_publications', JSON.stringify(publications));
-                    renderPublicationsList(publications);
-                    updateYearFilterDropdown();
-                })
-                .catch(error => {
-                    console.error('Error fetching publications:', error);
-                    pubListContainer.replaceChildren();
-                    const errorEl = document.createElement('div');
-                    errorEl.className = 'no-results';
-                    errorEl.textContent = '논문 목록을 불러오는 중 오류가 발생했습니다. 새로고침을 시도해 주세요.';
-                    pubListContainer.appendChild(errorEl);
-                });
-        }
+        };
+
+        initPublications();
 
         // Publication Add / Edit modal hooks
         const pubEditModal = document.getElementById('pubEditModal');
@@ -1348,6 +1461,7 @@ const initApp = () => {
                 }
 
                 localStorage.setItem('midas_publications', JSON.stringify(publications));
+                syncPublicationsToServer();
                 closePubModal();
                 filterPublications();
                 updateYearFilterDropdown();
@@ -1358,6 +1472,7 @@ const initApp = () => {
             if (confirm('정말로 이 논문을 삭제하시겠습니까?')) {
                 publications.splice(index, 1);
                 localStorage.setItem('midas_publications', JSON.stringify(publications));
+                syncPublicationsToServer();
                 filterPublications();
                 updateYearFilterDropdown();
             }
@@ -1474,24 +1589,37 @@ const initApp = () => {
     if (newsTrack) {
         const loadNewsTicker = async () => {
             let posts = [];
-            try {
-                const res = await fetch('data/posts.json');
-                if (res.ok) {
-                    posts = await res.json();
-                    localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                } else {
-                    throw new Error("Fetch failed");
-                }
-            } catch (e) {
-                console.warn("Failed to fetch posts.json for news ticker, falling back to localStorage:", e);
+            const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+            const isRebuilding = (Date.now() - lastSync) < 120000;
+
+            const loadPostsFromLocalStorageNews = () => {
                 try {
                     const stored = localStorage.getItem('midas_board_posts');
                     if (stored) {
-                        posts = JSON.parse(stored);
+                        return JSON.parse(stored);
                     }
                 } catch (err) {
                     console.error("Failed to parse stored posts:", err);
                 }
+                return [];
+            };
+
+            if (!isRebuilding) {
+                try {
+                    const res = await fetch('data/posts.json');
+                    if (res.ok) {
+                        posts = await res.json();
+                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    } else {
+                        throw new Error("Fetch failed");
+                    }
+                } catch (e) {
+                    console.warn("Failed to fetch posts.json for news ticker, falling back to localStorage:", e);
+                    posts = loadPostsFromLocalStorageNews();
+                }
+            } else {
+                console.log("GitHub Pages is rebuilding. Using local cache for news ticker.");
+                posts = loadPostsFromLocalStorageNews();
             }
             
             // Filter categories = 'news'

@@ -122,6 +122,39 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(response_bytes)
                 return
+
+        elif self.path == '/api/save-publications':
+            try:
+                import json
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data.decode('utf-8'))
+                
+                if not isinstance(data, list):
+                    raise ValueError("Data must be a JSON array")
+                
+                target_path = os.path.join(os.getcwd(), 'data', 'publications.json')
+                with open(target_path, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                
+                response = {"status": "success"}
+                response_bytes = json.dumps(response).encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(response_bytes)))
+                self.end_headers()
+                self.wfile.write(response_bytes)
+                return
+            except Exception as e:
+                import json
+                response = {"status": "error", "message": str(e)}
+                response_bytes = json.dumps(response).encode('utf-8')
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(response_bytes)))
+                self.end_headers()
+                self.wfile.write(response_bytes)
+                return
         
         # Fallback for other POST requests
         self.send_error(404, "File not found")
