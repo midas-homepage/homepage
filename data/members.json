@@ -1,0 +1,268 @@
+[
+  {
+    "id": "daehyun-kim",
+    "group": "graduate",
+    "nameKo": "김대현",
+    "nameEn": "Daehyun Kim",
+    "role": "Ph.D. Candidate",
+    "research": "Ca-ion Batteries & DFT",
+    "email": "dhkim9669@gmail.com",
+    "current": "",
+    "img": "daehyun-kim.jpg",
+    "education": [
+      {
+        "degree": "Ph.D. in Integrative Engineering",
+        "detail": "Chung-Ang University (2025 - Present)"
+      },
+      {
+        "degree": "M.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2025)"
+      },
+      {
+        "degree": "B.S. in Mechanical Engineering",
+        "detail": "Chung-Ang University (2022)"
+      }
+    ]
+  },
+  {
+    "id": "dong-geon-lee",
+    "group": "graduate",
+    "nameKo": "이동건",
+    "nameEn": "Dong Geon Lee",
+    "role": "M.S. Student",
+    "research": "Atomic Layer Deposition",
+    "email": "dlehdrjsdlgh@naver.com",
+    "current": "",
+    "img": "dong-geon-lee.jpg",
+    "education": [
+      {
+        "degree": "M.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2026 - Present)"
+      },
+      {
+        "degree": "B.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2026)"
+      }
+    ]
+  },
+  {
+    "id": "hyoungjoon-jeon",
+    "group": "graduate",
+    "nameKo": "전형준",
+    "nameEn": "HyoungJoon Jeon",
+    "role": "M.S. Student",
+    "research": "Hydrogen Evolution Reaction",
+    "email": "yac1109@naver.com",
+    "current": "",
+    "img": "hyoungjoon-jeon.jpg",
+    "education": [
+      {
+        "degree": "M.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2025 - Present)"
+      },
+      {
+        "degree": "B.S. in Mechanical Engineering",
+        "detail": "Chung-Ang University (2024)"
+      }
+    ]
+  },
+  {
+    "id": "jonghun-shin",
+    "group": "graduate",
+    "nameKo": "신종훈",
+    "nameEn": "JongHun Shin",
+    "role": "M.S. Student",
+    "research": "Next-Generation Anode",
+    "email": "xxz56789@cau.ac.kr",
+    "current": "",
+    "img": "jonghun-shin.jpg",
+    "education": [
+      {
+        "degree": "M.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2024 - Present)"
+      },
+      {
+        "degree": "B.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2024)"
+      }
+    ]
+  },
+  {
+    "id": "mansang-ha",
+    "group": "graduate",
+    "nameKo": "하만상",
+    "nameEn": "Mansang Ha",
+    "role": "M.S. Student",
+    "research": "All-Solid-State Batteries",
+    "email": "mansang1221@cau.ac.kr",
+    "current": "",
+    "img": "mansang-ha.jpg",
+    "education": [
+      {
+        "degree": "M.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2024 - Present)"
+      },
+      {
+        "degree": "B.S. Department of Packaging",
+        "detail": "Yonsei University (2024)"
+      }
+    ]
+  },
+  {
+    "id": "wonwoo-yoon",
+    "group": "graduate",
+    "nameKo": "윤원우",
+    "nameEn": "Wonwoo Yoon",
+    "role": "M.S. Student",
+    "research": "Data-Driven Materials Discovery",
+    "email": "yooonwoo0303@gmail.com",
+    "current": "",
+    "img": "wonwoo-yoon.jpg",
+    "education": [
+      {
+        "degree": "M.S./Ph.D. in Integrative Engineering",
+        "detail": "Chung-Ang University (2026 - Present)"
+      },
+      {
+        "degree": "B.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2026)"
+      }
+    ]
+  },
+  {
+    "id": "hyobin-kim",
+    "group": "undergraduate",
+    "nameKo": "김효빈",
+    "nameEn": "Hyobin Kim",
+    "role": "Undergraduate Intern",
+    "research": "Solid-State Batteries",
+    "email": "rlagyqls217@gmail.com",
+    "current": "",
+    "img": "hyobin-kim.jpg",
+    "education": [
+      {
+        "degree": "B.S. in Integrative Engineering",
+        "detail": "Chung-Ang University (2022 - Present)"
+      }
+    ]
+  },
+  {
+    "id": "sanghyeon-nam",
+    "group": "undergraduate",
+    "nameKo": "남상현",
+    "nameEn": "Sanghyeon Nam",
+    "role": "Undergraduate Intern",
+    "research": "Data-Driven Materials Discovery",
+    "email": "nam6592@gmail.com",
+    "current": "",
+    "img": "sanghyeon-nam.jpg",
+    "education": [
+      {
+        "degree": "B.S. in Chemical Engineering",
+        "detail": "Chung-Ang University (2022 - Present)"
+      }
+    ]
+  },
+  {
+    "id": "uk-jeong",
+    "group": "undergraduate",
+    "nameKo": "정욱",
+    "nameEn": "Uk Jeong",
+    "role": "Undergraduate Intern",
+    "research": "Sodium ion Batteries",
+    "email": "wjddnr513@cau.ac.kr",
+    "current": "",
+    "img": "uk-jeong.jpg",
+    "education": [
+      {
+        "degree": "B.S. in Chemical Engineering",
+        "detail": "Chung-Ang University (2022 - Present)"
+      }
+    ]
+  },
+  {
+    "id": "hoseok-lee",
+    "group": "alumni",
+    "nameKo": "이호석",
+    "nameEn": "Hoseok Lee",
+    "role": "Alumni",
+    "research": "Ca batteries",
+    "email": "",
+    "current": "Current: Graduate Student @ SKKU",
+    "img": "hoseok-lee.jpg",
+    "education": [
+      {
+        "degree": "Alumni (B.S.)",
+        "detail": "in Integrative Engineering, Chung-Ang University"
+      }
+    ]
+  },
+  {
+    "id": "hyesu-lee",
+    "group": "alumni",
+    "nameKo": "이혜수",
+    "nameEn": "Hyesu Lee",
+    "role": "Alumni",
+    "research": "Solid-state Batteries",
+    "email": "",
+    "current": "Current: TBD",
+    "img": "hyesu-lee.jpg",
+    "education": [
+      {
+        "degree": "Alumni (B.S.)",
+        "detail": "in Integrative Engineering, Chung-Ang University"
+      }
+    ]
+  },
+  {
+    "id": "jinhyeok-kim",
+    "group": "alumni",
+    "nameKo": "김진혁",
+    "nameEn": "Jinhyeok Kim",
+    "role": "Alumni",
+    "research": "Machine Learning",
+    "email": "",
+    "current": "Current: Applied Materials",
+    "img": "jinhyeok-kim.jpg",
+    "education": [
+      {
+        "degree": "Alumni (B.S.)",
+        "detail": "in Integrative Engineering, Chung-Ang University"
+      }
+    ]
+  },
+  {
+    "id": "minsoo-kim",
+    "group": "alumni",
+    "nameKo": "김민수",
+    "nameEn": "Minsoo Kim",
+    "role": "Alumni",
+    "research": "Solid-state Batteries",
+    "email": "",
+    "current": "Current: PhD sutdent at University of Texas - Austin",
+    "img": "minsoo-kim.jpg",
+    "education": [
+      {
+        "degree": "Alumni (B.S.)",
+        "detail": "in Integrative Engineering, Chung-Ang University"
+      }
+    ]
+  },
+  {
+    "id": "myeongjun-kim",
+    "group": "alumni",
+    "nameKo": "김명준",
+    "nameEn": "Myeong Jun Kim",
+    "role": "Alumni",
+    "research": "Ca Batteries, Data-Driven Discovery of Materials",
+    "email": "",
+    "current": "Current: Graduate Student @ Seoul National University",
+    "img": "myeongjun-kim.jpg",
+    "education": [
+      {
+        "degree": "Alumni (B.S.)",
+        "detail": "in Integrative Engineering, Chung-Ang University"
+      }
+    ]
+  }
+]

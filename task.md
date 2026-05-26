@@ -1,0 +1,28 @@
+# 작업 목록 (Task List)
+
+- [x] `app.js` 수정
+  - [x] 이름 정규화 헬퍼 함수 (`normalizeName`) 구현
+  - [x] `renderPublicationsList`에서 논문 번호 및 위첨자(`*`, `†`) 동적 생성
+  - [x] 연구실 멤버 데이터베이스와 매핑하여 구성원 이름 하이라이트(`.author-highlight`) 적용
+  - [x] 메인 화면의 뉴스 롤링 배너 데이터를 `localStorage` 및 `data/posts.json`로부터 가져와 최신 3개 글 연동하는 `loadNewsTicker` 구현
+  - [x] 구성원 메일 주소 숨김 및 토글 노출 기능 구현 (교수님 제외)
+  - [x] 구성원 사진 파일 업로드 시 Canvas API 기반 압축(최대 500px, JPEG 0.85) 및 파일 리더 미리보기 연동
+  - [x] 구성원 사진 캐싱 방지를 위한 고유 버전 파라미터(`?v=`) 동적 관리 적용
+- [x] `styles.css` 수정
+  - [x] `.pub-year-badge` 연도 및 번호 세로 정렬 레이아웃 추가
+  - [x] 모바일 미디어 쿼리 내 `.pub-year-badge` 가로 정렬 반응형 레이아웃 추가
+  - [x] 공동 저자 기호(`sup`) 툴팁 도움말 커서 추가
+  - [x] 이메일 숨김 아이콘 버튼 및 자연스러운 페이드인 트랜지션 스타일링 추가
+- [x] `dev_server.py` 수정 및 재기동
+  - [x] local API 엔드포인트 `/api/upload-member-photo` 신설 (JSON base64 파싱 및 경로 탈출 공격 방지)
+  - [x] 로컬 서버 재부팅(Port 8000) 검증 완료
+- [x] `index.html` 수정
+  - [x] 구성원 추가/수정 모달창 내에 사진 실시간 미리보기 상자 및 파일 업로드(`<input type="file">`) 필드 추가
+- [x] 수동 검증 및 동작 확인
+  - [x] Publications 페이지 글로벌 인덱스 순번 출력 검증
+  - [x] Publications 페이지 기호(`†`, `*`) 위첨자 및 툴팁 렌더링 검증
+  - [x] 구성원 이름 대조에 의한 저자 밑줄 강조 및 정규화 기능 검증
+  - [x] 메인 화면 롤링 뉴스 티커 최신 3개 글 데이터 연동 및 클론 노드를 통한 무한 롤링 자연성 검증
+  - [x] 미사용 Redundant 파일들 (`reconstructed_members.json`, 임시 txt 파일들) 정리 제거 완료
+  - [x] 구성원 이메일 클릭 시 나타나고 가려지는 토글 기능 및 페이드인 모션 브라우저 검증 완료
+  - [x] 관리자 모드에서 실제 사진 파일 업로드 시 로컬 서버 `images/people/` 폴더에 자동 덮어쓰기 저장 및 브라우저 즉시 갱신(Cache Busting) 검증 완료

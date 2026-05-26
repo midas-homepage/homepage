@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MIDAS Lab @ CAU - Materials Informatics & Design</title>
+
+    <!-- Meta tags for SEO -->
+    <meta name="description"
+        content="중앙대학교 MIDAS 연구실 (Materials Informatics and Design for Advanced Sustainability). AI 기반 신소재 설계, 전고체 배터리, 다가 배터리 연구.">
+    <meta name="keywords"
+        content="MIDAS Lab, 중앙대학교, CAU, 박해선 교수, 나노소재공학, 배터리 연구, Materials Informatics, AI소재, VASP, SevenNet, 전고체 전지">
+    <meta name="author" content="MIDAS Lab @ CAU">
+
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="MIDAS Lab @ CAU - Materials Informatics & Design">
+    <meta property="og:description" content="데이터 기반 접근법과 원자 시뮬레이션을 활용하여 차세대 에너지 저장 및 변환용 신소재를 탐색하고 설계합니다.">
+    <meta property="og:type" content="website">
+
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=10">
+</head>
+
+<body class="light-theme">
+    <!-- Header & Navigation -->
+    <div id="top_navi">
+        <header id="header">
+            <div class="w1400">
+                <h1>
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="MIDAS Lab Logo" class="logo-light">
+                        <img src="images/logo-circle-transparent.png?v=2" alt="MIDAS Lab Logo" class="logo-dark">
+                        <span class="logo-text">MIDAS</span>
+                    </a>
+                </h1>
+                <div class="nav-container" style="display: flex; align-items: center; gap: 20px;">
+                    <nav class="nav" id="cssmenu">
+                        <ul>
+                            <li><a href="#overview">Overview</a></li>
+                            <li><a href="#research">Research</a></li>
+                            <li>
+                                <a href="#people">People</a>
+                                <ul>
+                                    <li><a href="#pf_info">Professor</a></li>
+                                    <li><a href="#members">Members</a></li>
+                                    <li><a href="#alumni">Alumni</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="publications.html">Publications</a></li>
+                            <li>
+                                <a href="board.html">Board</a>
+                                <ul>
+                                    <li><a href="board.html?filter=news">Lab News</a></li>
+                                    <li><a href="board.html?filter=photo">Lab Photos</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <!-- Admin Mode Toggle Button -->
+                    <button class="btn-admin-toggle" id="adminToggleBtn" title="Admin Mode Toggle"
+                        style="padding: 6px 12px; font-size: 0.85rem; height: 36px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-lock" id="adminLockIcon" style="margin-right: 2px;">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span id="adminToggleText">Admin</span>
+                    </button>
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="테마 전환"
+                        style="width: 36px; height: 36px;">
+                        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path
+                                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                            </path>
+                        </svg>
+                        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="gnbM">
+        <div class="mobileMenuXbt">
+            <span></span>
+            <span class="x2"></span>
+        </div>
+        <div class="mUtil" style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="#" id="theme-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg class="icon" style="fill: #ffffff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    width="20" height="20">
+                    <path
+                        d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zM5.99 18.01l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.02-.39-1.41 0z" />
+                </svg>
+                Toggle Theme
+            </a>
+            <a href="#" id="admin-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-lock" id="adminLockIconMobile" style="color: #ffffff;">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span id="adminToggleTextMobile">Admin Mode</span>
+            </a>
+        </div>
+        <div class="gnbDiv">
+            <a href="#overview" class="one">OVERVIEW</a>
+            <a href="#research" class="one">RESEARCH</a>
+            <a href="#people" class="one">PEOPLE</a>
+            <div class="two">
+                <a href="#pf_info" class="twoD">Professor</a>
+                <a href="#members" class="twoD">Members</a>
+                <a href="#alumni" class="twoD">Alumni</a>
+            </div>
+            <a href="publications.html" class="one">PUBLICATIONS</a>
+            <a href="board.html" class="one">BOARD</a>
+            <div class="two">
+                <a href="board.html?filter=news" class="twoD">Lab News</a>
+                <a href="board.html?filter=photo" class="twoD">Lab Photos</a>
+            </div>
+            <a href="#contact" class="one">CONTACT</a>
+        </div>
+    </div>
+    <div class="dimdBg"></div>
+
+    <main>
+        <!-- Hero / Overview Section -->
+        <section id="overview" class="hero-section">
+            <div class="w1400 hero-container">
+                <div class="hero-content">
+                    <div class="hero-cau-brand">
+                        <span class="cau-emblem-text">중앙대학교</span>
+                        <span class="cau-brand-line"></span>
+                        <span class="cau-brand-dept">융합공학부 나노소재공학과</span>
+                    </div>
+                    <div class="hero-badge">Computational Materials Science & AI</div>
+                    <h1 class="hero-title">
+                        Materials Informatics & Design for <br>
+                        <span>Advanced Sustainability</span>
+                    </h1>
+                    <p class="hero-description">
+                        중앙대학교 MIDAS 연구실은 데이터 기반 접근법(Machine Learning)과 제일원리 계산(DFT)을 포함하는 원자 수준 모델링을 융합하여, 차세대 에너지 저장 및
+                        변환 시스템을 혁신할 새로운 첨단 소재를 연구하고 설계합니다.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#research" class="btn btn-primary">연구 분야 알아보기</a>
+                        <a href="#contact" class="btn btn-outline">연구실 합류 문의</a>
+                    </div>
+
+                    <!-- Key Stats -->
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">28+</span>
+                            <span class="hero-stat-label">Publications</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">4</span>
+                            <span class="hero-stat-label">Research Areas</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="hero-stat-value">9+</span>
+                            <span class="hero-stat-label">Team Members</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick News Section -->
+            <div class="news-ticker-section">
+                <div class="w1400">
+                    <div class="news-ticker-box">
+                        <div class="news-label">
+                            <span class="pulse-icon"></span>
+                            <span>NEWS & HIGHLIGHTS</span>
+                        </div>
+                        <div class="news-carousel">
+                            <div class="news-carousel-track">
+                                <div class="news-item">
+                                    <span class="news-date">2026.05.13</span>
+                                    <span class="news-text">신종훈, 하만상 학생 2026 추계전기화학회 학생 경진대회 수상 🎉</span>
+                                </div>
+                                <div class="news-item">
+                                    <span class="news-date">2025.12.05</span>
+                                    <span class="news-text">2025 중앙대학교 CAU 공학학술제 - 부총장상 수상! 🏆</span>
+                                </div>
+                                <div class="news-item">
+                                    <span class="news-date">2025.11.20</span>
+                                    <span class="news-text">박해선 교수 한국전기화학회 '이차전지 신진연구자상' 수상 🏅</span>
+                                </div>
+                                <div class="news-item">
+                                    <span class="news-date">2025.11.13</span>
+                                    <span class="news-text">Haesun gave a talk at the 2025 KSPE Autumn Conference
+                                        📢</span>
+                                </div>
+                                <div class="news-item">
+                                    <span class="news-date">2025.11.13</span>
+                                    <span class="news-text">박해선 교수 한국정밀공학회 '젊은 공학자' 선정 💫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="section-wrapper">
+            <div class="w1400">
+                <!-- Page Main Title -->
+                <div class="bTit">
+                    <p>Research Interests</p>
+                </div>
+
+                <!-- Research Interests List -->
+                <div class="research-list">
+                    <!-- Area 1 -->
+                    <div class="research-item">
+                        <div class="research-img-wrapper">
+                            <img src="images/research/solid_state_battery.jpg?v=2" alt="Solid-state Batteries"
+                                onerror="this.src='images/logo.png'">
+                        </div>
+                        <div class="research-content-wrapper">
+                            <div class="card-icon-wrapper">
+                                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="16" height="10" rx="2" ry="2"></rect>
+                                    <line x1="22" y1="11" x2="22" y2="13"></line>
+                                    <path d="M11 10l-2 3h3l-1 3 3-4h-3z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <h3>Solid-state Batteries</h3>
+                            <p class="research-text">
+                                기존 액체 전해질을 고체 전해질로 대체하여 화재 위험성을 완벽히 제거하고 에너지 밀도를 극대화하는 <strong>전고체 배터리(All-Solid-State
+                                    Batteries)</strong> 시스템을 탐색합니다. 고체 전해질과 금속 음극 계면에서의 이온 이동 장벽 및 전기화학적 안정성을 제일원리 계산으로
+                                정밀히 분석합니다.
+                            </p>
+                            <div class="research-tags">
+                                <span>Sulfide/Oxide Electrolyte</span>
+                                <span>Interface Stability</span>
+                                <span>Li metal anodes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area 2 -->
+                    <div class="research-item">
+                        <div class="research-img-wrapper">
+                            <img src="images/research/multivalent_battery.png?v=2" alt="Multivalent Batteries"
+                                onerror="this.src='images/logo.png'">
+                        </div>
+                        <div class="research-content-wrapper">
+                            <div class="card-icon-wrapper">
+                                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="16" height="10" rx="2" ry="2"></rect>
+                                    <line x1="22" y1="11" x2="22" y2="13"></line>
+                                    <line x1="6" y1="10" x2="6" y2="14"></line>
+                                    <line x1="10" y1="10" x2="10" y2="14"></line>
+                                    <line x1="14" y1="10" x2="14" y2="14"></line>
+                                </svg>
+                            </div>
+                            <h3>Multivalent Batteries</h3>
+                            <p class="research-text">
+                                리튬 자원 고갈 문제를 해결할 차세대 에너지 저장 장치로 다가 이온(Ca²⁺, Mg²⁺, Zn²⁺) 기반의 <strong>다가 배터리(Multivalent
+                                    Batteries)</strong> 시스템을 개척합니다. 다가 이온의 강한 정전기적 인력으로 인한 격자 내 느린 확산 한계를 극복하기 위해 터널 및
+                                층상 나노 구조의 전극 소재 내 확산 키네틱을 설계합니다.
+                            </p>
+                            <div class="research-tags">
+                                <span>Calcium-ion batteries</span>
+                                <span>Magnesium-ion cathodes</span>
+                                <span>Ion Mobility</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area 3 -->
+                    <div class="research-item">
+                        <div class="research-img-wrapper">
+                            <img src="images/research/machine_learning.jpg?v=2" alt="Machine Learning"
+                                onerror="this.src='images/logo.png'">
+                        </div>
+                        <div class="research-content-wrapper">
+                            <div class="card-icon-wrapper">
+                                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z">
+                                    </path>
+                                    <path
+                                        d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z">
+                                    </path>
+                                    <path d="M12 5v14"></path>
+                                    <path d="M12 9h4"></path>
+                                    <path d="M12 14h-4"></path>
+                                </svg>
+                            </div>
+                            <h3>Machine Learning</h3>
+                            <p class="research-text">
+                                기존의 시행착오식 소재 개발 방식을 혁신하기 위해 <strong>머신러닝(Machine Learning)</strong> 방법론을 도입합니다. 능동
+                                학습(Active Learning), 생성 모델(Generative Learning, 예: MatterGen) 및 대형 언어 모델(LLM)을 활용하여 신소재
+                                디자인을 가속화하며, 머신러닝 포스필드(MLIP, Machine Learning Interatomic Potentials)를 구축하여 DFT 수준의 정확도로
+                                대규모 나노구조 및 계면의 동역학적 특성을 고속 모사합니다.
+                            </p>
+                            <div class="research-tags">
+                                <span>Active Learning</span>
+                                <span>Generative Learning</span>
+                                <span>LLM</span>
+                                <span>MLIP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area 4 -->
+                    <div class="research-item">
+                        <div class="research-img-wrapper">
+                            <img src="images/research/semiconductor_process.jpg?v=2"
+                                alt="Semiconductor Process & Discovery" onerror="this.src='images/logo.png'">
+                        </div>
+                        <div class="research-content-wrapper">
+                            <div class="card-icon-wrapper">
+                                <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                                    <rect x="9" y="9" width="6" height="6"></rect>
+                                    <line x1="9" y1="1" x2="9" y2="4"></line>
+                                    <line x1="15" y1="1" x2="15" y2="4"></line>
+                                    <line x1="9" y1="20" x2="9" y2="23"></line>
+                                    <line x1="15" y1="20" x2="15" y2="23"></line>
+                                    <line x1="20" y1="9" x2="23" y2="9"></line>
+                                    <line x1="20" y1="15" x2="23" y2="15"></line>
+                                    <line x1="1" y1="9" x2="4" y2="9"></line>
+                                    <line x1="1" y1="15" x2="4" y2="15"></line>
+                                </svg>
+                            </div>
+                            <h3>Semiconductor Process & Discovery</h3>
+                            <p class="research-text">
+                                반도체 디바이스의 집적도 한계를 극복하고 차세대 신소재를 발굴하기 위해 <strong>반도체 관련 연구</strong>를 수행합니다. 원자층 증착법(ALD,
+                                Atomic Layer Deposition) 공정 중 일어나는 표면 화학 반응을 컴퓨터 시뮬레이션으로 규명하여 정밀 증착 메커니즘을 이해하고, 고성능 반도체
+                                소자를 위한 차세대 신소재 및 최적 공정 조건을 예측하고 제안합니다.
+                            </p>
+                            <div class="research-tags">
+                                <span>ALD Process</span>
+                                <span>Semiconductor Materials</span>
+                                <span>Atomic Scale Modeling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- People Section -->
+        <section id="people" class="section-wrapper alt-bg">
+            <div class="w1400">
+                <!-- Page Main Title -->
+                <div class="bTit">
+                    <p>PI & Lab Members</p>
+                </div>
+
+                <!-- Principal Investigator (#pf_info) -->
+                <div id="pf_info">
+                    <div class="info_img">
+                        <img src="images/people/haesun_park.jpg" alt="Haesun Park"
+                            onerror="this.onerror=null; this.src='images/logo.png';">
+                    </div>
+                    <div class="info_txt">
+                        <div class="name_cnt">
+                            <span class="name">Haesun Park <small>박해선 교수</small></span>
+                            <h2>중앙대학교 융합공학부 나노소재공학과 부교수</h2>
+                        </div>
+                        <ul class="uni_cnt">
+                            <li>• Ph.D. in Mechanical Engineering, University of Michigan - Ann Arbor (2019)</li>
+                            <li>• M.S.E. in Mechanical Engineering, University of Michigan - Ann Arbor (2015)</li>
+                            <li>• B.S. in Mechanical & Aerospace Engineering, Seoul National University (2013)</li>
+                        </ul>
+                        <div class="b_txt">
+                            <dl>
+                                <dt>OFFICE</dt>
+                                <dd><a>209관 301호</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>EMAIL</dt>
+                                <dd><a href="mailto:parkh@cau.ac.kr">parkh@cau.ac.kr</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>RESEARCH INTERESTS</dt>
+                                <dd><a>DFT, Battery Solid Electrolyte Interphase, AI Materials Discovery (SevenNet &
+                                        MatterGen)</a></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="cv_btn">
+                        <a href="https://scholar.google.com/citations?hl=ko&user=XKMG__wAAAAJ" target="_blank"
+                            rel="noopener">Google Scholar</a>
+                    </div>
+                </div>
+
+                <!-- Prof Career Lists -->
+                <div class="prof_details_sec">
+                    <div class="profTit">Professional Experience</div>
+                    <ul class="exp_list">
+                        <li><b>2025.09 - Pres.</b> Associate Professor, School of Integrative Engineering, Chung-Ang
+                            University</li>
+                        <li><b>2021.09 - 2025.09</b> Assistant Professor, School of Integrative Engineering, Chung-Ang
+                            University</li>
+                        <li><b>2019.02 - 2021.08</b> Postdoctoral Appointee, Materials Science Division, Argonne
+                            National Laboratory</li>
+                    </ul>
+
+                    <div class="profTit">Academic Service</div>
+                    <ul class="edu_list">
+                        <li><b>Reviewer</b> JACS, Advanced Energy Materials, Journal of Power Sources, etc.</li>
+                    </ul>
+                </div>
+
+                <!-- Student Grid Sections -->
+                <div class="group-title" id="members"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span>Ph.D. Course</span>
+                    <button class="btn-write admin-only" id="addMemberPhdBtn"
+                        style="padding: 5px 12px; font-size: 0.8rem; height: 30px; display: none;">+ Add Member</button>
+                </div>
+                <div class="people-grid" id="phdGrid"></div>
+
+                <div class="group-title"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span>M.S. Course</span>
+                    <button class="btn-write admin-only" id="addMemberMsBtn"
+                        style="padding: 5px 12px; font-size: 0.8rem; height: 30px; display: none;">+ Add Member</button>
+                </div>
+                <div class="people-grid" id="msGrid"></div>
+
+                <div class="group-title"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span>Undergraduates</span>
+                    <button class="btn-write admin-only" id="addMemberUndergradBtn"
+                        style="padding: 5px 12px; font-size: 0.8rem; height: 30px; display: none;">+ Add Member</button>
+                </div>
+                <div class="people-grid" id="undergraduateGrid"></div>
+
+                <div class="group-title" id="alumni"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span>Alumni</span>
+                    <button class="btn-write admin-only" id="addMemberAlumniBtn"
+                        style="padding: 5px 12px; font-size: 0.8rem; height: 30px; display: none;">+ Add Member</button>
+                </div>
+                <div class="people-grid" id="alumniGrid"></div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-wrapper">
+            <div class="w1400">
+                <!-- Page Main Title -->
+                <div class="bTit">
+                    <p>Location & Inquiry</p>
+                </div>
+
+                <!-- Contact Grid Section -->
+                <div class="contact-grid">
+                    <!-- Left: Info Block -->
+                    <div class="contact-info-block">
+                        <h3>Lab Location & Info</h3>
+                        <ul class="contact-list">
+                            <li>
+                                <div class="contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path
+                                            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                        </path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="label">Email</span>
+                                    <a href="mailto:parkh@cau.ac.kr">parkh@cau.ac.kr</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="label">Phone</span>
+                                    <a href="tel:02-820-5231">02-820-5231</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2a10 10 0 0 0-10 10c0 7.88 10 20 10 20s10-12.12 10-20a10 10 0 0 0-10-10z">
+                                        </path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="label">Address</span>
+                                    <span>서울특별시 동작구 흑석로 84 중앙대학교 208동 527-1호</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="contact-text">
+                                    <span class="label">Directions</span>
+                                    <span>중앙대학교 208동(제2공학관) 정문 입장 후 엘리베이터 탑승, 5층 527-1호 오피스 방문</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="join-banner">
+                            <h4>Join Our Lab!</h4>
+                            <p>계산 재료과학, 인공지능 기반 청정 에너지 저장 장치 전산 설계에 관심 있는 우수한 학부 연구생, 석/박사 통합과정 학생들을 환영합니다. 이메일(박해선 교수)로
+                                간단한 이력서 및 성적증명서를 첨부하여 연락 부탁드립니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Form Block -->
+                    <div class="contact-form-block">
+                        <h3>Send a Message</h3>
+                        <form id="contact-form" class="inquiry-form">
+                            <div class="form-group-row">
+                                <div class="form-input-group">
+                                    <label for="user-name">성함 *</label>
+                                    <input type="text" id="user-name" name="name" required class="form-control-input"
+                                        placeholder="홍길동">
+                                </div>
+                                <div class="form-input-group">
+                                    <label for="user-email">이메일 주소 *</label>
+                                    <input type="email" id="user-email" name="email" required class="form-control-input"
+                                        placeholder="name@example.com">
+                                </div>
+                            </div>
+
+                            <div class="form-input-group">
+                                <label for="user-subject">제목 *</label>
+                                <input type="text" id="user-subject" name="subject" required class="form-control-input"
+                                    placeholder="학부 연구생 지원 / 협력 연구 제안 등">
+                            </div>
+
+                            <div class="form-input-group">
+                                <label for="user-message">메시지 내용 *</label>
+                                <textarea id="user-message" name="message" required class="form-control-textarea"
+                                    rows="6" placeholder="문의하실 내용을 자세히 적어주세요."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-submit" id="btn-submit-inquiry">
+                                <span>메시지 전송</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                            <div id="form-feedback" class="form-feedback-message"
+                                style="margin-top: 15px; padding: 12px; border-radius: 4px;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals & Overlay -->
+    <div class="overlay" id="modal-overlay"></div>
+    <div class="modal_conts" id="education-modal">
+        <div class="tb card">
+            <div class="modal_item">
+                <div class="modal_info" id="modal-info-content">
+                    <!-- Dynamic rendering -->
+                </div>
+                <div class="btn_area">
+                    <a href="#" class="btn_close_m" id="modal-close-btn">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div class="modal-overlay" id="adminPasswordModal">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Admin Authentication</h3>
+                <button class="modal-close-btn" id="closeAdminModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminPasswordForm">
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="비밀번호를 입력하세요." required
+                            style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        <p id="adminPasswordError"
+                            style="color: #e53e3e; font-size: 0.85rem; margin-top: 8px; display: none;">비밀번호가 올바르지 않습니다.
+                        </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelAdminBtn">Cancel</button>
+                <button type="submit" form="adminPasswordForm" class="btn-write"
+                    style="padding: 10px 22px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Edit Modal -->
+    <div class="modal-overlay" id="memberEditModal">
+        <div class="modal-box" style="max-width: 600px; background: var(--bg-surface); color: var(--text-main);">
+            <div class="modal-header"
+                style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 id="memberModalTitle">Add/Edit Member</h3>
+                <button class="modal-close-btn" id="closeMemberModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <form id="memberEditForm">
+                    <input type="hidden" id="editMemberIdOld" value="">
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberId"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">ID (영문
+                                고유 ID) *</label>
+                            <input type="text" class="form-control-input" id="memberId" placeholder="예: daehyun-kim"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberGroup"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">그룹 분류
+                                *</label>
+                            <select id="memberGroup" class="form-control-input"
+                                style="width: 100%; height: 42px; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);"
+                                required>
+                                <option value="graduate">Graduate (석사/박사)</option>
+                                <option value="undergraduate">Undergraduate (학부 인턴)</option>
+                                <option value="alumni">Alumni (동문)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberNameKo"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이름 (한글)
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberNameKo" placeholder="예: 김대현"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberNameEn"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이름 (영문)
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberNameEn" placeholder="예: Daehyun Kim"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberRole"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">직위
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberRole"
+                                placeholder="예: Ph.D. Candidate" required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberResearch"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">세부 연구
+                                분야 *</label>
+                            <input type="text" class="form-control-input" id="memberResearch"
+                                placeholder="예: Solid-State Batteries" required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberEmail"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이메일
+                                주소</label>
+                            <input type="email" class="form-control-input" id="memberEmail"
+                                placeholder="예: email@cau.ac.kr"
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberCurrent"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">현재 근무지
+                                (Alumni 전용)</label>
+                            <input type="text" class="form-control-input" id="memberCurrent"
+                                placeholder="예: Current: LG Energy Solution"
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberImg"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">사진 파일명 (자동 생성)</label>
+                            <input type="text" class="form-control-input" id="memberImg" placeholder="예: daehyun-kim.jpg" readonly
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main); opacity: 0.7;">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberPhotoFile"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">사진 업로드</label>
+                            <input type="file" id="memberPhotoFile" accept="image/*"
+                                style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div id="memberPhotoPreviewContainer" style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <div class="member-photo-preview-box" style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); flex-shrink: 0;">
+                            <img id="memberPhotoPreview" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <div id="memberPhotoPreviewPlaceholder" style="font-size: 1.5rem; font-weight: 700; color: var(--color-blue);">ML</div>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">
+                            <span>권장 비율: 1:1 정방형 (예: 500x500px)</span><br>
+                            <span>사진을 첨부하면 실시간 미리보기가 지원됩니다.</span>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 15px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label style="font-weight: 600; font-size: 0.95rem;">학력 정보 (Education)</label>
+                            <button type="button" id="addEduRowBtn" class="btn-write"
+                                style="padding: 5px 12px; font-size: 0.8rem; height: 30px;">+ 학력 추가</button>
+                        </div>
+                        <div id="memberEduRows" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Dynamic Education Rows -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"
+                style="border-top: 1px solid var(--border-color); padding-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelMemberBtn">Cancel</button>
+                <button type="submit" form="memberEditForm" class="btn-write" style="padding: 10px 22px;"
+                    id="saveMemberBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="top_btn" aria-label="맨 위로 이동">▲</button>
+
+    <!-- Footer -->
+    <div class="bg_btm"></div>
+    <footer>
+        <div class="w1400">
+            <p>
+                <b>MIDAS Lab</b>
+                <span>중앙대학교 융합공학부 나노소재공학과</span>
+                <span>지도교수: 박해선 교수</span>
+            </p>
+            <p>
+                <span>이메일: <a href="mailto:parkh@cau.ac.kr">parkh@cau.ac.kr</a></span>
+                <span>연구실: 중앙대학교 서울캠퍼스 208동 527-1호</span>
+            </p>
+            <p class="copy">
+                &copy; 2026 MIDAS Lab @ CAU. Powered by <a href="https://www.cau.ac.kr" target="_blank"
+                    rel="noopener">Chung-Ang University</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS script -->
+    <script src="app.js?v=11"></script>
+</body>
+
+</html>

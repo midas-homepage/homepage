@@ -1,0 +1,14 @@
+# Logs and temp files
+*.log
+search_results.txt
+temp_out.txt
+people_net.html
+publication_net.html
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db

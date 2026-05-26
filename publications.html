@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Publications - MIDAS Lab @ CAU</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="MIDAS 연구실 논문 목록: 제일원리 계산과 기계 학습 기법을 활용한 학술 성과.">
+    <meta name="keywords" content="MIDAS Lab, 중앙대학교, CAU, 논문 목록, 학술지, 연구 성과, 박해선 교수">
+    <meta name="author" content="MIDAS Lab @ CAU">
+
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body class="light-theme">
+    <!-- Header & Navigation -->
+    <div id="top_navi">
+        <header id="header">
+            <div class="w1400">
+                <h1>
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="MIDAS Lab Logo" class="logo-light">
+                        <img src="images/logo-circle-transparent.png?v=2" alt="MIDAS Lab Logo" class="logo-dark">
+                        <span class="logo-text">MIDAS</span>
+                    </a>
+                </h1>
+                <div class="nav-container" style="display: flex; align-items: center; gap: 20px;">
+                    <nav class="nav" id="cssmenu">
+                        <ul>
+                            <li><a href="index.html#overview">Overview</a></li>
+                            <li><a href="index.html#research">Research</a></li>
+                            <li>
+                                <a href="index.html#people">People</a>
+                                <ul>
+                                    <li><a href="index.html#pf_info">Professor</a></li>
+                                    <li><a href="index.html#members">Members</a></li>
+                                    <li><a href="index.html#alumni">Alumni</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="publications.html" class="active">Publications</a></li>
+                            <li>
+                                <a href="board.html">Board</a>
+                                <ul>
+                                    <li><a href="board.html?filter=news">Lab News</a></li>
+                                    <li><a href="board.html?filter=photo">Lab Photos</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <!-- Admin Mode Toggle Button -->
+                    <button class="btn-admin-toggle" id="adminToggleBtn" title="Admin Mode Toggle" style="padding: 6px 12px; font-size: 0.85rem; height: 36px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock" id="adminLockIcon" style="margin-right: 2px;">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span id="adminToggleText">Admin</span>
+                    </button>
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="테마 전환" style="width: 36px; height: 36px;">
+                        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="gnbM">
+        <div class="mobileMenuXbt">
+            <span></span>
+            <span class="x2"></span>
+        </div>
+        <div class="mUtil" style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="#" id="theme-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg class="icon" style="fill: #ffffff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L18.36 16.95zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zM5.99 18.01l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.02-.39-1.41 0z"/>
+                </svg>
+                Toggle Theme
+            </a>
+            <a href="#" id="admin-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock" id="adminLockIconMobile" style="color: #ffffff;">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span id="adminToggleTextMobile">Admin Mode</span>
+            </a>
+        </div>
+        <div class="gnbDiv">
+            <a href="index.html#overview" class="one">OVERVIEW</a>
+            <a href="index.html#research" class="one">RESEARCH</a>
+            <a href="index.html#people" class="one">PEOPLE</a>
+            <div class="two">
+                <a href="index.html#pf_info" class="twoD">Professor</a>
+                <a href="index.html#members" class="twoD">Members</a>
+                <a href="index.html#alumni" class="twoD">Alumni</a>
+            </div>
+            <a href="publications.html" class="one on">PUBLICATIONS</a>
+            <a href="board.html" class="one">BOARD</a>
+            <div class="two">
+                <a href="board.html?filter=news" class="twoD">Lab News</a>
+                <a href="board.html?filter=photo" class="twoD">Lab Photos</a>
+            </div>
+            <a href="index.html#contact" class="one">CONTACT</a>
+        </div>
+    </div>
+    <div class="dimdBg"></div>
+
+    <!-- Subpage Visual Banner (#svis) -->
+    <section id="svis">
+        <div class="bg"></div>
+        <div class="w1400 slogan">
+            <h2 class="gTit">Publications</h2>
+            <p class="labTit">Computational Materials Science & Design Laboratory</p>
+        </div>
+    </section>
+
+    <!-- LNB / Breadcrumbs (.lnb_wrap) -->
+    <div class="lnb_wrap">
+        <div class="w1400 lnb">
+            <ul class="lnb_map">
+                <li class="home"><a href="index.html">Home</a></li>
+                <li class="depth">
+                    <a><span>Publications</span> <i class="arrow">▼</i></a>
+                    <ul>
+                        <li><a href="index.html#pf_info">Professor</a></li>
+                        <li><a href="index.html#members">Members</a></li>
+                        <li><a href="index.html#alumni">Alumni</a></li>
+                        <li><a href="index.html#research">Research</a></li>
+                        <li><a href="publications.html" class="active">Publications</a></li>
+                        <li><a href="board.html">Board</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Content Layout (#wrapper) -->
+    <div id="wrapper">
+        <div class="w1400" id="container_wr">
+            <!-- Page Main Title -->
+            <div class="bTit">
+                <p>Academic Publications</p>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="pub-controls">
+                <div class="search-box-wrapper">
+                    <input type="search" id="pub-search-input" class="form-control" placeholder="저자, 제목, 저널 등으로 논문 검색...">
+                    <span class="search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                </div>
+                
+                <div class="filter-box-wrapper" style="display: flex; gap: 10px; align-items: center;">
+                    <select id="pub-filter-year" class="select-control">
+                        <option value="all">모든 연도</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                    
+                    <select id="pub-filter-type" class="select-control">
+                        <option value="all">모든 구분</option>
+                        <option value="published">게재 완료 (Published)</option>
+                        <option value="review">심사/제출 중 (Under Review)</option>
+                    </select>
+
+                    <button class="btn-write admin-only" id="addPubBtn" style="height: 42px; padding: 0 20px; white-space: nowrap; font-size: 0.9rem; align-items: center; justify-content: center; display: none;">+ Add Publication</button>
+                </div>
+            </div>
+            
+            <!-- Publications List -->
+            <div class="pub-list" id="pub-list-container">
+                <!-- JavaScript will populate this list dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="top_btn" aria-label="맨 위로 이동">▲</button>
+
+    <!-- Footer -->
+    <div class="bg_btm"></div>
+    <footer>
+        <div class="w1400">
+            <p>
+                <b>MIDAS Lab</b>
+                <span>중앙대학교 융합공학부 나노소재공학과</span>
+                <span>지도교수: 박해선 교수</span>
+            </p>
+            <p>
+                <span>이메일: <a href="mailto:parkh@cau.ac.kr">parkh@cau.ac.kr</a></span>
+                <span>연구실: 중앙대학교 서울캠퍼스 208동 527-1호</span>
+            </p>
+            <p class="copy">
+                &copy; 2026 MIDAS Lab @ CAU. Powered by <a href="https://www.cau.ac.kr" target="_blank" rel="noopener">Chung-Ang University</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Admin Password Modal -->
+    <div class="modal-overlay" id="adminPasswordModal">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Admin Authentication</h3>
+                <button class="modal-close-btn" id="closeAdminModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminPasswordForm">
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="비밀번호를 입력하세요."
+                            required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        <p id="adminPasswordError"
+                            style="color: #e53e3e; font-size: 0.85rem; margin-top: 8px; display: none;">비밀번호가 올바르지 않습니다.
+                        </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelAdminBtn">Cancel</button>
+                <button type="submit" form="adminPasswordForm" class="btn-write"
+                    style="padding: 10px 22px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publication Edit Modal -->
+    <div class="modal-overlay" id="pubEditModal">
+        <div class="modal-box" style="max-width: 600px; background: var(--bg-surface); color: var(--text-main);">
+            <div class="modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 id="pubModalTitle">Add/Edit Publication</h3>
+                <button class="modal-close-btn" id="closePubModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <form id="pubEditForm">
+                    <input type="hidden" id="editPubIndex" value="">
+                    <div class="form-input-group" style="margin-bottom: 15px;">
+                        <label for="pubTitle" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">논문 제목 (Title) *</label>
+                        <input type="text" class="form-control-input" id="pubTitle" placeholder="예: Surface-engineered Ni-Pt Alloys..." required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                    </div>
+                    <div class="form-input-group" style="margin-bottom: 15px;">
+                        <label for="pubAuthors" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">저자 리스트 (Authors, 쉼표로 구분) *</label>
+                        <input type="text" class="form-control-input" id="pubAuthors" placeholder="예: Kyeong-Rim Yeo, Daehyun Kim, Haesun Park*" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="pubJournal" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">저널명 (Journal) *</label>
+                            <input type="text" class="form-control-input" id="pubJournal" placeholder="예: Advanced Materials, e21411 (2026) 또는 Under Review" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="pubYear" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">발행 연도 (Year) *</label>
+                            <input type="number" class="form-control-input" id="pubYear" placeholder="예: 2026" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="pubStatus" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">논문 구분 *</label>
+                            <select id="pubStatus" class="form-control-input" style="width: 100%; height: 42px; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);" required>
+                                <option value="published">게재 완료 (Published)</option>
+                                <option value="review">심사/제출 중 (Under Review)</option>
+                            </select>
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="pubDoi" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">DOI URL</label>
+                            <input type="url" class="form-control-input" id="pubDoi" placeholder="예: https://doi.org/10.1002/adma..." style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-input-group" style="margin-bottom: 15px;">
+                        <label for="pubPdf" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">PDF 링크 (선택사항, 없으면 비워둠)</label>
+                        <input type="text" class="form-control-input" id="pubPdf" placeholder="예: # 또는 PDF 파일 경로" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid var(--border-color); padding-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" class="form-input" style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;" id="cancelPubBtn">Cancel</button>
+                <button type="submit" form="pubEditForm" class="btn-write" style="padding: 10px 22px;" id="savePubBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS script -->
+    <script src="app.js?v=11"></script>
+</body>
+</html>

@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Board - MIDAS Lab @ CAU</title>
+
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="중앙대학교 MIDAS 연구실 게시판. 연구실 최신 소식(Lab News)과 단체 활동 사진(Lab Photos)을 공유합니다.">
+    <meta name="keywords" content="MIDAS Lab, 중앙대학교, CAU, 박해선 교수, 나노소재공학, 연구실 소식, 활동 사진, 공지사항, Board">
+    <meta name="author" content="MIDAS Lab @ CAU">
+
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=10">
+</head>
+
+<body class="light-theme">
+    <!-- Header & Navigation -->
+    <div id="top_navi">
+        <header id="header">
+            <div class="w1400">
+                <h1>
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="MIDAS Lab Logo" class="logo-light">
+                        <img src="images/logo-circle-transparent.png?v=2" alt="MIDAS Lab Logo" class="logo-dark">
+                        <span class="logo-text">MIDAS</span>
+                    </a>
+                </h1>
+                <div class="nav-container" style="display: flex; align-items: center; gap: 20px;">
+                    <nav class="nav" id="cssmenu">
+                        <ul>
+                            <li><a href="index.html#overview">Overview</a></li>
+                            <li><a href="index.html#research">Research</a></li>
+                            <li>
+                                <a href="index.html#people">People</a>
+                                <ul>
+                                    <li><a href="index.html#pf_info">Professor</a></li>
+                                    <li><a href="index.html#members">Members</a></li>
+                                    <li><a href="index.html#alumni">Alumni</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="publications.html">Publications</a></li>
+                            <li>
+                                <a href="board.html" class="active">Board</a>
+                                <ul>
+                                    <li><a href="board.html?filter=news">Lab News</a></li>
+                                    <li><a href="board.html?filter=photo">Lab Photos</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="테마 전환">
+                        <svg class="icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path
+                                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                            </path>
+                        </svg>
+                        <svg class="icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="gnbM">
+        <div class="mobileMenuXbt">
+            <span></span>
+            <span class="x2"></span>
+        </div>
+        <div class="mUtil" style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="#" id="theme-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg class="icon" style="fill: #ffffff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    width="20" height="20">
+                    <path
+                        d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zM5.99 18.01l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.02-.39-1.41 0z" />
+                </svg>
+                Toggle Dark/Light Mode
+            </a>
+            <a href="#" id="admin-toggle-mobile" style="color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock" id="adminLockIconMobile" style="color: #ffffff;">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span id="adminToggleTextMobile">Admin Mode</span>
+            </a>
+        </div>
+        <div class="gnbDiv">
+            <a href="index.html#overview" class="one">OVERVIEW</a>
+            <a href="index.html#research" class="one">RESEARCH</a>
+            <a href="index.html#people" class="one">PEOPLE</a>
+            <div class="two">
+                <a href="index.html#pf_info" class="twoD">Professor</a>
+                <a href="index.html#members" class="twoD">Members</a>
+                <a href="index.html#alumni" class="twoD">Alumni</a>
+            </div>
+            <a href="publications.html" class="one">PUBLICATIONS</a>
+            <a href="board.html" class="one on">BOARD</a>
+            <div class="two">
+                <a href="board.html?filter=news" class="twoD">Lab News</a>
+                <a href="board.html?filter=photo" class="twoD">Lab Photos</a>
+            </div>
+            <a href="index.html#contact" class="one">CONTACT</a>
+        </div>
+    </div>
+    <div class="dimdBg"></div>
+
+    <!-- Subpage Visual Banner (#svis) -->
+    <section id="svis">
+        <div class="bg"></div>
+        <div class="w1400 slogan">
+            <h2 class="gTit">Board</h2>
+            <p class="labTit">Computational Materials Science & Design Laboratory</p>
+        </div>
+    </section>
+
+    <!-- LNB / Breadcrumbs (.lnb_wrap) -->
+    <div class="lnb_wrap">
+        <div class="w1400 lnb">
+            <ul class="lnb_map">
+                <li class="home"><a href="index.html">Home</a></li>
+                <li class="depth">
+                    <a><span>Board</span> <i class="arrow">▼</i></a>
+                    <ul>
+                        <li><a href="index.html#pf_info">Professor</a></li>
+                        <li><a href="index.html#members">Members</a></li>
+                        <li><a href="index.html#alumni">Alumni</a></li>
+                        <li><a href="index.html#research">Research</a></li>
+                        <li><a href="publications.html">Publications</a></li>
+                        <li><a href="board.html" class="active">Board</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Content Layout (#wrapper) -->
+    <div id="wrapper">
+        <div class="w1400" id="container_wr">
+            <!-- Page Main Title -->
+            <div class="bTit">
+                <p>MIDAS Lab News & Photos</p>
+            </div>
+
+            <!-- Filter Controls and Write Action -->
+            <div class="board-filter-bar">
+                <div class="filter-tabs">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="news">Lab News</button>
+                    <button class="filter-btn" data-filter="photo">Lab Photos</button>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn-admin-toggle" id="adminToggleBtn" title="Admin Mode Toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"
+                            id="adminLockIcon">
+                            <rect x="3" y="11" width="10" height="8" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <span id="adminToggleText">Admin Mode</span>
+                    </button>
+                    <button class="btn-write admin-only" id="openWriteModalBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                        </svg>
+                        Write Post
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Board Grid -->
+            <div class="board-grid" id="boardGrid">
+                <!-- Programmatically rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div class="modal-overlay" id="adminPasswordModal">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Admin Authentication</h3>
+                <button class="modal-close-btn" id="closeAdminModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminPasswordForm">
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="비밀번호를 입력하세요."
+                            required>
+                        <p id="adminPasswordError"
+                            style="color: #e53e3e; font-size: 0.85rem; margin-top: 8px; display: none;">비밀번호가 올바르지 않습니다.
+                        </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelAdminBtn">Cancel</button>
+                <button type="submit" form="adminPasswordForm" class="btn-write"
+                    style="padding: 10px 22px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Write Post Modal -->
+    <div class="modal-overlay" id="writePostModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Write New Post</h3>
+                <button class="modal-close-btn" id="closeWriteModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="writePostForm">
+                    <div class="form-group">
+                        <label for="postCategory">Category</label>
+                        <select class="form-select" id="postCategory" required>
+                            <option value="news">Lab News</option>
+                            <option value="photo">Lab Photo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" class="form-input" id="postTitle" placeholder="게시글 제목을 입력하세요." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Images (Drag & Drop or Choose Presets)</label>
+                        <div class="image-upload-wrapper" id="imageDragDropZone">
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span class="upload-text">Drag & drop files here or click to browse</span>
+                            <input type="file" id="postImageFiles" multiple accept="image/*" style="display: none;">
+                        </div>
+                        <div class="preset-images">
+                            <button type="button" class="preset-btn" data-preset="images/board/seminar.png">Seminar
+                                (Preset)</button>
+                            <button type="button" class="preset-btn" data-preset="images/board/dinner.png">Dinner
+                                (Preset)</button>
+                            <button type="button" class="preset-btn" data-preset="images/board/campus.png">Campus
+                                (Preset)</button>
+                        </div>
+                        <div id="imagePreviewContainer" class="image-preview-container"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="postDate">Date</label>
+                        <input type="date" class="form-input" id="postDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postContent">Content</label>
+                        <textarea class="form-textarea" id="postContent" placeholder="내용을 작성하세요." required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelWriteBtn">Cancel</button>
+                <button type="submit" form="writePostForm" class="btn-write" style="padding: 10px 22px;">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div class="modal-overlay" id="postDetailModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="detailTitle">Post Details</h3>
+                <button class="modal-close-btn" id="closeDetailModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="carousel-container" id="detailCarouselContainer">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Slides dynamically rendered here -->
+                    </div>
+                    <button class="carousel-btn prev" id="carouselPrevBtn" aria-label="이전 이미지">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next" id="carouselNextBtn" aria-label="다음 이미지">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </button>
+                    <div class="carousel-dots" id="carouselDots">
+                        <!-- Dots dynamically rendered here -->
+                    </div>
+                </div>
+                <div class="detail-meta">
+                    <span class="board-badge" id="detailBadge">Category</span>
+                    <span class="board-date" id="detailDate">Date</span>
+                </div>
+                <div class="detail-content" id="detailContent">
+                    Content details...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-write" id="closeDetailBtn" style="padding: 10px 22px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="top_btn" aria-label="맨 위로 이동">▲</button>
+
+    <!-- Footer -->
+    <div class="bg_btm"></div>
+    <footer>
+        <div class="w1400">
+            <p>
+                <b>MIDAS Lab</b>
+                <span>중앙대학교 융합공학부 나노소재공학과</span>
+                <span>지도교수: 박해선 교수</span>
+            </p>
+            <p>
+                <span>이메일: <a href="mailto:parkh@cau.ac.kr">parkh@cau.ac.kr</a></span>
+                <span>연구실: 중앙대학교 서울캠퍼스 208동 527-1호</span>
+            </p>
+            <p class="copy">
+                &copy; 2026 MIDAS Lab @ CAU. Powered by <a href="https://www.cau.ac.kr" target="_blank"
+                    rel="noopener">Chung-Ang University</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Core App JS -->
+    <script src="app.js?v=11"></script>
+
+    <!-- Board Storage & Render Script -->
+    <script>
+        const initBoard = () => {
+            // 1. DOM Elements
+            const boardGrid = document.getElementById('boardGrid');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Admin Authentication Modals
+            const adminToggleBtn = document.getElementById('adminToggleBtn');
+            const adminLockIcon = document.getElementById('adminLockIcon');
+            const adminToggleText = document.getElementById('adminToggleText');
+            const adminPasswordModal = document.getElementById('adminPasswordModal');
+            const closeAdminModalBtn = document.getElementById('closeAdminModalBtn');
+            const cancelAdminBtn = document.getElementById('cancelAdminBtn');
+            const adminPasswordForm = document.getElementById('adminPasswordForm');
+            const adminPasswordInput = document.getElementById('adminPassword');
+            const adminPasswordError = document.getElementById('adminPasswordError');
+
+            // Write Modal
+            const openWriteModalBtn = document.getElementById('openWriteModalBtn');
+            const closeWriteModalBtn = document.getElementById('closeWriteModalBtn');
+            const writePostModal = document.getElementById('writePostModal');
+            const writePostForm = document.getElementById('writePostForm');
+            const cancelWriteBtn = document.getElementById('cancelWriteBtn');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+            const imageDragDropZone = document.getElementById('imageDragDropZone');
+            const postImageFilesInput = document.getElementById('postImageFiles');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+            // Detail Modal with Carousel
+            const postDetailModal = document.getElementById('postDetailModal');
+            const closeDetailModalBtn = document.getElementById('closeDetailModalBtn');
+            const closeDetailBtn = document.getElementById('closeDetailBtn');
+            const detailTitle = document.getElementById('detailTitle');
+            const detailCarouselContainer = document.getElementById('detailCarouselContainer');
+            const carouselTrack = document.getElementById('carouselTrack');
+            const carouselPrevBtn = document.getElementById('carouselPrevBtn');
+            const carouselNextBtn = document.getElementById('carouselNextBtn');
+            const carouselDots = document.getElementById('carouselDots');
+            const detailBadge = document.getElementById('detailBadge');
+            const detailDate = document.getElementById('detailDate');
+            const detailContent = document.getElementById('detailContent');
+
+            // Carousel States
+            let currentSlideIndex = 0;
+            let currentSlides = [];
+
+            // 2. Load Posts from LocalStorage or Fetch data/posts.json
+            let posts = [];
+
+            const syncPostsToServer = async () => {
+                try {
+                    const res = await fetch('/api/save-posts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(posts)
+                    });
+                    if (!res.ok) {
+                        console.error('Failed to sync posts to server:', res.statusText);
+                    } else {
+                        console.log('Successfully synced posts database to disk.');
+                    }
+                } catch (e) {
+                    console.warn('Could not sync posts to server (running on static host?):', e);
+                }
+            };
+
+            const initPosts = async () => {
+                try {
+                    const response = await fetch('data/posts.json');
+                    if (response.ok) {
+                        posts = await response.json();
+                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    } else {
+                        throw new Error("Failed to load posts.json");
+                    }
+                } catch (err) {
+                    console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                    const stored = localStorage.getItem('midas_board_posts');
+                    if (stored) {
+                        try {
+                            posts = JSON.parse(stored);
+                        } catch (e) {
+                            console.error("Failed to parse stored posts:", e);
+                        }
+                    }
+                }
+
+                // Trigger rendering
+                const urlParams = new URLSearchParams(window.location.search);
+                const filterParam = urlParams.get('filter');
+                if (filterParam === 'news' || filterParam === 'photo') {
+                    const target = document.querySelector(`.filter-btn[data-filter="${filterParam}"]`);
+                    if (target) {
+                        target.click();
+                        return;
+                    }
+                }
+                renderPosts('all');
+            };
+
+            // Image Array Parser Helper
+            const getImages = (post) => {
+                if (!post.img) return [];
+                if (Array.isArray(post.img)) return post.img.filter(Boolean);
+                if (typeof post.img === 'string') {
+                    return post.img.split(',').map(s => s.trim()).filter(Boolean);
+                }
+                return [];
+            };
+
+            // 4. Admin Auth Logic (Handled globally by app.js)
+
+
+            // 5. Safe programmatic Card Renderer
+            const renderPosts = (currentFilter = 'all') => {
+                boardGrid.replaceChildren();
+
+                // Sort newest first
+                const sorted = [...posts].sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+                    if (dateB - dateA !== 0) return dateB - dateA;
+                    return b.id - a.id;
+                });
+
+                sorted.forEach(post => {
+                    if (currentFilter !== 'all' && post.category !== currentFilter) {
+                        return;
+                    }
+
+                    // Create item container
+                    const card = document.createElement('div');
+                    card.className = 'board-item';
+
+                    const images = getImages(post);
+
+                    // Thumbnail image
+                    if (images.length > 0) {
+                        const imgWrapper = document.createElement('div');
+                        imgWrapper.className = 'board-item-img-wrapper';
+
+                        const img = document.createElement('img');
+                        img.src = images[0];
+                        img.alt = post.title;
+                        img.loading = 'lazy';
+                        imgWrapper.appendChild(img);
+
+                        // If multiple images, render a nice count badge in top-right
+                        if (images.length > 1) {
+                            const badgeCount = document.createElement('div');
+                            badgeCount.className = 'image-count-badge';
+
+                            const stackSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12"><path d="M4 22a2 2 0 0 1-2-2V4h2v16h16v2H4zm4-4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8zm0-2h12V2H8v14z"/></svg>';
+                            const docStack = new DOMParser().parseFromString(stackSvg, 'image/svg+xml');
+                            badgeCount.appendChild(docStack.documentElement);
+
+                            const countSpan = document.createElement('span');
+                            countSpan.textContent = `+${images.length - 1}`;
+                            badgeCount.appendChild(countSpan);
+
+                            imgWrapper.appendChild(badgeCount);
+                        }
+
+                        const overlay = document.createElement('div');
+                        overlay.className = 'board-item-overlay';
+
+                        const overlayIcon = document.createElement('div');
+                        overlayIcon.className = 'board-item-overlay-icon';
+
+                        const searchSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>';
+                        const doc = new DOMParser().parseFromString(searchSvg, 'image/svg+xml');
+                        overlayIcon.appendChild(doc.documentElement);
+                        overlay.appendChild(overlayIcon);
+                        imgWrapper.appendChild(overlay);
+
+                        imgWrapper.addEventListener('click', () => openDetailModal(post));
+                        card.appendChild(imgWrapper);
+                    }
+
+                    // Info text block
+                    const info = document.createElement('div');
+                    info.className = 'board-item-info';
+
+                    // Metadata header
+                    const badgeDate = document.createElement('div');
+                    badgeDate.className = 'board-badge-date';
+
+                    const badge = document.createElement('span');
+                    badge.className = `board-badge badge-${post.category}`;
+                    badge.textContent = post.category === 'news' ? 'News' : 'Photo';
+
+                    const date = document.createElement('span');
+                    date.className = 'board-date';
+                    date.textContent = post.date;
+
+                    badgeDate.appendChild(badge);
+                    badgeDate.appendChild(date);
+                    info.appendChild(badgeDate);
+
+                    // Title
+                    const title = document.createElement('h4');
+                    title.className = 'board-item-title';
+                    title.textContent = post.title;
+                    title.addEventListener('click', () => openDetailModal(post));
+                    info.appendChild(title);
+
+                    // Description text (truncated in CSS)
+                    const desc = document.createElement('p');
+                    desc.className = 'board-item-description';
+                    desc.textContent = post.content;
+                    info.appendChild(desc);
+
+                    // Actions (Read, Delete)
+                    const actions = document.createElement('div');
+                    actions.className = 'board-item-actions';
+
+                    const readBtn = document.createElement('button');
+                    readBtn.className = 'action-btn btn-detail';
+                    const readSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle;"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 4 8 4c2.12 0 3.879.668 5.168 1.957A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12 8 12c-2.12 0-3.879-.668-5.168-1.957A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>';
+                    const readDoc = new DOMParser().parseFromString(readSvg, 'image/svg+xml');
+                    readBtn.appendChild(readDoc.documentElement);
+                    readBtn.appendChild(document.createTextNode(' Read'));
+                    readBtn.addEventListener('click', () => openDetailModal(post));
+                    actions.appendChild(readBtn);
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'action-btn btn-delete admin-only';
+                    const deleteSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle;"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
+                    const deleteDoc = new DOMParser().parseFromString(deleteSvg, 'image/svg+xml');
+                    deleteBtn.appendChild(deleteDoc.documentElement);
+                    deleteBtn.appendChild(document.createTextNode(' Delete'));
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deletePost(post.id);
+                    });
+                    actions.appendChild(deleteBtn);
+
+                    info.appendChild(actions);
+                    card.appendChild(info);
+                    boardGrid.appendChild(card);
+                });
+
+                // Display fallback placeholder if empty
+                if (boardGrid.children.length === 0) {
+                    const emptyMsg = document.createElement('div');
+                    emptyMsg.className = 'empty-board-message';
+                    emptyMsg.style.gridColumn = '1 / -1';
+                    emptyMsg.style.textAlign = 'center';
+                    emptyMsg.style.padding = '80px 20px';
+                    emptyMsg.style.color = 'var(--text-muted)';
+                    emptyMsg.style.fontSize = '1.1rem';
+                    emptyMsg.textContent = '등록된 게시물이 없습니다. 우측 상단의 Write Post 버튼을 눌러 첫 글을 올려보세요!';
+                    boardGrid.appendChild(emptyMsg);
+                }
+            };
+
+            // 6. Delete post handler
+            const deletePost = (id) => {
+                if (sessionStorage.getItem('isAdmin') !== 'true') {
+                    alert('관리자 권한이 필요합니다.');
+                    return;
+                }
+                posts = posts.filter(p => p.id !== id);
+                try {
+                    localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    syncPostsToServer();
+                } catch (err) { }
+
+                const activeFilter = document.querySelector('.filter-btn.active');
+                renderPosts(activeFilter ? activeFilter.dataset.filter : 'all');
+            };
+
+            // 7. Carousel Slider Controller
+            const updateCarousel = () => {
+                carouselTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+                // Update dots active status
+                const dots = carouselDots.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, idx) => {
+                    if (idx === currentSlideIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            };
+
+            carouselPrevBtn.addEventListener('click', () => {
+                if (currentSlides.length <= 1) return;
+                currentSlideIndex = (currentSlideIndex - 1 + currentSlides.length) % currentSlides.length;
+                updateCarousel();
+            });
+
+            carouselNextBtn.addEventListener('click', () => {
+                if (currentSlides.length <= 1) return;
+                currentSlideIndex = (currentSlideIndex + 1) % currentSlides.length;
+                updateCarousel();
+            });
+
+            // 8. Detail Modal logic
+            const openDetailModal = (post) => {
+                detailTitle.textContent = post.title;
+                detailBadge.textContent = post.category === 'news' ? 'News' : 'Photo';
+                detailBadge.className = `board-badge badge-${post.category}`;
+                detailDate.textContent = post.date;
+                detailContent.textContent = post.content;
+
+                const images = getImages(post);
+                currentSlides = images;
+                currentSlideIndex = 0;
+
+                // Clear previous carousel data
+                carouselTrack.replaceChildren();
+                carouselDots.replaceChildren();
+
+                if (images.length > 0) {
+                    detailCarouselContainer.style.display = 'block';
+
+                    // Build Slides
+                    images.forEach((imgSrc) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'carousel-slide';
+
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.alt = post.title;
+                        img.loading = 'lazy';
+
+                        slide.appendChild(img);
+                        carouselTrack.appendChild(slide);
+                    });
+
+                    // Build Dots and navigation visibility controls
+                    if (images.length > 1) {
+                        carouselPrevBtn.style.display = 'flex';
+                        carouselNextBtn.style.display = 'flex';
+                        carouselDots.style.display = 'flex';
+
+                        images.forEach((_, idx) => {
+                            const dot = document.createElement('button');
+                            dot.className = 'carousel-dot';
+                            if (idx === 0) dot.classList.add('active');
+                            dot.addEventListener('click', () => {
+                                currentSlideIndex = idx;
+                                updateCarousel();
+                            });
+                            carouselDots.appendChild(dot);
+                        });
+                    } else {
+                        carouselPrevBtn.style.display = 'none';
+                        carouselNextBtn.style.display = 'none';
+                        carouselDots.style.display = 'none';
+                    }
+
+                    // Reset track slide offset without transition first, then re-enable
+                    carouselTrack.style.transition = 'none';
+                    carouselTrack.style.transform = 'translateX(0)';
+                    carouselTrack.offsetHeight; // Reflow trigger
+                    carouselTrack.style.transition = '';
+                } else {
+                    detailCarouselContainer.style.display = 'none';
+                }
+
+                postDetailModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeDetailModal = () => {
+                postDetailModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            closeDetailModalBtn.addEventListener('click', closeDetailModal);
+            closeDetailBtn.addEventListener('click', closeDetailModal);
+            postDetailModal.addEventListener('click', (e) => {
+                if (e.target === postDetailModal) closeDetailModal();
+            });
+
+            // 9. Write Modal logic (Image upload, compression, presets, submit)
+            let currentUploadedImages = [];
+
+            // Image Compressor Helper
+            const resizeAndCompressImage = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = (event) => {
+                        const img = new Image();
+                        img.src = event.target.result;
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+
+                            // Scale down if dimensions exceed 1000px
+                            const maxDim = 1000;
+                            if (width > maxDim || height > maxDim) {
+                                if (width > height) {
+                                    height = Math.round((height * maxDim) / width);
+                                    width = maxDim;
+                                } else {
+                                    width = Math.round((width * maxDim) / height);
+                                    height = maxDim;
+                                }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            // Export as JPEG with 0.7 quality
+                            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                            resolve(dataUrl);
+                        };
+                        img.onerror = (err) => reject(err);
+                    };
+                    reader.onerror = (err) => reject(err);
+                });
+            };
+
+            const highlightPresets = () => {
+                presetBtns.forEach(b => {
+                    const url = b.getAttribute('data-preset');
+                    if (currentUploadedImages.includes(url)) {
+                        b.style.background = 'var(--color-blue)';
+                        b.style.color = '#ffffff';
+                        b.style.borderColor = 'var(--color-blue)';
+                    } else {
+                        b.style.background = '';
+                        b.style.color = '';
+                        b.style.borderColor = '';
+                    }
+                });
+            };
+
+            const updateImagePreviews = () => {
+                imagePreviewContainer.replaceChildren();
+
+                currentUploadedImages.forEach((imgSrc, idx) => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = 'preview-thumbnail';
+
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = `Preview ${idx + 1}`;
+                    thumbnail.appendChild(img);
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.title = 'Remove image';
+                    removeBtn.addEventListener('click', () => {
+                        currentUploadedImages.splice(idx, 1);
+                        updateImagePreviews();
+                        highlightPresets();
+                    });
+                    thumbnail.appendChild(removeBtn);
+
+                    imagePreviewContainer.appendChild(thumbnail);
+                });
+            };
+
+            const openWriteModal = () => {
+                writePostForm.reset();
+                currentUploadedImages = [];
+                updateImagePreviews();
+                highlightPresets();
+
+                // Pre-fill today's date in yyyy-mm-dd
+                const today = new Date().toISOString().split('T')[0];
+                const postDateInput = document.getElementById('postDate');
+                if (postDateInput) postDateInput.value = today;
+
+                writePostModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeWriteModal = () => {
+                writePostModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            openWriteModalBtn.addEventListener('click', openWriteModal);
+            closeWriteModalBtn.addEventListener('click', closeWriteModal);
+            cancelWriteBtn.addEventListener('click', closeWriteModal);
+            writePostModal.addEventListener('click', (e) => {
+                if (e.target === writePostModal) closeWriteModal();
+            });
+
+            // Preset image handler (toggles preset selection)
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const url = btn.getAttribute('data-preset');
+                    const index = currentUploadedImages.indexOf(url);
+                    if (index > -1) {
+                        currentUploadedImages.splice(index, 1);
+                    } else {
+                        currentUploadedImages.push(url);
+                    }
+                    updateImagePreviews();
+                    highlightPresets();
+                });
+            });
+
+            // File uploading & compression triggers
+            imageDragDropZone.addEventListener('click', () => {
+                postImageFilesInput.click();
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                imageDragDropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                imageDragDropZone.addEventListener(eventName, () => {
+                    imageDragDropZone.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                imageDragDropZone.addEventListener(eventName, () => {
+                    imageDragDropZone.classList.remove('dragover');
+                }, false);
+            });
+
+            const handleFilesUpload = async (files) => {
+                if (!files || files.length === 0) return;
+
+                const uploadTextEl = imageDragDropZone.querySelector('.upload-text');
+                const originalText = uploadTextEl.textContent;
+                uploadTextEl.textContent = 'Compressing & uploading...';
+
+                for (const file of files) {
+                    if (!file.type.startsWith('image/')) continue;
+                    try {
+                        const compressedBase64 = await resizeAndCompressImage(file);
+                        currentUploadedImages.push(compressedBase64);
+                    } catch (err) {
+                        console.error('Image compression failed:', err);
+                    }
+                }
+
+                uploadTextEl.textContent = originalText;
+                updateImagePreviews();
+                highlightPresets();
+                postImageFilesInput.value = '';
+            };
+
+            imageDragDropZone.addEventListener('drop', async (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                await handleFilesUpload(files);
+            });
+
+            postImageFilesInput.addEventListener('change', async (e) => {
+                const files = e.target.files;
+                await handleFilesUpload(files);
+            });
+
+            // Form Submit handler
+            writePostForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                if (sessionStorage.getItem('isAdmin') !== 'true') {
+                    alert('관리자 권한이 필요합니다.');
+                    return;
+                }
+
+                const category = document.getElementById('postCategory').value;
+                const title = document.getElementById('postTitle').value.trim();
+                const date = document.getElementById('postDate').value;
+                const content = document.getElementById('postContent').value.trim();
+
+                if (!title || !date || !content) return;
+
+                const maxId = posts.reduce((max, p) => p.id > max ? p.id : max, 0);
+                const newPost = {
+                    id: maxId + 1,
+                    category,
+                    title,
+                    date,
+                    img: currentUploadedImages,
+                    content
+                };
+
+                posts.push(newPost);
+                try {
+                    localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    syncPostsToServer();
+                } catch (err) { }
+
+                closeWriteModal();
+
+                const activeFilter = document.querySelector('.filter-btn.active');
+                renderPosts(activeFilter ? activeFilter.dataset.filter : 'all');
+            });
+
+            // 10. Filter buttons click logic
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderPosts(btn.dataset.filter);
+                });
+            });
+
+            // 11. Load and initialize posts (deep links triggered inside initPosts)
+            initPosts();
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initBoard);
+        } else {
+            initBoard();
+        }
+    </script>
+</body>
+
+</html>
