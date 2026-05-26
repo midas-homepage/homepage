@@ -28,7 +28,7 @@
     "id": "dong-geon-lee",
     "group": "graduate",
     "nameKo": "이동건",
-    "nameEn": "Dong Geon Lee",
+    "nameEn": "DongGeon Lee",
     "role": "M.S. Student",
     "research": "Atomic Layer Deposition",
     "email": "dlehdrjsdlgh@naver.com",
@@ -43,7 +43,8 @@
         "degree": "B.S. in Integrative Engineering",
         "detail": "Chung-Ang University (2026)"
       }
-    ]
+    ],
+    "version": 1779786377109
   },
   {
     "id": "hyoungjoon-jeon",
