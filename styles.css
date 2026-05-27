@@ -2112,6 +2112,12 @@ footer .w1400 .copy a {
         grid-template-columns: 1fr;
     }
     
+    .hero-section {
+        padding-top: 100px;
+        padding-bottom: 40px;
+        min-height: auto;
+    }
+    
     .hero-title {
         font-size: 2.2rem;
     }
@@ -3431,17 +3437,31 @@ body.admin-mode .pub-admin-actions {
     }
 
     .news-ticker-box {
+        flex-direction: column;
+        align-items: flex-start;
         padding: 12px 16px;
+        gap: 8px;
     }
 
     .news-label {
-        padding-right: 12px;
-        margin-right: 12px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-right: 0;
+        padding-bottom: 6px;
+        margin-right: 0;
+        width: 100%;
+        display: flex;
         font-size: 0.78rem;
+    }
+
+    .news-carousel {
+        width: 100%;
+        height: 24px;
     }
 
     .news-item {
         font-size: 13px;
+        width: 100%;
     }
     
     .research-img-wrapper {
@@ -3451,6 +3471,11 @@ body.admin-mode .pub-admin-actions {
 
 /* Extra small mobile layout: hero section optimizations */
 @media (max-width: 480px) {
+    .hero-section {
+        padding-top: 80px;
+        padding-bottom: 30px;
+    }
+
     .hero-title {
         font-size: 1.8rem;
     }
