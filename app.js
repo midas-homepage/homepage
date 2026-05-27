@@ -1829,6 +1829,156 @@ const initApp = () => {
         });
     };
     initResearchTabs();
+
+    // ==========================================================================
+    // 14. Horizontal News & Highlights Grid (index.html)
+    // ==========================================================================
+    const initHorizontalNews = () => {
+        const grid = document.getElementById('newsHorizontalGrid');
+        if (!grid) return;
+
+        const prevBtn = document.querySelector('.news-horizontal-container .news-arrow.prev');
+        const nextBtn = document.querySelector('.news-horizontal-container .news-arrow.next');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                grid.scrollBy({ left: -380 - 24, behavior: 'smooth' }); // card width + gap
+            });
+            nextBtn.addEventListener('click', () => {
+                grid.scrollBy({ left: 380 + 24, behavior: 'smooth' });
+            });
+        }
+
+        const renderHorizontalNews = async () => {
+            let posts = [];
+            const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+            const isRebuilding = (Date.now() - lastSync) < 120000;
+
+            const loadPostsFromLocalStorageNews = () => {
+                try {
+                    const stored = localStorage.getItem('midas_board_posts');
+                    if (stored) return JSON.parse(stored);
+                } catch (err) {
+                    console.error("Failed to parse stored posts:", err);
+                }
+                return [];
+            };
+
+            if (!isRebuilding) {
+                try {
+                    const res = await fetch(`data/posts.json?t=${Date.now()}`);
+                    if (res.ok) {
+                        posts = await res.json();
+                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    } else {
+                        throw new Error("Fetch failed");
+                    }
+                } catch (e) {
+                    console.warn("Failed to fetch posts.json, falling back to localStorage:", e);
+                    posts = loadPostsFromLocalStorageNews();
+                }
+            } else {
+                posts = loadPostsFromLocalStorageNews();
+            }
+
+            // Filter news/photo posts
+            const activePosts = posts.filter(p => p && (p.category === 'news' || p.category === 'photo'));
+
+            // Sort by date descending
+            activePosts.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                if (dateB - dateA !== 0) return dateB - dateA;
+                return (b.id || 0) - (a.id || 0);
+            });
+
+            // Take top 6
+            const topNews = activePosts.slice(0, 6);
+
+            grid.replaceChildren();
+
+            if (topNews.length === 0) {
+                const noNews = document.createElement('div');
+                noNews.className = 'no-news-msg';
+                noNews.textContent = '등록된 소식이 없습니다.';
+                grid.appendChild(noNews);
+                return;
+            }
+
+            topNews.forEach(post => {
+                const card = document.createElement('a');
+                card.className = 'news-card';
+                card.href = `board.html?post=${post.id}`;
+
+                // Image Wrapper
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'news-card-img-wrapper';
+
+                const img = document.createElement('img');
+                img.className = 'news-card-img';
+                
+                // Get first image or fallback
+                let imgUrl = 'images/logo.png';
+                if (post.img) {
+                    if (Array.isArray(post.img) && post.img.length > 0 && post.img[0]) {
+                        imgUrl = post.img[0];
+                    } else if (typeof post.img === 'string' && post.img.trim()) {
+                        imgUrl = post.img.split(',')[0].trim();
+                    }
+                }
+                img.src = imgUrl;
+                img.alt = post.title || 'News Image';
+                img.onerror = () => {
+                    img.src = 'images/logo.png';
+                };
+                imgWrap.appendChild(img);
+
+                // Category Badge
+                const badge = document.createElement('span');
+                badge.className = `news-card-badge ${post.category}`;
+                badge.textContent = post.category === 'news' ? 'News' : 'Photo';
+                imgWrap.appendChild(badge);
+
+                card.appendChild(imgWrap);
+
+                // Content container
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'news-card-content';
+
+                // Date
+                const dateSpan = document.createElement('span');
+                dateSpan.className = 'news-card-date';
+                dateSpan.textContent = post.date ? post.date.replace(/\-/g, '.') : '';
+                contentDiv.appendChild(dateSpan);
+
+                // Title
+                const titleH4 = document.createElement('h4');
+                titleH4.className = 'news-card-title';
+                titleH4.textContent = post.title || '';
+                contentDiv.appendChild(titleH4);
+
+                // Content Excerpt
+                const excerptP = document.createElement('p');
+                excerptP.className = 'news-card-excerpt';
+                // Strip html/newlines if any, take plain text
+                const plainText = (post.content || '').replace(/<[^>]*>/g, '').replace(/\n/g, ' ');
+                excerptP.textContent = plainText;
+                contentDiv.appendChild(excerptP);
+
+                // More Link
+                const moreSpan = document.createElement('span');
+                moreSpan.className = 'news-card-more';
+                moreSpan.innerHTML = 'Read More <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+                contentDiv.appendChild(moreSpan);
+
+                card.appendChild(contentDiv);
+                grid.appendChild(card);
+            });
+        };
+
+        renderHorizontalNews();
+    };
+    initHorizontalNews();
 };
 
 if (document.readyState === 'loading') {

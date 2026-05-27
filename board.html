@@ -13,7 +13,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
 </head>
 
 <body class="light-theme">
@@ -368,7 +368,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=18"></script>
+    <script src="app.js?v=19"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
@@ -547,10 +547,24 @@
                     const target = document.querySelector(`.filter-btn[data-filter="${filterParam}"]`);
                     if (target) {
                         target.click();
-                        return;
+                    } else {
+                        renderPosts('all');
+                    }
+                } else {
+                    renderPosts('all');
+                }
+
+                // Check query parameter for post ID to open on load
+                const postIdParam = urlParams.get('post');
+                if (postIdParam) {
+                    const targetPostId = parseInt(postIdParam, 10);
+                    const targetPost = posts.find(p => p.id === targetPostId);
+                    if (targetPost) {
+                        setTimeout(() => {
+                            openDetailModal(targetPost);
+                        }, 250);
                     }
                 }
-                renderPosts('all');
             };
 
             // Image Array Parser Helper
