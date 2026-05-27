@@ -3079,3 +3079,206 @@ body.admin-mode .pub-admin-actions {
 }
 
 
+
+/* Research Section Tabs & Detail Layout Styling */
+.research-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0;
+}
+
+.research-tab-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 12px 10px;
+    position: relative;
+    transition: color 0.3s ease;
+    outline: none;
+}
+
+.research-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-blue);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.research-tab-btn:hover {
+    color: var(--color-blue);
+}
+
+.research-tab-btn.active {
+    color: var(--color-blue);
+    font-weight: 700;
+}
+
+.research-tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+.research-tab-content {
+    display: none;
+}
+
+.research-tab-content.active {
+    display: block;
+    animation: fadeInResearchTab 0.4s ease-out forwards;
+}
+
+@keyframes fadeInResearchTab {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Detail view layout */
+.research-detail-layout {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 40px;
+    margin-top: 20px;
+    text-align: left;
+    align-items: start;
+}
+
+.research-detail-text h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.research-detail-text .lead-text {
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 24px;
+    opacity: 0.9;
+}
+
+.research-detail-text .detail-section {
+    margin-bottom: 24px;
+}
+
+.research-detail-text .detail-section h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-blue);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.research-detail-text .detail-section ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+}
+
+.research-detail-text .detail-section li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: var(--text-color);
+    list-style-type: disc;
+}
+
+.research-detail-text .detail-section li strong {
+    color: var(--color-blue);
+}
+
+.research-detail-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.research-detail-visual img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    background-color: var(--bg-body);
+}
+
+.research-detail-visual .visual-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.research-detail-visual .visual-card h5 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.research-detail-visual .visual-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.research-detail-visual .visual-tags span {
+    background-color: var(--bg-body);
+    color: var(--color-blue);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.research-detail-visual .visual-tags span:hover {
+    background-color: var(--color-blue);
+    color: #ffffff;
+    border-color: var(--color-blue);
+}
+
+/* Responsive styles for research detail layout */
+@media (max-width: 991px) {
+    .research-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .research-tabs {
+        gap: 15px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-color);
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .research-tab-btn {
+        font-size: 14px;
+        padding: 8px 4px;
+        white-space: nowrap;
+    }
+}

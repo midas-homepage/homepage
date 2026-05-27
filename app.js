@@ -1712,6 +1712,95 @@ const initApp = () => {
         });
     };
     initPeopleTabs();
+
+    // ==========================================================================
+    // 13. Research Section Tab Toggle Logic
+    // ==========================================================================
+    const initResearchTabs = () => {
+        const tabBtns = document.querySelectorAll('.research-tab-btn');
+        const tabContents = document.querySelectorAll('.research-tab-content');
+        if (tabBtns.length === 0 || tabContents.length === 0) return;
+
+        const switchTab = (tabName) => {
+            tabBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            tabContents.forEach(content => {
+                content.classList.toggle('active', content.dataset.tab === tabName);
+            });
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchTab(btn.dataset.tab);
+            });
+        });
+
+        // Intercept hash links to ensure tab switches before scroll target
+        const handleHash = (hash, scrollSmooth = false) => {
+            if (!hash) return;
+            const decodedHash = decodeURIComponent(hash);
+            let tabName = '';
+            if (decodedHash.endsWith('#research_overview') || decodedHash.endsWith('#research')) {
+                tabName = 'overview';
+            } else if (decodedHash.endsWith('#research_solid_state')) {
+                tabName = 'solid_state';
+            } else if (decodedHash.endsWith('#research_ml')) {
+                tabName = 'ml';
+            } else if (decodedHash.endsWith('#research_semiconductor')) {
+                tabName = 'semiconductor';
+            }
+
+            if (tabName) {
+                switchTab(tabName);
+                if (scrollSmooth) {
+                    const researchSec = document.getElementById('research');
+                    if (researchSec) {
+                        const headerOffset = window.innerWidth > 1024 ? 100 : (window.innerWidth > 768 ? 80 : 65);
+                        const elementPosition = researchSec.getBoundingClientRect().top + window.scrollY;
+                        const offsetPosition = elementPosition - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+        };
+
+        // Check on load
+        if (window.location.hash) {
+            setTimeout(() => {
+                handleHash(window.location.hash, true);
+            }, 150);
+        }
+
+        // Listen for hash change
+        window.addEventListener('hashchange', () => {
+            handleHash(window.location.hash, true);
+        });
+
+        // Intercept clicks on links pointing to local hash tags
+        document.querySelectorAll('a[href*="#research"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                const hashIndex = href.indexOf('#');
+                if (hashIndex !== -1) {
+                    const hash = href.substring(hashIndex);
+                    // Check if it's on the same page or if we are already on index.html
+                    const path = href.substring(0, hashIndex);
+                    const isSamePage = !path || path === 'index.html' || window.location.pathname.endsWith(path) || window.location.pathname.endsWith('/');
+                    if (isSamePage) {
+                        e.preventDefault();
+                        handleHash(hash, true);
+                        // Update the address bar hash without triggering default jump
+                        history.pushState(null, null, hash);
+                    }
+                }
+            });
+        });
+    };
+    initResearchTabs();
 };
 
 if (document.readyState === 'loading') {
