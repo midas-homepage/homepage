@@ -1872,7 +1872,7 @@ const initApp = () => {
                 }
                 if (mems && mems.length > 0) {
                     const activeMems = mems.filter(m => m.group !== 'alumni');
-                    memberStatEl.textContent = `${activeMems.length + 1}+`;
+                    memberStatEl.textContent = `${activeMems.length}+`;
                 }
             } catch (e) {
                 console.warn("Failed to load members count for hero stats:", e);
