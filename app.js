@@ -1202,19 +1202,29 @@ const initApp = () => {
                     }
                     authorSpan.appendChild(nameSpan);
 
-                    if (isEqualContribution) {
-                        const sup = document.createElement('sup');
-                        sup.textContent = '†';
-                        sup.style.cursor = 'help';
-                        sup.setAttribute('title', 'Equal Contribution');
-                        authorSpan.appendChild(sup);
-                    }
-                    if (isCorresponding) {
-                        const sup = document.createElement('sup');
-                        sup.textContent = '*';
-                        sup.style.cursor = 'help';
-                        sup.setAttribute('title', 'Corresponding Author');
-                        authorSpan.appendChild(sup);
+                    if (isEqualContribution || isCorresponding) {
+                        const infoIcon = document.createElement('span');
+                        infoIcon.className = 'author-info-btn';
+                        infoIcon.style.cursor = 'help';
+
+                        let titleText = '';
+                        if (isEqualContribution && isCorresponding) {
+                            titleText = 'Corresponding Author, Equal Contribution';
+                        } else if (isEqualContribution) {
+                            titleText = 'Equal Contribution';
+                        } else {
+                            titleText = 'Corresponding Author';
+                        }
+                        infoIcon.setAttribute('title', titleText);
+
+                        infoIcon.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="author-info-svg">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                        `;
+                        authorSpan.appendChild(infoIcon);
                     }
 
                     authors.appendChild(authorSpan);

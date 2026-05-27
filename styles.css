@@ -1297,6 +1297,27 @@ section[id] {
     font-weight: 700;
 }
 
+.author-info-btn {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 3px;
+    color: var(--text-muted);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.author-info-btn:hover {
+    color: var(--color-blue);
+    transform: scale(1.15);
+}
+
+.author-info-svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+}
+
 .pub-content {
     display: flex;
     flex-direction: column;
