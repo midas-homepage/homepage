@@ -1686,10 +1686,14 @@ const initApp = () => {
 
         // Intercept hash links to ensure tab switches before scroll target
         const handleHash = (hash) => {
-            if (hash === '#alumni') {
+            if (!hash) return;
+            const decodedHash = decodeURIComponent(hash);
+            if (decodedHash.endsWith('#alumni')) {
                 switchTab('alumni');
-            } else if (hash === '#members' || hash === '#pf_info' || hash === '#people') {
+            } else if (decodedHash.endsWith('#members')) {
                 switchTab('members');
+            } else if (decodedHash.endsWith('#pf_info') || decodedHash.endsWith('#people')) {
+                switchTab('professor');
             }
         };
 
@@ -1811,6 +1815,16 @@ const initApp = () => {
                     history.pushState(null, null, `#research_${targetTab}`);
                 }
             });
+        });
+
+        // Intercept clicks on links pointing to other sections to reset the research tab to overview
+        document.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.includes('#') && !href.includes('research')) {
+                link.addEventListener('click', () => {
+                    switchTab('overview');
+                });
+            }
         });
     };
     initResearchTabs();
