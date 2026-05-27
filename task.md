@@ -26,8 +26,3 @@
   - [x] 미사용 Redundant 파일들 (`reconstructed_members.json`, 임시 txt 파일들) 정리 제거 완료
   - [x] 구성원 이메일 클릭 시 나타나고 가려지는 토글 기능 및 페이드인 모션 브라우저 검증 완료
   - [x] 관리자 모드에서 실제 사진 파일 업로드 시 로컬 서버 `images/people/` 폴더에 자동 덮어쓰기 저장 및 브라우저 즉시 갱신(Cache Busting) 검증 완료
-- [x] Publications 페이지 공저자/교신저자 marker 개선
-  - [x] 기존 `†` 및 `*` 텍스트 superscripts를 일관된 모양의 세련된 SVG circle-info 아이콘으로 변경
-  - [x] 마우스 호버 시 tooltip (`title` 속성)에 "Equal Contribution", "Corresponding Author" 또는 둘 다인 경우 "Corresponding Author, Equal Contribution"이 표시되도록 구현
-  - [x] `styles.css` 및 각 HTML 파일들의 캐시 버전 업데이트
-
