@@ -12,7 +12,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=21">
+    <link rel="stylesheet" href="styles.css?v=22">
 </head>
 
 <body class="light-theme">
@@ -265,6 +265,205 @@
             </div>
         </div>
     </div>
+
+    <!-- Modals & Overlay -->
+    <div class="overlay" id="modal-overlay"></div>
+    <div class="modal_conts" id="education-modal">
+        <div class="tb card">
+            <div class="modal_item">
+                <div class="modal_info" id="modal-info-content">
+                    <!-- Dynamic rendering -->
+                </div>
+                <div class="btn_area">
+                    <a href="#" class="btn_close_m" id="modal-close-btn">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div class="modal-overlay" id="adminPasswordModal">
+        <div class="modal-box" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>Admin Authentication</h3>
+                <button class="modal-close-btn" id="closeAdminModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminPasswordForm">
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="비밀번호를 입력하세요." required
+                            style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        <p id="adminPasswordError"
+                            style="color: #e53e3e; font-size: 0.85rem; margin-top: 8px; display: none;">비밀번호가 올바르지 않습니다.
+                        </p>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="adminGithubToken">GitHub Personal Access Token (선택)</label>
+                        <input type="password" class="form-input" id="adminGithubToken" placeholder="ghp_..."
+                            style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        <small
+                            style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 5px; line-height: 1.3;">
+                            GitHub Pages 사이트에서 직접 데이터 수정 및 저장을 진행하려면 생성하신 깃허브 토큰을 입력해 주세요. (브라우저 로컬 저장소에 안전하게 보관됩니다)
+                        </small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelAdminBtn">Cancel</button>
+                <button type="submit" form="adminPasswordForm" class="btn-write"
+                    style="padding: 10px 22px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Edit Modal -->
+    <div class="modal-overlay" id="memberEditModal">
+        <div class="modal-box" style="max-width: 600px; background: var(--bg-surface); color: var(--text-main);">
+            <div class="modal-header"
+                style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+                <h3 id="memberModalTitle">Add/Edit Member</h3>
+                <button class="modal-close-btn" id="closeMemberModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <form id="memberEditForm">
+                    <input type="hidden" id="editMemberIdOld" value="">
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberId"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">ID (영문
+                                고유 ID) *</label>
+                            <input type="text" class="form-control-input" id="memberId" placeholder="예: daehyun-kim"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberGroup"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">그룹 분류
+                                *</label>
+                            <select id="memberGroup" class="form-control-input"
+                                style="width: 100%; height: 42px; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);"
+                                required>
+                                <option value="graduate">Graduate (석사/박사)</option>
+                                <option value="undergraduate">Undergraduate (학부 인턴)</option>
+                                <option value="alumni">Alumni (동문)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberNameKo"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이름 (한글)
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberNameKo" placeholder="예: 김대현"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberNameEn"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이름 (영문)
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberNameEn" placeholder="예: Daehyun Kim"
+                                required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberRole"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">직위
+                                *</label>
+                            <input type="text" class="form-control-input" id="memberRole"
+                                placeholder="예: Ph.D. Candidate" required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberResearch"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">세부 연구
+                                분야 *</label>
+                            <input type="text" class="form-control-input" id="memberResearch"
+                                placeholder="예: Solid-State Batteries" required
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberEmail"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">이메일
+                                주소</label>
+                            <input type="email" class="form-control-input" id="memberEmail"
+                                placeholder="예: email@cau.ac.kr"
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberCurrent"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">현재 근무지
+                                (Alumni 전용)</label>
+                            <input type="text" class="form-control-input" id="memberCurrent"
+                                placeholder="예: Current: LG Energy Solution"
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div class="form-group-row" style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberImg"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">사진 파일명
+                                (자동 생성)</label>
+                            <input type="text" class="form-control-input" id="memberImg"
+                                placeholder="예: daehyun-kim.jpg" readonly
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main); opacity: 0.7;">
+                        </div>
+                        <div class="form-input-group" style="flex: 1;">
+                            <label for="memberPhotoFile"
+                                style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">사진
+                                업로드</label>
+                            <input type="file" id="memberPhotoFile" accept="image/*"
+                                style="width: 100%; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
+                        </div>
+                    </div>
+                    <div id="memberPhotoPreviewContainer"
+                        style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <div class="member-photo-preview-box"
+                            style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); flex-shrink: 0;">
+                            <img id="memberPhotoPreview" src=""
+                                style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <div id="memberPhotoPreviewPlaceholder"
+                                style="font-size: 1.5rem; font-weight: 700; color: var(--color-blue);">ML</div>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">
+                            <span>권장 비율: 1:1 정방형 (예: 500x500px)</span><br>
+                            <span>사진을 첨부하면 실시간 미리보기가 지원됩니다.</span>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 15px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label style="font-weight: 600; font-size: 0.95rem;">학력 정보 (Education)</label>
+                            <button type="button" id="addEduRowBtn" class="btn-write"
+                                style="padding: 5px 12px; font-size: 0.8rem; height: 30px;">+ 학력 추가</button>
+                        </div>
+                        <div id="memberEduRows" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Dynamic Education Rows -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"
+                style="border-top: 1px solid var(--border-color); padding-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" class="form-input"
+                    style="width: auto; background: none; border: 1px solid var(--border-color); cursor: pointer; padding: 10px 22px;"
+                    id="cancelMemberBtn">Cancel</button>
+                <button type="submit" form="memberEditForm" class="btn-write" style="padding: 10px 22px;"
+                    id="saveMemberBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button id="top_btn" aria-label="맨 위로 이동">▲</button>
 
     <!-- Footer -->
     <footer id="footer">

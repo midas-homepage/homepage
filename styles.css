@@ -3456,11 +3456,13 @@ body.admin-mode .pub-admin-actions {
 
     .news-carousel {
         width: 100%;
-        height: 24px;
+        height: 24px !important;
+        flex: none !important;
     }
 
     .news-item {
         font-size: 13px;
+        height: 24px !important;
         width: 100%;
     }
     
