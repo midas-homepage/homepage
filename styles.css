@@ -1010,6 +1010,8 @@ section[id] {
 
 .member-email-btn svg,
 .prof-email-btn svg {
+    width: 22px;
+    height: 22px;
     display: block;
     stroke: currentColor;
     fill: none;
