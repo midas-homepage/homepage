@@ -1829,6 +1829,57 @@ const initApp = () => {
         });
     };
     initResearchTabs();
+
+    // ==========================================================================
+    // 14. Hero Section Real-time Stats Auto-updating
+    // ==========================================================================
+    const initHeroStats = async () => {
+        const pubStatEl = document.getElementById('hero-stat-publications');
+        const memberStatEl = document.getElementById('hero-stat-members');
+        if (!pubStatEl && !memberStatEl) return;
+
+        if (pubStatEl) {
+            try {
+                let pubs = [];
+                const storedPubs = localStorage.getItem('midas_publications');
+                if (storedPubs) {
+                    pubs = JSON.parse(storedPubs);
+                }
+                const res = await fetch(`data/publications.json?t=${Date.now()}`);
+                if (res.ok) {
+                    pubs = await res.json();
+                    localStorage.setItem('midas_publications', JSON.stringify(pubs));
+                }
+                if (pubs && pubs.length > 0) {
+                    pubStatEl.textContent = `${pubs.length}+`;
+                }
+            } catch (e) {
+                console.warn("Failed to load publications count for hero stats:", e);
+            }
+        }
+
+        if (memberStatEl) {
+            try {
+                let mems = [];
+                const storedMembers = localStorage.getItem('midas_members');
+                if (storedMembers) {
+                    mems = JSON.parse(storedMembers);
+                }
+                const res = await fetch(`data/members.json?t=${Date.now()}`);
+                if (res.ok) {
+                    mems = await res.json();
+                    localStorage.setItem('midas_members', JSON.stringify(mems));
+                }
+                if (mems && mems.length > 0) {
+                    const activeMems = mems.filter(m => m.group !== 'alumni');
+                    memberStatEl.textContent = `${activeMems.length + 1}+`;
+                }
+            } catch (e) {
+                console.warn("Failed to load members count for hero stats:", e);
+            }
+        }
+    };
+    initHeroStats();
 };
 
 if (document.readyState === 'loading') {
