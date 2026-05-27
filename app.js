@@ -1799,6 +1799,19 @@ const initApp = () => {
                 }
             });
         });
+
+        // Click handler for overview summary cards
+        const researchCards = document.querySelectorAll('#research_overview .research-item');
+        const tabMapping = ['solid_state', 'ml', 'semiconductor'];
+        researchCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                if (index < tabMapping.length) {
+                    const targetTab = tabMapping[index];
+                    handleHash(`#research_${targetTab}`, true);
+                    history.pushState(null, null, `#research_${targetTab}`);
+                }
+            });
+        });
     };
     initResearchTabs();
 };
