@@ -307,10 +307,10 @@
       "Soo-Kil Kim*"
     ],
     "journal": "Appl. Catal. B 346, 123738 (2024)",
-    "year": "2024",
+    "year": 2024,
     "status": "published",
     "doi": "https://doi.org/10.1016/j.apcatb.2024.123738",
-    "pdf": ""
+    "pdf": "data/publications/2024_3_appl_b.pdf"
   },
   {
     "title": "Exploring the large chemical space in search of thermodynamically stable and mechanically robust MXenes via machine learning",
