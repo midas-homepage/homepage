@@ -1386,17 +1386,13 @@ const initApp = () => {
         const openPubEditModal = (pub, index) => {
             if (!pubEditModal || !pubEditForm) return;
 
-            // Reset PDF upload status and file input
-            const statusDiv = document.getElementById('pdfUploadStatus');
-            if (statusDiv) {
-                statusDiv.style.display = 'none';
-                statusDiv.textContent = '';
-            }
+            // Reset PDF upload file input
             const fileInput = document.getElementById('pubPdfFile');
             if (fileInput) {
                 fileInput.value = '';
             }
 
+            const statusDiv = document.getElementById('pdfUploadStatus');
             if (pub) {
                 pubModalTitle.textContent = 'Edit Publication';
                 document.getElementById('editPubIndex').value = index;
@@ -1407,11 +1403,21 @@ const initApp = () => {
                 document.getElementById('pubYear').value = pub.year;
                 document.getElementById('pubStatus').value = pub.status;
                 document.getElementById('pubDoi').value = pub.doi || '';
-                document.getElementById('pubPdf').value = pub.pdf || '';
+                
+                const pdfPath = pub.pdf || '';
+                document.getElementById('pubPdf').value = pdfPath;
+                if (statusDiv) {
+                    statusDiv.style.color = pdfPath ? '#38a169' : 'var(--text-muted)';
+                    statusDiv.textContent = pdfPath ? `현재 파일: ${pdfPath.split('/').pop()}` : '등록된 파일 없음';
+                }
             } else {
                 pubModalTitle.textContent = 'Add New Publication';
                 pubEditForm.reset();
                 document.getElementById('editPubIndex').value = '';
+                if (statusDiv) {
+                    statusDiv.style.color = 'var(--text-muted)';
+                    statusDiv.textContent = '등록된 파일 없음';
+                }
             }
             pubEditModal.classList.add('active');
         };
@@ -1453,7 +1459,6 @@ const initApp = () => {
                 }
 
                 if (pdfUploadStatus) {
-                    pdfUploadStatus.style.display = 'block';
                     pdfUploadStatus.style.color = 'var(--text-muted)';
                     pdfUploadStatus.textContent = '업로드 중...';
                 }
@@ -1505,7 +1510,7 @@ const initApp = () => {
 
                         if (pdfUploadStatus) {
                             pdfUploadStatus.style.color = '#38a169'; // Success green
-                            pdfUploadStatus.textContent = `업로드 완료: ${targetPath}`;
+                            pdfUploadStatus.textContent = `업로드 완료: ${sanitizedName}`;
                         }
                     } catch (err) {
                         console.error('PDF upload error:', err);

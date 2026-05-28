@@ -12,7 +12,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=25">
+    <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body class="light-theme">
     <!-- Header & Navigation -->
@@ -312,13 +312,13 @@
                         </div>
                     </div>
                     <div class="form-input-group" style="margin-bottom: 15px;">
-                        <label for="pubPdf" style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">PDF 링크 (선택사항, 없으면 비워둠)</label>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="text" class="form-control-input" id="pubPdf" placeholder="예: # 또는 PDF 파일 경로" style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-surface); color: var(--text-main);">
-                            <button type="button" class="btn-write" id="uploadPubPdfBtn" style="padding: 10px 15px; font-size: 0.85rem; white-space: nowrap; height: 42px;">파일 선택</button>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">PDF 파일 첨부 (선택사항)</label>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button type="button" class="btn-write" id="uploadPubPdfBtn" style="padding: 10px 20px; font-size: 0.85rem; white-space: nowrap; height: 42px;">PDF 파일 선택</button>
                             <input type="file" id="pubPdfFile" accept="application/pdf" style="display: none;">
+                            <input type="hidden" id="pubPdf" value="">
+                            <div id="pdfUploadStatus" style="font-size: 0.85rem; color: var(--text-muted); word-break: break-all;">등록된 파일 없음</div>
                         </div>
-                        <div id="pdfUploadStatus" style="font-size: 0.8rem; margin-top: 5px; color: var(--text-muted); display: none;"></div>
                     </div>
                 </form>
             </div>
@@ -330,6 +330,6 @@
     </div>
 
     <!-- JS script -->
-    <script src="app.js?v=25"></script>
+    <script src="app.js?v=26"></script>
 </body>
 </html>
