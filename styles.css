@@ -2595,7 +2595,8 @@ footer .w1400 .copy a {
 
 /* --- Admin Authorization Visibility Controls --- */
 #openWriteModalBtn,
-.action-btn.btn-delete {
+.action-btn.btn-delete,
+.action-btn.btn-edit {
     display: none !important;
 }
 
@@ -2603,7 +2604,8 @@ body.admin-mode #openWriteModalBtn {
     display: flex !important;
 }
 
-body.admin-mode .action-btn.btn-delete {
+body.admin-mode .action-btn.btn-delete,
+body.admin-mode .action-btn.btn-edit {
     display: inline-flex !important;
 }
 

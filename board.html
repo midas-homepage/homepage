@@ -13,7 +13,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=26">
+    <link rel="stylesheet" href="styles.css?v=27">
 </head>
 
 <body class="light-theme">
@@ -247,11 +247,12 @@
     <div class="modal-overlay" id="writePostModal">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>Write New Post</h3>
+                <h3 id="writeModalTitle">Write New Post</h3>
                 <button class="modal-close-btn" id="closeWriteModalBtn">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="writePostForm">
+                    <input type="hidden" id="editPostId" value="">
                     <div class="form-group">
                         <label for="postCategory">Category</label>
                         <select class="form-select" id="postCategory" required>
@@ -264,7 +265,7 @@
                         <input type="text" class="form-input" id="postTitle" placeholder="게시글 제목을 입력하세요." required>
                     </div>
                     <div class="form-group">
-                        <label>Images (Drag & Drop or Choose Presets)</label>
+                        <label>Images (Drag & Drop)</label>
                         <div class="image-upload-wrapper" id="imageDragDropZone">
                             <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -273,14 +274,6 @@
                             </svg>
                             <span class="upload-text">Drag & drop files here or click to browse</span>
                             <input type="file" id="postImageFiles" multiple accept="image/*" style="display: none;">
-                        </div>
-                        <div class="preset-images">
-                            <button type="button" class="preset-btn" data-preset="images/board/seminar.png">Seminar
-                                (Preset)</button>
-                            <button type="button" class="preset-btn" data-preset="images/board/dinner.png">Dinner
-                                (Preset)</button>
-                            <button type="button" class="preset-btn" data-preset="images/board/campus.png">Campus
-                                (Preset)</button>
                         </div>
                         <div id="imagePreviewContainer" class="image-preview-container"></div>
                     </div>
@@ -368,7 +361,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=26"></script>
+    <script src="app.js?v=27"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
@@ -394,7 +387,8 @@
             const writePostModal = document.getElementById('writePostModal');
             const writePostForm = document.getElementById('writePostForm');
             const cancelWriteBtn = document.getElementById('cancelWriteBtn');
-            const presetBtns = document.querySelectorAll('.preset-btn');
+            const writeModalTitle = document.getElementById('writeModalTitle');
+            const editPostId = document.getElementById('editPostId');
             const imageDragDropZone = document.getElementById('imageDragDropZone');
             const postImageFilesInput = document.getElementById('postImageFiles');
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -692,6 +686,18 @@
                     readBtn.addEventListener('click', () => openDetailModal(post));
                     actions.appendChild(readBtn);
 
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'action-btn btn-edit admin-only';
+                    const editSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align: middle;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>';
+                    const editDoc = new DOMParser().parseFromString(editSvg, 'image/svg+xml');
+                    editBtn.appendChild(editDoc.documentElement);
+                    editBtn.appendChild(document.createTextNode(' Edit'));
+                    editBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openEditModal(post);
+                    });
+                    actions.appendChild(editBtn);
+
                     const deleteBtn = document.createElement('button');
                     deleteBtn.className = 'action-btn btn-delete admin-only';
                     const deleteSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle;"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg>';
@@ -889,21 +895,6 @@
                 });
             };
 
-            const highlightPresets = () => {
-                presetBtns.forEach(b => {
-                    const url = b.getAttribute('data-preset');
-                    if (currentUploadedImages.includes(url)) {
-                        b.style.background = 'var(--color-blue)';
-                        b.style.color = '#ffffff';
-                        b.style.borderColor = 'var(--color-blue)';
-                    } else {
-                        b.style.background = '';
-                        b.style.color = '';
-                        b.style.borderColor = '';
-                    }
-                });
-            };
-
             const updateImagePreviews = () => {
                 imagePreviewContainer.replaceChildren();
 
@@ -924,7 +915,6 @@
                     removeBtn.addEventListener('click', () => {
                         currentUploadedImages.splice(idx, 1);
                         updateImagePreviews();
-                        highlightPresets();
                     });
                     thumbnail.appendChild(removeBtn);
 
@@ -934,14 +924,32 @@
 
             const openWriteModal = () => {
                 writePostForm.reset();
+                writeModalTitle.textContent = 'Write New Post';
+                editPostId.value = '';
                 currentUploadedImages = [];
                 updateImagePreviews();
-                highlightPresets();
 
                 // Pre-fill today's date in yyyy-mm-dd
                 const today = new Date().toISOString().split('T')[0];
                 const postDateInput = document.getElementById('postDate');
                 if (postDateInput) postDateInput.value = today;
+
+                writePostModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const openEditModal = (post) => {
+                writePostForm.reset();
+                writeModalTitle.textContent = 'Edit Post';
+                editPostId.value = post.id;
+
+                document.getElementById('postCategory').value = post.category;
+                document.getElementById('postTitle').value = post.title;
+                document.getElementById('postDate').value = post.date;
+                document.getElementById('postContent').value = post.content;
+
+                currentUploadedImages = [...getImages(post)];
+                updateImagePreviews();
 
                 writePostModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -957,21 +965,6 @@
             cancelWriteBtn.addEventListener('click', closeWriteModal);
             writePostModal.addEventListener('click', (e) => {
                 if (e.target === writePostModal) closeWriteModal();
-            });
-
-            // Preset image handler (toggles preset selection)
-            presetBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const url = btn.getAttribute('data-preset');
-                    const index = currentUploadedImages.indexOf(url);
-                    if (index > -1) {
-                        currentUploadedImages.splice(index, 1);
-                    } else {
-                        currentUploadedImages.push(url);
-                    }
-                    updateImagePreviews();
-                    highlightPresets();
-                });
             });
 
             // File uploading & compression triggers
@@ -1017,7 +1010,6 @@
 
                 uploadTextEl.textContent = originalText;
                 updateImagePreviews();
-                highlightPresets();
                 postImageFilesInput.value = '';
             };
 
@@ -1048,17 +1040,33 @@
 
                 if (!title || !date || !content) return;
 
-                const maxId = posts.reduce((max, p) => p.id > max ? p.id : max, 0);
-                const newPost = {
-                    id: maxId + 1,
-                    category,
-                    title,
-                    date,
-                    img: currentUploadedImages,
-                    content
-                };
+                const editIdStr = editPostId.value;
+                if (editIdStr) {
+                    const editId = parseInt(editIdStr, 10);
+                    const postIndex = posts.findIndex(p => p.id === editId);
+                    if (postIndex > -1) {
+                        posts[postIndex] = {
+                            ...posts[postIndex],
+                            category,
+                            title,
+                            date,
+                            img: currentUploadedImages,
+                            content
+                        };
+                    }
+                } else {
+                    const maxId = posts.reduce((max, p) => p.id > max ? p.id : max, 0);
+                    const newPost = {
+                        id: maxId + 1,
+                        category,
+                        title,
+                        date,
+                        img: currentUploadedImages,
+                        content
+                    };
+                    posts.push(newPost);
+                }
 
-                posts.push(newPost);
                 try {
                     localStorage.setItem('midas_board_posts', JSON.stringify(posts));
                     syncPostsToServer();
