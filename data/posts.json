@@ -122,5 +122,13 @@
     "date": "2023-03-02",
     "img": [],
     "content": "JongHun and Minsoo joined our group as undergraduate researchers. Welcome!"
+  },
+  {
+    "id": 15,
+    "category": "news",
+    "title": "Haesun gave a talk at Kyunghee University",
+    "date": "2023-03-23",
+    "img": [],
+    "content": "Haesun gave a talk at the department of Mechnical Engineering of Kyunghee University on “Investigation of Energy Materials with Atomistic Modeling\u000b:Ca-ion Batteries, Solid Electrolyte, and MXene”"
   }
 ]
