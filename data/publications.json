@@ -211,10 +211,10 @@
       "Won-Hee Ryu*"
     ],
     "journal": "EES Batteries, 1, 310 (2025)",
-    "year": "2025",
+    "year": 2025,
     "status": "published",
     "doi": "https://doi.org/10.1039/D5EB00021A",
-    "pdf": ""
+    "pdf": "data/publications/d5eb00021a.pdf"
   },
   {
     "title": "Bayesian optimization of entropy-stabilized metal fluoride conversion cathodes and their synthesis",
