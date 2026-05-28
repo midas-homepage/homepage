@@ -8,7 +8,7 @@ const initApp = () => {
     // ==========================================================================
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
-    const CURRENT_VERSION = '28';
+    const CURRENT_VERSION = '29';
     if (localStorage.getItem('midas_app_version') !== CURRENT_VERSION) {
         const savedTheme = localStorage.getItem('theme');
         const githubToken = localStorage.getItem('midas_github_token');
@@ -1709,8 +1709,6 @@ const initApp = () => {
     if (newsTrack) {
         const loadNewsTicker = async () => {
             let posts = [];
-            const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
-            const isRebuilding = (Date.now() - lastSync) < 120000;
 
             const loadPostsFromLocalStorageNews = () => {
                 try {
@@ -1724,21 +1722,16 @@ const initApp = () => {
                 return [];
             };
 
-            if (!isRebuilding) {
-                try {
-                    const res = await fetch(`data/posts.json?t=${Date.now()}`);
-                    if (res.ok) {
-                        posts = await res.json();
-                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                    } else {
-                        throw new Error("Fetch failed");
-                    }
-                } catch (e) {
-                    console.warn("Failed to fetch posts.json for news ticker, falling back to localStorage:", e);
-                    posts = loadPostsFromLocalStorageNews();
+            try {
+                const res = await fetch(`data/posts.json?t=${Date.now()}`);
+                if (res.ok) {
+                    posts = await res.json();
+                    localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                } else {
+                    throw new Error("Fetch failed");
                 }
-            } else {
-                console.log("GitHub Pages is rebuilding. Using local cache for news ticker.");
+            } catch (e) {
+                console.warn("Failed to fetch posts.json for news ticker, falling back to localStorage:", e);
                 posts = loadPostsFromLocalStorageNews();
             }
             
