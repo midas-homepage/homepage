@@ -227,10 +227,10 @@
       "Peter Zapol*"
     ],
     "journal": "Journal of Power Source, 635, 236448 (2025)",
-    "year": "2025",
+    "year": 2025,
     "status": "published",
     "doi": "https://doi.org/10.1016/j.jpowsour.2025.236448",
-    "pdf": ""
+    "pdf": "data/publications/2025_1_power_source.pdf"
   },
   {
     "title": "Active and Stable Plasma-Enhanced ALD Pt@Ni-YSZ Hydrogen Electrode for Steam Reversible Solid Oxide Cells",
