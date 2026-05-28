@@ -422,10 +422,10 @@
       "Michael J. Bedzyk*"
     ],
     "journal": "Journal of the American Chemical Society 143, (43), 17937-17941 (2021)",
-    "year": "2021",
+    "year": 2021,
     "status": "published",
     "doi": "https://doi.org/10.1021/jacs.1c07926",
-    "pdf": ""
+    "pdf": "data/publications/2021_jacs_das.pdf"
   },
   {
     "title": "Predicting Charge Transfer Stability between Sulfide Solid Electrolytes and Li Metal Anodes",
