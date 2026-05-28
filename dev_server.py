@@ -4,7 +4,7 @@ import os
 import sys
 
 PORT = 8000
-BIND_ADDRESS = "0.0.0.0"
+BIND_ADDRESS = "127.0.0.1"
 
 class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
@@ -43,6 +43,60 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
                 self.send_header('Pragma', 'no-cache')
                 self.send_header('Expires', '0')
+                self.end_headers()
+                self.wfile.write(response_bytes)
+                return
+            except Exception as e:
+                import json
+                response = {"status": "error", "message": str(e)}
+                response_bytes = json.dumps(response).encode('utf-8')
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(response_bytes)))
+                self.end_headers()
+                self.wfile.write(response_bytes)
+                return
+        
+        elif self.path == '/api/upload-pub-pdf':
+            try:
+                import json
+                import base64
+                
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data.decode('utf-8'))
+                
+                filename = data['filename']
+                # Secure filename: strip directory traversal characters
+                filename = os.path.basename(filename)
+                
+                # Enforce that file ends with .pdf
+                if not filename.lower().endswith('.pdf'):
+                    raise ValueError("Only PDF files are allowed")
+                
+                pdf_data = data['pdf']
+                # Decode base64 PDF
+                file_bytes = base64.b64decode(pdf_data)
+                
+                # Size limit: 15MB
+                if len(file_bytes) > 15 * 1024 * 1024:
+                    raise ValueError("File size exceeds 15MB limit")
+                
+                # Save to data/publications/
+                target_dir = os.path.join(os.getcwd(), 'data', 'publications')
+                os.makedirs(target_dir, exist_ok=True)
+                target_path = os.path.join(target_dir, filename)
+                
+                with open(target_path, 'wb') as f:
+                    f.write(file_bytes)
+                
+                # Respond success
+                response = {"status": "success", "path": f"data/publications/{filename}"}
+                response_bytes = json.dumps(response).encode('utf-8')
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(response_bytes)))
                 self.end_headers()
                 self.wfile.write(response_bytes)
                 return

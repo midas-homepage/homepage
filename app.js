@@ -167,7 +167,7 @@ const initApp = () => {
         return { owner, repo };
     };
 
-    const saveFileToGitHub = async (path, contentString, commitMessage) => {
+    const saveFileToGitHub = async (path, contentString, commitMessage, isBase64 = false) => {
         const token = localStorage.getItem('midas_github_token');
         if (!token) {
             alert("GitHub Pages에서 변경 내용을 저장하려면 Admin Authentication 창에서 GitHub Personal Access Token을 먼저 입력해 주셔야 합니다.");
@@ -190,7 +190,7 @@ const initApp = () => {
             console.warn("File might not exist yet on GitHub:", e);
         }
         
-        const base64Content = btoa(unescape(encodeURIComponent(contentString)));
+        const base64Content = isBase64 ? contentString : btoa(unescape(encodeURIComponent(contentString)));
         const body = {
             message: commitMessage,
             content: base64Content
@@ -1385,6 +1385,18 @@ const initApp = () => {
 
         const openPubEditModal = (pub, index) => {
             if (!pubEditModal || !pubEditForm) return;
+
+            // Reset PDF upload status and file input
+            const statusDiv = document.getElementById('pdfUploadStatus');
+            if (statusDiv) {
+                statusDiv.style.display = 'none';
+                statusDiv.textContent = '';
+            }
+            const fileInput = document.getElementById('pubPdfFile');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+
             if (pub) {
                 pubModalTitle.textContent = 'Edit Publication';
                 document.getElementById('editPubIndex').value = index;
@@ -1407,6 +1419,106 @@ const initApp = () => {
         if (addPubBtn) {
             addPubBtn.addEventListener('click', () => {
                 openPubEditModal(null, null);
+            });
+        }
+
+        // PDF file upload triggers and logic
+        const uploadPubPdfBtn = document.getElementById('uploadPubPdfBtn');
+        const pubPdfFileInput = document.getElementById('pubPdfFile');
+        const pdfUploadStatus = document.getElementById('pdfUploadStatus');
+        const pubPdfInput = document.getElementById('pubPdf');
+
+        if (uploadPubPdfBtn && pubPdfFileInput) {
+            uploadPubPdfBtn.addEventListener('click', () => {
+                pubPdfFileInput.click();
+            });
+
+            pubPdfFileInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                // Validate file type
+                if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                    alert('PDF 파일만 업로드할 수 있습니다.');
+                    pubPdfFileInput.value = '';
+                    return;
+                }
+
+                // Validate file size (15MB limit)
+                const maxSize = 15 * 1024 * 1024;
+                if (file.size > maxSize) {
+                    alert('파일 크기는 최대 15MB까지 가능합니다.');
+                    pubPdfFileInput.value = '';
+                    return;
+                }
+
+                if (pdfUploadStatus) {
+                    pdfUploadStatus.style.display = 'block';
+                    pdfUploadStatus.style.color = 'var(--text-muted)';
+                    pdfUploadStatus.textContent = '업로드 중...';
+                }
+
+                // Convert file to base64
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = async (event) => {
+                    try {
+                        const dataUrl = event.target.result;
+                        const base64Data = dataUrl.split(',')[1];
+                        
+                        // Sanitize filename: replace spaces/special chars with underscores, keep .pdf extension
+                        const sanitizedName = file.name.toLowerCase()
+                            .replace(/[^a-z0-9.]/g, '_')
+                            .replace(/_+/g, '_');
+
+                        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                        const targetPath = `data/publications/${sanitizedName}`;
+
+                        if (isLocal) {
+                            // Upload to local server
+                            const response = await fetch('/api/upload-pub-pdf', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    filename: sanitizedName,
+                                    pdf: base64Data
+                                })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('서버 업로드 실패');
+                            }
+
+                            const result = await response.json();
+                            if (result.status !== 'success') {
+                                throw new Error(result.message || '업로드 처리 오류');
+                            }
+                        } else {
+                            // Upload to GitHub Pages (production)
+                            await saveFileToGitHub(targetPath, base64Data, `Upload PDF: ${file.name}`, true);
+                        }
+
+                        // Update input field
+                        if (pubPdfInput) {
+                            pubPdfInput.value = targetPath;
+                        }
+
+                        if (pdfUploadStatus) {
+                            pdfUploadStatus.style.color = '#38a169'; // Success green
+                            pdfUploadStatus.textContent = `업로드 완료: ${targetPath}`;
+                        }
+                    } catch (err) {
+                        console.error('PDF upload error:', err);
+                        if (pdfUploadStatus) {
+                            pdfUploadStatus.style.color = '#e53e3e'; // Error red
+                            pdfUploadStatus.textContent = `업로드 실패: ${err.message}`;
+                        }
+                        alert('PDF 업로드에 실패했습니다: ' + err.message);
+                    }
+                };
+                reader.onerror = (err) => {
+                    alert('파일을 읽지 못했습니다: ' + err.message);
+                };
             });
         }
 
