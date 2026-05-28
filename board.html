@@ -16,7 +16,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=30">
+    <link rel="stylesheet" href="styles.css?v=31">
 </head>
 
 <body class="light-theme">
@@ -364,10 +364,27 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=30"></script>
+    <script src="app.js?v=31"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
+        // Global error listener to display runtime errors on mobile screens for easy diagnosis
+        window.onerror = function (message, source, lineno, colno, error) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.position = 'fixed';
+            errorDiv.style.top = '0';
+            errorDiv.style.left = '0';
+            errorDiv.style.width = '100%';
+            errorDiv.style.background = 'red';
+            errorDiv.style.color = 'white';
+            errorDiv.style.zIndex = '99999';
+            errorDiv.style.padding = '10px';
+            errorDiv.style.fontSize = '12px';
+            errorDiv.style.wordBreak = 'break-all';
+            errorDiv.textContent = 'Debug Error: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+            document.body.appendChild(errorDiv);
+        };
+
         // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
         if (!Element.prototype.replaceChildren) {
             Element.prototype.replaceChildren = function (...nodes) {

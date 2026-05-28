@@ -12,13 +12,33 @@ if (!Element.prototype.replaceChildren) {
     };
 }
 
+// Global error listener to display runtime errors on mobile screens for easy diagnosis
+window.onerror = function (message, source, lineno, colno, error) {
+    const errorDiv = document.createElement('div');
+    errorDiv.style.position = 'fixed';
+    errorDiv.style.top = '0';
+    errorDiv.style.left = '0';
+    errorDiv.style.width = '100%';
+    errorDiv.style.background = 'red';
+    errorDiv.style.color = 'white';
+    errorDiv.style.zIndex = '99999';
+    errorDiv.style.padding = '10px';
+    errorDiv.style.fontSize = '12px';
+    errorDiv.style.wordBreak = 'break-all';
+    errorDiv.textContent = 'Debug Error: ' + message + ' at ' + source + ':' + lineno + ':' + colno;
+    document.body.appendChild(errorDiv);
+};
+
 const initApp = () => {
     // ==========================================================================
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '30';
-        if (localStorage.getItem('midas_app_version') !== CURRENT_VERSION) {
+        const CURRENT_VERSION = '31';
+        const currentUrl = new URL(window.location.href);
+        const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
+
+        if (localStorage.getItem('midas_app_version') !== CURRENT_VERSION && !hasLatestVersionQuery) {
             const savedTheme = localStorage.getItem('theme');
             const githubToken = localStorage.getItem('midas_github_token');
             localStorage.clear();
@@ -26,7 +46,6 @@ const initApp = () => {
             if (githubToken) localStorage.setItem('midas_github_token', githubToken);
             localStorage.setItem('midas_app_version', CURRENT_VERSION);
             
-            const currentUrl = new URL(window.location.href);
             currentUrl.searchParams.set('v', CURRENT_VERSION);
             window.location.href = currentUrl.toString();
             return;
