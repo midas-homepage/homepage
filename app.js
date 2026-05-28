@@ -4,23 +4,35 @@
  * Multi-page safe: all DOM queries are guarded with null checks.
  */
 
+// Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
+if (!Element.prototype.replaceChildren) {
+    Element.prototype.replaceChildren = function (...nodes) {
+        this.innerHTML = '';
+        this.append(...nodes);
+    };
+}
+
 const initApp = () => {
     // ==========================================================================
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
-    const CURRENT_VERSION = '29';
-    if (localStorage.getItem('midas_app_version') !== CURRENT_VERSION) {
-        const savedTheme = localStorage.getItem('theme');
-        const githubToken = localStorage.getItem('midas_github_token');
-        localStorage.clear();
-        if (savedTheme) localStorage.setItem('theme', savedTheme);
-        if (githubToken) localStorage.setItem('midas_github_token', githubToken);
-        localStorage.setItem('midas_app_version', CURRENT_VERSION);
-        
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('v', CURRENT_VERSION);
-        window.location.href = currentUrl.toString();
-        return;
+    try {
+        const CURRENT_VERSION = '30';
+        if (localStorage.getItem('midas_app_version') !== CURRENT_VERSION) {
+            const savedTheme = localStorage.getItem('theme');
+            const githubToken = localStorage.getItem('midas_github_token');
+            localStorage.clear();
+            if (savedTheme) localStorage.setItem('theme', savedTheme);
+            if (githubToken) localStorage.setItem('midas_github_token', githubToken);
+            localStorage.setItem('midas_app_version', CURRENT_VERSION);
+            
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('v', CURRENT_VERSION);
+            window.location.href = currentUrl.toString();
+            return;
+        }
+    } catch (e) {
+        console.warn("LocalStorage access failed or quota exceeded:", e);
     }
 
     // ==========================================================================
