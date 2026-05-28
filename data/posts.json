@@ -232,5 +232,13 @@
     "date": "2024-09-01",
     "img": [],
     "content": "JongHun and Mansang joined as graduate students. Welcome!"
+  },
+  {
+    "id": 28,
+    "category": "news",
+    "title": "Haesun gave a talk at AMSM 2024",
+    "date": "2024-08-28",
+    "img": [],
+    "content": "Haesun gave an invited talk at AMSM 2024 conference on “Layered Materials for Multivalent Cation Intercalation Electrodes: A Systematic First-Principles Evaluation”"
   }
 ]
