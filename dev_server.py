@@ -158,6 +158,24 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 with open(target_path, 'w', encoding='utf-8') as f:
                     json.dump(data, f, indent=2, ensure_ascii=False)
                 
+                # Automatically compile and save news_ticker.json locally
+                try:
+                    news_posts = [p for p in data if p.get('category') == 'news']
+                    news_posts.sort(key=lambda x: (x.get('date', ''), x.get('id', 0)), reverse=True)
+                    top_news = []
+                    for p in news_posts[:3]:
+                        top_news.append({
+                            'id': p.get('id'),
+                            'title': p.get('title'),
+                            'date': p.get('date'),
+                            'category': p.get('category')
+                        })
+                    target_news_path = os.path.join(os.getcwd(), 'data', 'news_ticker.json')
+                    with open(target_news_path, 'w', encoding='utf-8') as f:
+                        json.dump(top_news, f, indent=2, ensure_ascii=False)
+                except Exception as ex:
+                    print("Failed to auto-save news_ticker.json in dev_server:", ex)
+                
                 response = {"status": "success"}
                 response_bytes = json.dumps(response).encode('utf-8')
                 self.send_response(200)

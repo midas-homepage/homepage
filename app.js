@@ -1739,46 +1739,18 @@ const initApp = () => {
     const newsTrack = document.querySelector('.news-carousel-track');
     if (newsTrack) {
         const loadNewsTicker = async () => {
-            let posts = [];
-
-            const loadPostsFromLocalStorageNews = () => {
-                try {
-                    const stored = localStorage.getItem('midas_board_posts');
-                    if (stored) {
-                        return JSON.parse(stored);
-                    }
-                } catch (err) {
-                    console.error("Failed to parse stored posts:", err);
-                }
-                return [];
-            };
+            let topNews = [];
 
             try {
-                const res = await fetch(`data/posts.json?t=${Date.now()}`);
+                const res = await fetch(`data/news_ticker.json?t=${Date.now()}`);
                 if (res.ok) {
-                    posts = await res.json();
-                    localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                    topNews = await res.json();
                 } else {
                     throw new Error("Fetch failed");
                 }
             } catch (e) {
-                console.warn("Failed to fetch posts.json for news ticker, falling back to localStorage:", e);
-                posts = loadPostsFromLocalStorageNews();
+                console.warn("Failed to fetch news_ticker.json for news ticker:", e);
             }
-            
-            // Filter categories = 'news'
-            const newsPosts = posts.filter(p => p && p.category === 'news');
-            
-            // Sort by date descending
-            newsPosts.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                if (dateB - dateA !== 0) return dateB - dateA;
-                return (b.id || 0) - (a.id || 0);
-            });
-            
-            // Take top 3
-            const topNews = newsPosts.slice(0, 3);
             
             newsTrack.replaceChildren();
             
@@ -1794,8 +1766,6 @@ const initApp = () => {
             topNews.forEach(post => {
                 const item = document.createElement('div');
                 item.className = 'news-item';
-                
-                // Format date from YYYY-MM-DD to YYYY.MM.DD
                 const formattedDate = post.date ? post.date.replace(/\-/g, '.') : '';
                 
                 const dateSpan = document.createElement('span');
@@ -1811,7 +1781,6 @@ const initApp = () => {
                 newsTrack.appendChild(item);
             });
             
-            // For seamless ticker loop, clone the first item and append it
             if (topNews.length > 1) {
                 const clone = newsTrack.firstElementChild.cloneNode(true);
                 newsTrack.appendChild(clone);
