@@ -367,10 +367,10 @@
       "John T Vaughey"
     ],
     "journal": "Chem. Mater. 35, (6), 2363–2370 (2023)",
-    "year": "2023",
+    "year": 2023,
     "status": "published",
     "doi": "https://doi.org/10.1021/acs.chemmater.2c03343",
-    "pdf": ""
+    "pdf": "data/publications/2023_chem_mater.pdf"
   },
   {
     "title": "Investigation of Ca Insertion into α-MoO3 Nanoparticles for High Capacity Ca-Ion Cathodes",
