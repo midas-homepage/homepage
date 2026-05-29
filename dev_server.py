@@ -217,7 +217,7 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 except Exception as ex:
                     print("Failed to auto-save news_ticker.json in dev_server:", ex)
                 
-                response = {"status": "success"}
+                response = {"status": "success", "posts": data}
                 response_bytes = json.dumps(response).encode('utf-8')
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')

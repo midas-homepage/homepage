@@ -451,7 +451,7 @@
                     }
                 };
 
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isLocal = !window.location.hostname.endsWith('.github.io');
                 const token = localStorage.getItem('midas_github_token');
 
                 if (isLocal) {

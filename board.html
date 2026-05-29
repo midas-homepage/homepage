@@ -633,7 +633,7 @@
             };
 
             const syncPostsToServer = async () => {
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isLocal = !window.location.hostname.endsWith('.github.io');
                 localStorage.setItem('midas_posts_sync_time', Date.now().toString());
                 
                 showLoading("서버와 데이터를 동기화하고 있습니다...");
@@ -649,11 +649,10 @@
                             console.error('Failed to sync posts to local server');
                             showToast("동기화 실패", "로컬 서버 저장에 실패했습니다.", "error");
                         } else {
-                            const freshRes = await fetch(`data/posts.json?v=${Date.now()}`);
-                            if (freshRes.ok) {
-                                const freshPosts = await freshRes.json();
+                            const resData = await res.json();
+                            if (resData.posts) {
                                 posts.length = 0;
-                                posts.push(...freshPosts);
+                                posts.push(...resData.posts);
                                 localStorage.setItem('midas_board_posts', JSON.stringify(posts));
                             }
                             showToast("동기화 성공", "로컬 저장소에 변경사항이 저장되었습니다.", "success");
@@ -798,7 +797,7 @@
                     }
                 };
 
-                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const isLocal = !window.location.hostname.endsWith('.github.io');
                 const token = localStorage.getItem('midas_github_token');
 
                 if (isLocal) {
