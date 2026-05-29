@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=43">
+    <link rel="stylesheet" href="styles.css?v=44">
 </head>
 
 <body class="light-theme">
@@ -857,44 +857,13 @@
             // 9. Write Modal logic (Image upload, compression, presets, submit)
             let currentUploadedImages = [];
 
-            // Image Compressor Helper
+            // Image Compressor Helper (Bypassed to preserve original lossless quality as requested)
             const resizeAndCompressImage = (file) => {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = (event) => {
-                        const img = new Image();
-                        img.src = event.target.result;
-                        img.onload = () => {
-                            const canvas = document.createElement('canvas');
-                            let width = img.width;
-                            let height = img.height;
-
-                            // Scale down if dimensions exceed 1920px for crystal-clear Full HD quality
-                            const maxDim = 1920;
-                            if (width > maxDim || height > maxDim) {
-                                if (width > height) {
-                                    height = Math.round((height * maxDim) / width);
-                                    width = maxDim;
-                                } else {
-                                    width = Math.round((width * maxDim) / height);
-                                    height = maxDim;
-                                }
-                            }
-
-                            canvas.width = width;
-                            canvas.height = height;
-
-                            const ctx = canvas.getContext('2d');
-                            ctx.imageSmoothingEnabled = true;
-                            ctx.imageSmoothingQuality = 'high';
-                            ctx.drawImage(img, 0, 0, width, height);
-
-                            // Export as JPEG with 0.90 quality for professional crystal clarity
-                            const dataUrl = canvas.toDataURL('image/jpeg', 0.90);
-                            resolve(dataUrl);
-                        };
-                        img.onerror = (err) => reject(err);
+                        resolve(event.target.result);
                     };
                     reader.onerror = (err) => reject(err);
                 });
