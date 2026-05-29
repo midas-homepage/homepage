@@ -19,7 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=42">
+    <link rel="stylesheet" href="styles.css?v=43">
 </head>
 
 <body class="light-theme">
@@ -318,7 +318,7 @@
                     const img = document.createElement('img');
                     img.src = imgSrc;
                     img.alt = altText;
-                    img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease;';
+                    img.style.cssText = 'display: block; width: auto; max-width: min(100%, 900px); height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease;';
                     img.loading = 'lazy';
                     img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
 
@@ -371,7 +371,7 @@
                     // Re-bind click event to all rendered images for the Lightbox popup
                     const renderedImgs = postBodyContainer.querySelectorAll('img');
                     renderedImgs.forEach((img, idx) => {
-                        img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease; margin: 15px auto; border-radius: 0px; border: none; box-shadow: none;';
+                        img.style.cssText = 'display: block; width: auto; max-width: min(100%, 900px); height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease; margin: 15px auto; border-radius: 0px; border: none; box-shadow: none;';
                         img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
                         
                         img.addEventListener('click', () => {
