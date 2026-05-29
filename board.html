@@ -688,7 +688,7 @@
 
                         showLoading("이미지 파일을 업로드하는 중...");
 
-                        const imageUploadTasks = [];
+                        let uploadedAnyImage = false;
                         for (const p of posts) {
                             if (!p || !p.img) continue;
                             for (let i = 0; i < p.img.length; i++) {
@@ -705,52 +705,37 @@
                                     const base64Data = imageSrc.split(',')[1];
                                     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
-                                    imageUploadTasks.push(
-                                        fetch(url, {
-                                            method: 'PUT',
-                                            headers: {
-                                                'Authorization': `token ${token}`,
-                                                'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify({ message: `Upload image for post ${p.id}`, content: base64Data })
-                                        }).then(async res => {
-                                            if (!res.ok) {
-                                                const err = await res.json().catch(() => ({}));
-                                                throw new Error(`이미지 업로드 실패 (post ${p.id}, idx ${i}): ` + (err.message || res.status));
-                                            }
-                                            p.img[i] = filePath;
-                                        })
-                                    );
+                                    showLoading(`이미지 업로드 중 (${filePath.split('/').pop()})...`);
+
+                                    const imgRes = await fetch(url, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Authorization': `token ${token}`,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ message: `Upload image for post ${p.id}`, content: base64Data })
+                                    });
+
+                                    if (!imgRes.ok) {
+                                        const err = await imgRes.json().catch(() => ({}));
+                                        throw new Error(`이미지 업로드 실패 (post ${p.id}, idx ${i}): ` + (err.message || imgRes.status));
+                                    }
+
+                                    p.img[i] = filePath;
+                                    uploadedAnyImage = true;
                                 }
                             }
                         }
 
-                        if (imageUploadTasks.length > 0) {
-                            await Promise.all(imageUploadTasks);
+                        if (uploadedAnyImage) {
                             try { localStorage.setItem('midas_board_posts', JSON.stringify(posts)); } catch(e) {}
                         }
 
-                        showLoading("데이터베이스 메타데이터를 저장하는 중...");
+                        showLoading("posts.json 데이터베이스 저장 중...");
 
                         const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json`;
-                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json`;
-
-                        const [postsInfoRes, tickerInfoRes] = await Promise.all([
-                            fetch(postsUrl, { headers: { 'Authorization': `token ${token}` } }),
-                            fetch(tickerUrl, { headers: { 'Authorization': `token ${token}` } })
-                        ]);
-
+                        const postsInfoRes = await fetch(postsUrl, { headers: { 'Authorization': `token ${token}` } });
                         const postsSha = postsInfoRes.ok ? (await postsInfoRes.json()).sha : null;
-                        const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
-
-                        const newsPosts = posts.filter(p => p && p.category === 'news');
-                        newsPosts.sort((a, b) => {
-                            const diff = new Date(b.date) - new Date(a.date);
-                            return diff !== 0 ? diff : (b.id || 0) - (a.id || 0);
-                        });
-                        const topNews = newsPosts.slice(0, 3).map(p => ({
-                            id: p.id, title: p.title, date: p.date, category: p.category
-                        }));
 
                         const encodeToBase64 = (str) => {
                             const utf8Bytes = new TextEncoder().encode(str);
@@ -765,26 +750,41 @@
                         const postsBody = { message: 'Update posts database', content: encodeToBase64(JSON.stringify(posts, null, 2)) };
                         if (postsSha) postsBody.sha = postsSha;
 
-                        const tickerBody = { message: 'Update news ticker', content: encodeToBase64(JSON.stringify(topNews, null, 2)) };
-                        if (tickerSha) tickerBody.sha = tickerSha;
-
-                        const [putPostsRes, putTickerRes] = await Promise.all([
-                            fetch(postsUrl, {
-                                method: 'PUT',
-                                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                                body: JSON.stringify(postsBody)
-                            }),
-                            fetch(tickerUrl, {
-                                method: 'PUT',
-                                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                                body: JSON.stringify(tickerBody)
-                            })
-                        ]);
+                        const putPostsRes = await fetch(postsUrl, {
+                            method: 'PUT',
+                            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify(postsBody)
+                        });
 
                         if (!putPostsRes.ok) {
                             const err = await putPostsRes.json().catch(() => ({}));
                             throw new Error('posts.json 저장 실패: ' + (err.message || putPostsRes.status));
                         }
+
+                        showLoading("news_ticker.json 롤링 데이터 저장 중...");
+
+                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json`;
+                        const tickerInfoRes = await fetch(tickerUrl, { headers: { 'Authorization': `token ${token}` } });
+                        const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
+
+                        const newsPosts = posts.filter(p => p && p.category === 'news');
+                        newsPosts.sort((a, b) => {
+                            const diff = new Date(b.date) - new Date(a.date);
+                            return diff !== 0 ? diff : (b.id || 0) - (a.id || 0);
+                        });
+                        const topNews = newsPosts.slice(0, 3).map(p => ({
+                            id: p.id, title: p.title, date: p.date, category: p.category
+                        }));
+
+                        const tickerBody = { message: 'Update news ticker', content: encodeToBase64(JSON.stringify(topNews, null, 2)) };
+                        if (tickerSha) tickerBody.sha = tickerSha;
+
+                        const putTickerRes = await fetch(tickerUrl, {
+                            method: 'PUT',
+                            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify(tickerBody)
+                        });
+
                         if (!putTickerRes.ok) {
                             const err = await putTickerRes.json().catch(() => ({}));
                             throw new Error('news_ticker.json 저장 실패: ' + (err.message || putTickerRes.status));
