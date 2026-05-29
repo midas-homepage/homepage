@@ -15,8 +15,12 @@
     <meta name="keywords" content="MIDAS Lab, 중앙대학교, CAU, 박해선 교수, 나노소재공학, 연구실 소식, 활동 사진, 공지사항, Board">
     <meta name="author" content="MIDAS Lab @ CAU">
 
+    <!-- Quill.js Rich Text Editor CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=35">
+    <link rel="stylesheet" href="styles.css?v=36">
 </head>
 
 <body class="light-theme">
@@ -278,18 +282,19 @@
                             <span class="upload-text">Drag & drop files here or click to browse</span>
                             <input type="file" id="postImageFiles" multiple accept="image/*" style="display: none;">
                         </div>
-                        <div id="imagePreviewContainer" class="image-preview-container"></div>
                     </div>
                     <div class="form-group">
                         <label for="postDate">Date</label>
                         <input type="date" class="form-input" id="postDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="postContent">Content</label>
+                        <label>Content</label>
                         <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">
-                            💡 본문 작성 도중 사진을 중간에 배치하고 싶다면, 위 이미지 썸네일 아래의 <strong>[imgX] 본문에 삽입</strong> 버튼을 누르거나 원하는 곳에 <code>[img0]</code>, <code>[img1]</code> 등의 태그를 직접 입력해 넣으세요.
+                            💡 글자 크기, 서식 조절이 가능하며 본문 내 원하는 위치에 사진을 붙여넣거나(Ctrl+V) 직접 드래그하여 진짜 블로그처럼 작성할 수 있습니다.
                         </div>
-                        <textarea class="form-textarea" id="postContent" placeholder="내용을 작성하세요." required></textarea>
+                        <div id="postEditorContainer" style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background: white; margin-top: 5px;">
+                            <div id="postContent" style="height: 400px; font-size: 1rem; color: #333; line-height: 1.6; outline: none;"></div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -384,7 +389,90 @@
             const postImageFilesInput = document.getElementById('postImageFiles');
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');
 
+            // Initialize Quill Editor
+            const quill = new Quill('#postContent', {
+                theme: 'snow',
+                placeholder: '여기에 내용을 작성하고 사진을 추가하세요 (글머리 기호, 굵게, 사진 복사 붙여넣기 등 지원)...',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'align': [] }],
+                        ['link', 'image'],
+                        ['clean']
+                    ]
+                }
+            });
 
+            // Custom Quill Image Handler (Image toolbar icon override)
+            quill.getModule('toolbar').addHandler('image', () => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.click();
+                input.onchange = async () => {
+                    const file = input.files[0];
+                    if (file) {
+                        try {
+                            const compressedBase64 = await resizeAndCompressImage(file);
+                            const range = quill.getSelection(true);
+                            quill.insertEmbed(range.index, 'image', compressedBase64);
+                            quill.setSelection(range.index + 1);
+                        } catch (err) {
+                            console.error('Image toolbar handler error:', err);
+                            alert('이미지 압축 및 본문 삽입에 실패했습니다.');
+                        }
+                    }
+                };
+            });
+
+            // Clipboard Paste handler (for images pasted inline)
+            quill.root.addEventListener('paste', async (e) => {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (const item of items) {
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const file = item.getAsFile();
+                        try {
+                            const compressedBase64 = await resizeAndCompressImage(file);
+                            const range = quill.getSelection(true);
+                            quill.insertEmbed(range.index, 'image', compressedBase64);
+                            quill.setSelection(range.index + 1);
+                        } catch (err) {
+                            console.error('Clipboard image paste failed:', err);
+                        }
+                    }
+                }
+            });
+
+            // Editor Drag & Drop handler (for images dropped directly onto the editor viewport)
+            quill.root.addEventListener('drop', async (e) => {
+                const files = e.dataTransfer.files;
+                if (files && files.length > 0) {
+                    let hasImage = false;
+                    for (const file of files) {
+                        if (file.type.startsWith('image/')) {
+                            hasImage = true;
+                            break;
+                        }
+                    }
+                    if (hasImage) {
+                        e.preventDefault();
+                        for (const file of files) {
+                            if (file.type.startsWith('image/')) {
+                                try {
+                                    const compressedBase64 = await resizeAndCompressImage(file);
+                                    const range = quill.getSelection(true) || { index: quill.getLength() };
+                                    quill.insertEmbed(range.index, 'image', compressedBase64);
+                                } catch (err) {
+                                    console.error('Drop image failed:', err);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 
             // Carousel States
             let currentSlideIndex = 0;
@@ -784,78 +872,17 @@
             };
 
             const updateImagePreviews = () => {
-                imagePreviewContainer.replaceChildren();
-
-                currentUploadedImages.forEach((imgSrc, idx) => {
-                    // Wrapper for thumbnail and insert button
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    previewItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px;';
-
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = 'preview-thumbnail';
-                    thumbnail.style.position = 'relative';
-
-                    const img = document.createElement('img');
-                    img.src = imgSrc;
-                    img.alt = `Preview ${idx + 1}`;
-                    thumbnail.appendChild(img);
-
-                    const removeBtn = document.createElement('button');
-                    removeBtn.type = 'button';
-                    removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '&times;';
-                    removeBtn.title = 'Remove image';
-                    removeBtn.addEventListener('click', () => {
-                        currentUploadedImages.splice(idx, 1);
-                        updateImagePreviews();
-                    });
-                    thumbnail.appendChild(removeBtn);
-
-                    // Insert tag [imgX] button (Placed cleanly underneath the thumbnail)
-                    const insertBtn = document.createElement('button');
-                    insertBtn.type = 'button';
-                    insertBtn.className = 'insert-tag-btn';
-                    insertBtn.textContent = `[img${idx}] 본문에 삽입`;
-                    insertBtn.title = '이 사진을 본문 커서 위치에 삽입합니다.';
-                    insertBtn.style.cssText = 'background: #0066cc; color: white; border: none; padding: 5px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);';
-                    
-                    insertBtn.addEventListener('mouseenter', () => {
-                        insertBtn.style.background = '#004080';
-                    });
-                    insertBtn.addEventListener('mouseleave', () => {
-                        insertBtn.style.background = '#0066cc';
-                    });
-
-                    insertBtn.addEventListener('click', () => {
-                        const contentArea = document.getElementById('postContent');
-                        if (contentArea) {
-                            const startPos = contentArea.selectionStart;
-                            const endPos = contentArea.selectionEnd;
-                            const text = contentArea.value;
-                            const tag = `\n[img${idx}]\n`;
-                            
-                            contentArea.value = text.substring(0, startPos) + tag + text.substring(endPos);
-                            contentArea.focus();
-                            contentArea.selectionStart = startPos + tag.length;
-                            contentArea.selectionEnd = startPos + tag.length;
-                        }
-                    });
-
-                    previewItem.appendChild(thumbnail);
-                    previewItem.appendChild(insertBtn);
-
-                    imagePreviewContainer.appendChild(previewItem);
-                });
+                // No-op: Images are managed inside Quill editor directly
             };
 
             const openWriteModal = () => {
                 writePostForm.reset();
                 writeModalTitle.textContent = 'Write New Post';
                 editPostId.value = '';
-                currentUploadedImages = [];
-                updateImagePreviews();
-
+                
+                // Clear Quill contents
+                quill.setContents([]);
+                
                 // Pre-fill today's date in yyyy-mm-dd
                 const today = new Date().toISOString().split('T')[0];
                 const postDateInput = document.getElementById('postDate');
@@ -873,10 +900,14 @@
                 document.getElementById('postCategory').value = post.category;
                 document.getElementById('postTitle').value = post.title;
                 document.getElementById('postDate').value = post.date;
-                document.getElementById('postContent').value = post.content;
-
-                currentUploadedImages = [...getImages(post)];
-                updateImagePreviews();
+                
+                // Load content into Quill editor (with legacy plain-text fallback formatting)
+                const contentToLoad = post.content || '';
+                if (contentToLoad.includes('<p>') || contentToLoad.includes('<div') || contentToLoad.includes('<br') || contentToLoad.includes('<img')) {
+                    quill.root.innerHTML = contentToLoad;
+                } else {
+                    quill.root.innerHTML = contentToLoad.split('\n').map(line => `<p>${line}</p>`).join('');
+                }
 
                 writePostModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -929,14 +960,15 @@
                     if (!file.type.startsWith('image/')) continue;
                     try {
                         const compressedBase64 = await resizeAndCompressImage(file);
-                        currentUploadedImages.push(compressedBase64);
+                        const length = quill.getLength();
+                        quill.insertEmbed(length - 1, 'image', compressedBase64);
+                        quill.insertText(quill.getLength() - 1, '\n');
                     } catch (err) {
                         console.error('Image compression failed:', err);
                     }
                 }
 
                 uploadTextEl.textContent = originalText;
-                updateImagePreviews();
                 postImageFilesInput.value = '';
             };
 
@@ -963,9 +995,21 @@
                 const category = document.getElementById('postCategory').value;
                 const title = document.getElementById('postTitle').value.trim();
                 const date = document.getElementById('postDate').value;
-                const content = document.getElementById('postContent').value.trim();
+                
+                // Get contents from Quill Editor
+                const contentHTML = quill.root.innerHTML;
+                const contentText = quill.getText().trim();
 
-                if (!title || !date || !content) return;
+                // Extract all img src from the rich content HTML for list-view thumbnail support
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = contentHTML;
+                const imgTags = tempDiv.querySelectorAll('img');
+                const extractedImages = Array.from(imgTags).map(img => img.src);
+
+                if (!title || !date || (contentText === "" && extractedImages.length === 0)) {
+                    alert('내용을 입력해주세요.');
+                    return;
+                }
 
                 const editIdStr = editPostId.value;
                 if (editIdStr) {
@@ -977,8 +1021,8 @@
                             category,
                             title,
                             date,
-                            img: currentUploadedImages,
-                            content
+                            img: extractedImages,
+                            content: contentHTML
                         };
                     }
                 } else {
@@ -988,8 +1032,8 @@
                         category,
                         title,
                         date,
-                        img: currentUploadedImages,
-                        content
+                        img: extractedImages,
+                        content: contentHTML
                     };
                     posts.push(newPost);
                 }

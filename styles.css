@@ -3683,5 +3683,26 @@ body.admin-mode .pub-admin-actions {
     background: rgba(0, 0, 0, 0.5);
 }
 
+/* --- Quill WYSIWYG Editor overrides --- */
+.ql-editor {
+    min-height: 100%;
+}
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+/* Ensure clean styling inside the post detail content container when in ql-editor class */
+#postBodyContainer.ql-editor {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-main);
+    word-break: break-word;
+}
+
 
 

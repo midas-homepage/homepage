@@ -15,8 +15,11 @@
     <meta name="keywords" content="MIDAS Lab, 중앙대학교, CAU, 박해선 교수, Board, Detail">
     <meta name="author" content="MIDAS Lab @ CAU">
 
+    <!-- Quill.js Rich Text Editor CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=35">
+    <link rel="stylesheet" href="styles.css?v=36">
 </head>
 
 <body class="light-theme">
@@ -287,6 +290,10 @@
                 });
             }
 
+            const isHTML = (str) => {
+                return /<[a-z][\s\S]*>/i.test(str);
+            };
+
             // Render post elements (interleaving text and images)
             const renderPost = (post) => {
                 // Update titles
@@ -300,16 +307,8 @@
 
                 postBodyContainer.replaceChildren();
 
-                const images = getImages(post);
-                const usedImageIndices = new Set();
                 const content = post.content || "";
-
-                // Regex to find placeholders like [img0], [img1], etc.
-                const placeholderRegex = /\[img(\d+)\]/g;
-
-                // Split content by placeholders
-                let lastIndex = 0;
-                let match;
+                const images = getImages(post);
 
                 const createImgElement = (imgSrc, altText) => {
                     const imgWrapper = document.createElement('div');
@@ -345,46 +344,80 @@
                     return p;
                 };
 
-                // Find all matches and interleave
-                while ((match = placeholderRegex.exec(content)) !== null) {
-                    const matchIndex = match.index;
-                    const imgIdx = parseInt(match[1], 10);
+                // Check content mode: HTML (Quill Editor) vs Plain Text (Legacy)
+                if (isHTML(content)) {
+                    // Inject rich HTML content
+                    postBodyContainer.innerHTML = content;
+                    // Add Quill stylesheet class to ensure layouts (bullet points, align, size) render correctly
+                    postBodyContainer.classList.add('ql-editor');
+                    postBodyContainer.style.padding = '0';
+                    postBodyContainer.style.overflowY = 'visible';
 
-                    // 1. Append preceding text block if any
-                    const precedingText = content.substring(lastIndex, matchIndex);
-                    if (precedingText.trim() !== "") {
-                        postBodyContainer.appendChild(createTextParagraph(precedingText));
-                    }
-
-                    // 2. Append the inline image if the index exists
-                    if (imgIdx >= 0 && imgIdx < images.length) {
-                        const imgSrc = images[imgIdx];
-                        postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${imgIdx + 1}`));
-                        usedImageIndices.add(imgIdx);
-                    } else {
-                        // If placeholder points to non-existent image, just leave it as text placeholder
-                        postBodyContainer.appendChild(createTextParagraph(`[img${imgIdx}]`));
-                    }
-
-                    lastIndex = placeholderRegex.lastIndex;
-                }
-
-                // Append remaining text
-                const remainingText = content.substring(lastIndex);
-                if (remainingText.trim() !== "") {
-                    postBodyContainer.appendChild(createTextParagraph(remainingText));
-                }
-
-                // Fallback: Append all unused images at the bottom
-                const unusedImages = images.filter((_, idx) => !usedImageIndices.has(idx));
-                if (unusedImages.length > 0) {
-                    const separator = document.createElement('div');
-                    separator.style.cssText = 'width: 100%; height: 1px; background: var(--border-color); margin: 20px 0;';
-                    postBodyContainer.appendChild(separator);
-
-                    unusedImages.forEach((imgSrc, originalIdx) => {
-                        postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${originalIdx + 1}`));
+                    // Re-bind click event to all rendered images for the Lightbox popup
+                    const renderedImgs = postBodyContainer.querySelectorAll('img');
+                    renderedImgs.forEach((img, idx) => {
+                        img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease; margin: 15px auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.08);';
+                        img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
+                        
+                        img.addEventListener('click', () => {
+                            openLightbox(img.src, `${post.title} - 이미지 ${idx + 1}`);
+                        });
+                        img.addEventListener('mouseenter', () => {
+                            img.style.transform = 'scale(1.015)';
+                        });
+                        img.addEventListener('mouseleave', () => {
+                            img.style.transform = 'scale(1)';
+                        });
                     });
+                } else {
+                    // Plain Text content (Legacy fallback parsing)
+                    postBodyContainer.classList.remove('ql-editor');
+                    
+                    const usedImageIndices = new Set();
+                    const placeholderRegex = /\[img(\d+)\]/g;
+                    let lastIndex = 0;
+                    let match;
+
+                    while ((match = placeholderRegex.exec(content)) !== null) {
+                        const matchIndex = match.index;
+                        const imgIdx = parseInt(match[1], 10);
+
+                        // 1. Append preceding text block if any
+                        const precedingText = content.substring(lastIndex, matchIndex);
+                        if (precedingText.trim() !== "") {
+                            postBodyContainer.appendChild(createTextParagraph(precedingText));
+                        }
+
+                        // 2. Append the inline image if the index exists
+                        if (imgIdx >= 0 && imgIdx < images.length) {
+                            const imgSrc = images[imgIdx];
+                            postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${imgIdx + 1}`));
+                            usedImageIndices.add(imgIdx);
+                        } else {
+                            // If placeholder points to non-existent image, just leave it as text placeholder
+                            postBodyContainer.appendChild(createTextParagraph(`[img${imgIdx}]`));
+                        }
+
+                        lastIndex = placeholderRegex.lastIndex;
+                    }
+
+                    // Append remaining text
+                    const remainingText = content.substring(lastIndex);
+                    if (remainingText.trim() !== "") {
+                        postBodyContainer.appendChild(createTextParagraph(remainingText));
+                    }
+
+                    // Fallback: Append all unused images at the bottom
+                    const unusedImages = images.filter((_, idx) => !usedImageIndices.has(idx));
+                    if (unusedImages.length > 0) {
+                        const separator = document.createElement('div');
+                        separator.style.cssText = 'width: 100%; height: 1px; background: var(--border-color); margin: 20px 0;';
+                        postBodyContainer.appendChild(separator);
+
+                        unusedImages.forEach((imgSrc, originalIdx) => {
+                            postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${originalIdx + 1}`));
+                        });
+                    }
                 }
             };
 
