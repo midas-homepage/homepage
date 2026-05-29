@@ -19,7 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=40">
+    <link rel="stylesheet" href="styles.css?v=41">
 </head>
 
 <body class="light-theme">
@@ -186,7 +186,7 @@
                 </header>
 
                 <!-- Detailed Rich Content Container (Text interspersed with images) -->
-                <div class="post-detail-body" id="postBodyContainer" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main); padding: 25px 0; border-top: 1px solid var(--border-color); margin-top: 20px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; width: 100%;">
+                <div class="post-detail-body" id="postBodyContainer" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main); padding: 25px 0; border-top: 1px solid var(--border-color); margin-top: 20px; display: flex; flex-direction: column; gap: 24px; align-items: center; width: 100%;">
                     Loading content details...
                 </div>
             </article>
@@ -313,7 +313,7 @@
                 const createImgElement = (imgSrc, altText) => {
                     const imgWrapper = document.createElement('div');
                     imgWrapper.className = 'post-detail-img-wrapper';
-                    imgWrapper.style.cssText = 'position: relative; max-width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin: 15px auto;';
+                    imgWrapper.style.cssText = 'position: relative; max-width: 100%; border-radius: 0px; overflow: hidden; border: none; box-shadow: none; margin: 15px auto;';
 
                     const img = document.createElement('img');
                     img.src = imgSrc;
@@ -339,7 +339,7 @@
 
                 const createTextParagraph = (text) => {
                     const p = document.createElement('div');
-                    p.style.cssText = 'white-space: pre-wrap; word-break: break-word; width: 100%; margin-bottom: 12px;';
+                    p.style.cssText = 'white-space: pre-wrap; word-break: break-word; width: 100%; margin-bottom: 12px; text-align: center;';
                     p.textContent = text;
                     return p;
                 };
@@ -371,7 +371,7 @@
                     // Re-bind click event to all rendered images for the Lightbox popup
                     const renderedImgs = postBodyContainer.querySelectorAll('img');
                     renderedImgs.forEach((img, idx) => {
-                        img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease; margin: 15px auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.08);';
+                        img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease; margin: 15px auto; border-radius: 0px; border: none; box-shadow: none;';
                         img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
                         
                         img.addEventListener('click', () => {

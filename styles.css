@@ -2180,7 +2180,7 @@ footer .w1400 .copy a {
     border: 1px solid var(--border-color);
     color: var(--text-main);
     padding: 8px 22px;
-    border-radius: 30px;
+    border-radius: 0px;
     cursor: pointer;
     font-size: 0.95rem;
     font-weight: 500;
@@ -2197,7 +2197,7 @@ footer .w1400 .copy a {
     background: var(--color-navy);
     color: #ffffff;
     padding: 10px 22px;
-    border-radius: 6px;
+    border-radius: 0px;
     font-weight: 600;
     font-size: 0.95rem;
     border: none;
@@ -2230,12 +2230,12 @@ footer .w1400 .copy a {
 .board-item {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 0px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: none;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
     opacity: 1;
     transform: translateY(0);
@@ -2246,8 +2246,9 @@ footer .w1400 .copy a {
 }
 
 .board-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    border-color: #888;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .dark-theme .board-item {
@@ -2330,7 +2331,7 @@ footer .w1400 .copy a {
     font-size: 0.72rem;
     font-weight: 700;
     padding: 4px 11px;
-    border-radius: 30px;
+    border-radius: 2px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
 }
@@ -3583,7 +3584,7 @@ body.admin-mode .pub-admin-actions {
     display: inline-flex;
     align-items: center;
     padding: 10px 18px;
-    border-radius: 6px;
+    border-radius: 0px;
     border: 1px solid var(--border-color);
     background: var(--bg-surface);
     color: var(--text-main);
@@ -3591,7 +3592,7 @@ body.admin-mode .pub-admin-actions {
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    box-shadow: none;
 }
 
 .btn-back-board:hover {
@@ -3604,9 +3605,9 @@ body.admin-mode .pub-admin-actions {
 .post-detail-view {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 40px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
     margin-bottom: 50px;
 }
 
@@ -3644,8 +3645,8 @@ body.admin-mode .pub-admin-actions {
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
-    border-radius: 4px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    border-radius: 0px;
+    box-shadow: none;
     transform: scale(0.97);
     transition: transform 0.3s ease;
 }
@@ -3692,11 +3693,17 @@ body.admin-mode .pub-admin-actions {
     height: auto;
     display: block;
     margin: 15px auto;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 0px;
+    border: none;
+    box-shadow: none;
 }
 /* Ensure clean styling inside the post detail content container when in ql-editor class */
+#postBodyContainer {
+    text-align: center !important;
+}
+#postBodyContainer * {
+    text-align: center !important;
+}
 #postBodyContainer.ql-editor {
     font-size: 1.1rem;
     line-height: 1.8;
