@@ -16,7 +16,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=31">
+    <link rel="stylesheet" href="styles.css?v=33">
 </head>
 
 <body class="light-theme">
@@ -364,7 +364,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=32"></script>
+    <script src="app.js?v=33"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
@@ -834,7 +834,13 @@
                         const img = document.createElement('img');
                         img.src = imgSrc;
                         img.alt = post.title;
+                        img.title = "Click to view original image in a new tab";
                         img.loading = 'lazy';
+
+                        // Click to open original image in a new tab (new page view)
+                        img.addEventListener('click', () => {
+                            window.open(imgSrc, '_blank');
+                        });
 
                         slide.appendChild(img);
                         carouselTrack.appendChild(slide);

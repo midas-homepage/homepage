@@ -3543,4 +3543,35 @@ body.admin-mode .pub-admin-actions {
     }
 }
 
+/* --- Detail View Modal Size & Carousel Optimization --- */
+#postDetailModal .modal-box {
+    max-width: 960px; /* Expand from 620px to 960px */
+    width: 95%;
+}
+
+#postDetailModal .carousel-container {
+    height: 520px; /* Increase height from 380px to 520px */
+}
+
+#postDetailModal .carousel-slide img {
+    cursor: zoom-in; /* Indicate that clicking the image will zoom/open in new tab */
+    transition: opacity 0.25s ease;
+}
+
+#postDetailModal .carousel-slide img:hover {
+    opacity: 0.92;
+}
+
+/* Mobile responsive fixes for detail modal */
+@media (max-width: 768px) {
+    #postDetailModal .modal-box {
+        width: 98%;
+        max-height: 90vh;
+    }
+    #postDetailModal .carousel-container {
+        height: 320px; /* Scaled down height for mobile screens */
+    }
+}
+
+
 
