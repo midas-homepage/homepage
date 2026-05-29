@@ -239,7 +239,19 @@ const initApp = () => {
             console.warn("File might not exist yet on GitHub:", e);
         }
         
-        const base64Content = isBase64 ? contentString : btoa(unescape(encodeURIComponent(contentString)));
+        let base64Content = "";
+        if (isBase64) {
+            base64Content = contentString;
+        } else {
+            // 대용량 문자열에서 RangeError 방지를 위해 청크 기반 안전 인코딩 사용
+            const utf8Bytes = new TextEncoder().encode(contentString);
+            let binaryString = "";
+            const chunkSize = 0xffff;
+            for (let i = 0; i < utf8Bytes.length; i += chunkSize) {
+                binaryString += String.fromCharCode.apply(null, utf8Bytes.subarray(i, i + chunkSize));
+            }
+            base64Content = btoa(binaryString);
+        }
         const body = {
             message: commitMessage,
             content: base64Content
