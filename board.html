@@ -633,7 +633,21 @@
             };
 
             const syncPostsToServer = async () => {
-                const isLocal = !window.location.hostname.endsWith('.github.io');
+                 const isLocal = 
+                     window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1' || 
+                     window.location.hostname === '0.0.0.0' || 
+                     window.location.hostname === '[::1]' ||
+                     window.location.hostname.startsWith('192.168.') || 
+                     window.location.hostname.startsWith('10.') || 
+                     window.location.hostname.startsWith('172.16.') || 
+                     window.location.hostname.startsWith('172.17.') || 
+                     window.location.hostname.startsWith('172.18.') || 
+                     window.location.hostname.startsWith('172.19.') || 
+                     window.location.hostname.startsWith('172.2') || 
+                     window.location.hostname.startsWith('172.3') || 
+                     window.location.hostname.endsWith('.local') ||
+                     (window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443');
                 localStorage.setItem('midas_posts_sync_time', Date.now().toString());
                 
                 showLoading("서버와 데이터를 동기화하고 있습니다...");
@@ -785,84 +799,97 @@
                 }
             };
 
-            const initPosts = async () => {
-                const loadPostsFromLocalStorage = () => {
-                    const stored = localStorage.getItem('midas_board_posts');
-                    if (stored) {
-                        try {
-                            posts = JSON.parse(stored);
-                        } catch (e) {
-                            console.error("Failed to parse stored posts:", e);
-                        }
-                    }
-                };
+             const initPosts = async () => {
+                 const loadPostsFromLocalStorage = () => {
+                     const stored = localStorage.getItem('midas_board_posts');
+                     if (stored) {
+                         try {
+                             posts = JSON.parse(stored);
+                         } catch (e) {
+                             console.error("Failed to parse stored posts:", e);
+                         }
+                     }
+                 };
 
-                const isLocal = !window.location.hostname.endsWith('.github.io');
-                const token = localStorage.getItem('midas_github_token');
+                 const isLocal = 
+                     window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1' || 
+                     window.location.hostname === '0.0.0.0' || 
+                     window.location.hostname === '[::1]' ||
+                     window.location.hostname.startsWith('192.168.') || 
+                     window.location.hostname.startsWith('10.') || 
+                     window.location.hostname.startsWith('172.16.') || 
+                     window.location.hostname.startsWith('172.17.') || 
+                     window.location.hostname.startsWith('172.18.') || 
+                     window.location.hostname.startsWith('172.19.') || 
+                     window.location.hostname.startsWith('172.2') || 
+                     window.location.hostname.startsWith('172.3') || 
+                     window.location.hostname.endsWith('.local') ||
+                     (window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443');
 
-                if (isLocal) {
-                    try {
-                        const response = await fetch(`data/posts.json?t=${Date.now()}`);
-                        if (response.ok) {
-                            posts = await response.json();
-                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                        } else {
-                            throw new Error("Failed to load local posts.json");
-                        }
-                    } catch (err) {
-                        console.warn("Failed to fetch local posts.json, falling back to localStorage:", err);
-                        loadPostsFromLocalStorage();
-                    }
-                } else if (token) {
-                    try {
-                        const { owner, repo } = getGitHubRepoDetails();
-                        const url = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json?t=${Date.now()}`;
-                        const res = await fetch(url, {
-                            headers: { 'Authorization': `token ${token}` }
-                        });
-                        if (res.ok) {
-                            const data = await res.json();
-                            const decodeBase64 = (base64Str) => {
-                                const binaryString = atob(base64Str.replace(/\s/g, ''));
-                                const bytes = new Uint8Array(binaryString.length);
-                                for (let i = 0; i < binaryString.length; i++) {
-                                    bytes[i] = binaryString.charCodeAt(i);
-                                }
-                                return new TextDecoder().decode(bytes);
-                            };
-                            const jsonText = decodeBase64(data.content);
-                            posts = JSON.parse(jsonText);
-                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                            console.log("Loaded fresh posts.json directly from GitHub API.");
-                        } else {
-                            throw new Error(`GitHub API error: ${res.status}`);
-                        }
-                    } catch (err) {
-                        console.warn("Failed to fetch fresh posts.json from GitHub API, falling back to local cache:", err);
-                        loadPostsFromLocalStorage();
-                    }
-                } else {
-                    const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
-                    const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000; // 5 mins
+                 const token = localStorage.getItem('midas_github_token');
+                 const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+                 const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000; // 5 mins
 
-                    if (isRebuilding) {
-                        console.log("GitHub Pages rebuilding. Using local cached posts.");
-                        loadPostsFromLocalStorage();
-                    } else {
-                        try {
-                            const response = await fetch(`data/posts.json?t=${Date.now()}`);
-                            if (response.ok) {
-                                posts = await response.json();
-                                localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                            } else {
-                                throw new Error("Failed to load posts.json");
-                            }
-                        } catch (err) {
-                            console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
-                            loadPostsFromLocalStorage();
-                        }
-                    }
-                }
+                 if (isLocal) {
+                     try {
+                         const response = await fetch(`data/posts.json?t=${Date.now()}`);
+                         if (response.ok) {
+                             posts = await response.json();
+                             localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                         } else {
+                             throw new Error("Failed to load local posts.json");
+                         }
+                     } catch (err) {
+                         console.warn("Failed to fetch local posts.json, falling back to localStorage:", err);
+                         loadPostsFromLocalStorage();
+                     }
+                 } else if (isRebuilding) {
+                     // 5분 이내 저장 내역이 있다면 깃허브 Pages 빌드 중이므로 깃허브 API 및 Pages 덮어쓰기 차단
+                     console.log("GitHub Pages rebuilding. Using local cached posts to prevent rollback.");
+                     loadPostsFromLocalStorage();
+                 } else if (token) {
+                     try {
+                         const { owner, repo } = getGitHubRepoDetails();
+                         const url = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json?t=${Date.now()}`;
+                         const res = await fetch(url, {
+                             headers: { 'Authorization': `token ${token}` }
+                         });
+                         if (res.ok) {
+                             const data = await res.json();
+                             const decodeBase64 = (base64Str) => {
+                                 const binaryString = atob(base64Str.replace(/\s/g, ''));
+                                 const bytes = new Uint8Array(binaryString.length);
+                                 for (let i = 0; i < binaryString.length; i++) {
+                                     bytes[i] = binaryString.charCodeAt(i);
+                                 }
+                                 return new TextDecoder().decode(bytes);
+                             };
+                             const jsonText = decodeBase64(data.content);
+                             posts = JSON.parse(jsonText);
+                             localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                             console.log("Loaded fresh posts.json directly from GitHub API.");
+                         } else {
+                             throw new Error(`GitHub API error: ${res.status}`);
+                         }
+                     } catch (err) {
+                         console.warn("Failed to fetch fresh posts.json from GitHub API, falling back to local cache:", err);
+                         loadPostsFromLocalStorage();
+                     }
+                 } else {
+                     try {
+                         const response = await fetch(`data/posts.json?t=${Date.now()}`);
+                         if (response.ok) {
+                             posts = await response.json();
+                             localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                         } else {
+                             throw new Error("Failed to load posts.json");
+                         }
+                     } catch (err) {
+                         console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                         loadPostsFromLocalStorage();
+                     }
+                 }
 
                 // Trigger rendering
                 const urlParams = new URLSearchParams(window.location.search);

@@ -451,8 +451,25 @@
                     }
                 };
 
-                const isLocal = !window.location.hostname.endsWith('.github.io');
+                const isLocal = 
+                    window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.hostname === '0.0.0.0' || 
+                    window.location.hostname === '[::1]' ||
+                    window.location.hostname.startsWith('192.168.') || 
+                    window.location.hostname.startsWith('10.') || 
+                    window.location.hostname.startsWith('172.16.') || 
+                    window.location.hostname.startsWith('172.17.') || 
+                    window.location.hostname.startsWith('172.18.') || 
+                    window.location.hostname.startsWith('172.19.') || 
+                    window.location.hostname.startsWith('172.2') || 
+                    window.location.hostname.startsWith('172.3') || 
+                    window.location.hostname.endsWith('.local') ||
+                    (window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443');
+
                 const token = localStorage.getItem('midas_github_token');
+                const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+                const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000;
 
                 if (isLocal) {
                     try {
@@ -467,6 +484,9 @@
                         console.warn("Failed to fetch local posts.json, falling back to localStorage:", err);
                         loadPostsFromLocalStorage();
                     }
+                } else if (isRebuilding) {
+                    console.log("GitHub Pages rebuilding. Using local cached posts to prevent rollback.");
+                    loadPostsFromLocalStorage();
                 } else if (token) {
                     try {
                         const getGitHubRepoDetails = () => {
@@ -510,25 +530,17 @@
                         loadPostsFromLocalStorage();
                     }
                 } else {
-                    const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
-                    const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000;
-
-                    if (isRebuilding) {
-                        console.log("GitHub Pages rebuilding. Using local cached posts.");
-                        loadPostsFromLocalStorage();
-                    } else {
-                        try {
-                            const response = await fetch(`data/posts.json?t=${Date.now()}`);
-                            if (response.ok) {
-                                posts = await response.json();
-                                localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                            } else {
-                                throw new Error("Failed to load posts.json");
-                            }
-                        } catch (err) {
-                            console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
-                            loadPostsFromLocalStorage();
+                    try {
+                        const response = await fetch(`data/posts.json?t=${Date.now()}`);
+                        if (response.ok) {
+                            posts = await response.json();
+                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                        } else {
+                            throw new Error("Failed to load posts.json");
                         }
+                    } catch (err) {
+                        console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                        loadPostsFromLocalStorage();
                     }
                 }
 
