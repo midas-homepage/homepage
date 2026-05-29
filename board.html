@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=39">
+    <link rel="stylesheet" href="styles.css?v=40">
 </head>
 
 <body class="light-theme">
@@ -928,10 +928,26 @@
                 document.getElementById('postTitle').value = post.title;
                 document.getElementById('postDate').value = post.date;
                 
-                // Load content into Quill editor (with legacy plain-text fallback formatting)
+                // Load content into Quill editor (with legacy plain-text fallback formatting and token decoding)
                 const contentToLoad = post.content || '';
+                const images = getImages(post);
+
                 if (contentToLoad.includes('<p>') || contentToLoad.includes('<div') || contentToLoad.includes('<br') || contentToLoad.includes('<img')) {
-                    quill.root.innerHTML = contentToLoad;
+                    // Restore placeholder tokens [imgX] back to actual base64 image sources for the editor workspace
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = contentToLoad;
+                    const imgTags = tempDiv.querySelectorAll('img');
+                    imgTags.forEach(img => {
+                        const src = img.getAttribute('src');
+                        const match = src && src.match(/^\[img(\d+)\]$/);
+                        if (match) {
+                            const idx = parseInt(match[1], 10);
+                            if (idx >= 0 && idx < images.length) {
+                                img.src = images[idx];
+                            }
+                        }
+                    });
+                    quill.root.innerHTML = tempDiv.innerHTML;
                 } else {
                     quill.root.innerHTML = contentToLoad.split('\n').map(line => `<p>${line}</p>`).join('');
                 }
@@ -1019,11 +1035,15 @@
                     return;
                 }
 
-                // Clean up any null elements in posts array to prevent TypeErrors
+                // Clean up any null elements in posts array in-place to prevent TypeErrors and reference gaps
                 if (Array.isArray(posts)) {
-                    posts = posts.filter(Boolean);
+                    for (let i = posts.length - 1; i >= 0; i--) {
+                        if (!posts[i]) {
+                            posts.splice(i, 1);
+                        }
+                    }
                 } else {
-                    posts = [];
+                    posts.length = 0;
                 }
 
                 const category = document.getElementById('postCategory').value;
@@ -1034,11 +1054,18 @@
                 const contentHTML = quill.root.innerHTML;
                 const contentText = quill.getText().trim();
 
-                // Extract all img src from the rich content HTML for list-view thumbnail support
+                // Extract all img src and replace them with lightweight index tokens [imgX] to prevent database bloat
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = contentHTML;
                 const imgTags = tempDiv.querySelectorAll('img');
-                const extractedImages = Array.from(imgTags).map(img => img.src);
+                
+                const extractedImages = [];
+                imgTags.forEach((img, idx) => {
+                    extractedImages.push(img.src);
+                    img.setAttribute('src', `[img${idx}]`);
+                });
+
+                const sanitizedHTML = tempDiv.innerHTML;
 
                 if (!title || !date || (contentText === "" && extractedImages.length === 0)) {
                     alert('내용을 입력해주세요.');
@@ -1056,7 +1083,7 @@
                             title,
                             date,
                             img: extractedImages,
-                            content: contentHTML
+                            content: sanitizedHTML
                         };
                     }
                 } else {
@@ -1067,7 +1094,7 @@
                         title,
                         date,
                         img: extractedImages,
-                        content: contentHTML
+                        content: sanitizedHTML
                     };
                     posts.push(newPost);
                 }

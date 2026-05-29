@@ -19,7 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=39">
+    <link rel="stylesheet" href="styles.css?v=40">
 </head>
 
 <body class="light-theme">
@@ -346,8 +346,23 @@
 
                 // Check content mode: HTML (Quill Editor) vs Plain Text (Legacy)
                 if (isHTML(content)) {
+                    // Restore placeholders [imgX] back to actual base64 image strings from posts.img
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    const imgTags = tempDiv.querySelectorAll('img');
+                    imgTags.forEach(img => {
+                        const src = img.getAttribute('src');
+                        const match = src && src.match(/^\[img(\d+)\]$/);
+                        if (match) {
+                            const idx = parseInt(match[1], 10);
+                            if (idx >= 0 && idx < images.length) {
+                                img.src = images[idx];
+                            }
+                        }
+                    });
+
                     // Inject rich HTML content
-                    postBodyContainer.innerHTML = content;
+                    postBodyContainer.innerHTML = tempDiv.innerHTML;
                     // Add Quill stylesheet class to ensure layouts (bullet points, align, size) render correctly
                     postBodyContainer.classList.add('ql-editor');
                     postBodyContainer.style.padding = '0';
