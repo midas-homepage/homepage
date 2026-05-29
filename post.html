@@ -16,7 +16,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=34">
+    <link rel="stylesheet" href="styles.css?v=35">
 </head>
 
 <body class="light-theme">
@@ -182,13 +182,8 @@
                     <h2 class="post-detail-title" id="postTitle" style="font-size: 2rem; font-weight: 700; color: var(--text-main); margin-bottom: 24px; line-height: 1.3;">Loading...</h2>
                 </header>
 
-                <!-- Full Stack of Images (Displayed Big and Stacked vertically) -->
-                <div class="post-detail-images" id="postImagesContainer" style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%;">
-                    <!-- Images dynamically rendered here -->
-                </div>
-
-                <!-- Text Content Body -->
-                <div class="post-detail-body" id="postBody" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; word-break: break-word; padding: 15px 0; border-top: 1px solid var(--border-color); margin-top: 20px;">
+                <!-- Detailed Rich Content Container (Text interspersed with images) -->
+                <div class="post-detail-body" id="postBodyContainer" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-main); padding: 25px 0; border-top: 1px solid var(--border-color); margin-top: 20px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; width: 100%;">
                     Loading content details...
                 </div>
             </article>
@@ -227,7 +222,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=34"></script>
+    <script src="app.js?v=35"></script>
 
     <!-- Post Rendering Logic -->
     <script>
@@ -239,8 +234,7 @@
             const postTitle = document.getElementById('postTitle');
             const postCategoryBadge = document.getElementById('postCategoryBadge');
             const postDate = document.getElementById('postDate');
-            const postImagesContainer = document.getElementById('postImagesContainer');
-            const postBody = document.getElementById('postBody');
+            const postBodyContainer = document.getElementById('postBodyContainer');
             const pageTitle = document.getElementById('pageTitle');
 
             // Lightbox Elements
@@ -293,7 +287,7 @@
                 });
             }
 
-            // Render post elements
+            // Render post elements (interleaving text and images)
             const renderPost = (post) => {
                 // Update titles
                 pageTitle.textContent = `${post.title} - MIDAS Lab @ CAU`;
@@ -304,44 +298,93 @@
                 postCategoryBadge.className = `board-badge badge-${post.category}`;
                 postDate.textContent = post.date;
 
-                // Render content
-                postBody.textContent = post.content;
+                postBodyContainer.replaceChildren();
 
-                // Render image stack (BIG layout)
-                postImagesContainer.replaceChildren();
                 const images = getImages(post);
+                const usedImageIndices = new Set();
+                const content = post.content || "";
 
-                if (images.length > 0) {
-                    images.forEach((imgSrc, idx) => {
-                        const imgWrapper = document.createElement('div');
-                        imgWrapper.className = 'post-detail-img-wrapper';
-                        imgWrapper.style.cssText = 'position: relative; max-width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.08);';
+                // Regex to find placeholders like [img0], [img1], etc.
+                const placeholderRegex = /\[img(\d+)\]/g;
 
-                        const img = document.createElement('img');
-                        img.src = imgSrc;
-                        img.alt = `${post.title} - 이미지 ${idx + 1}`;
-                        img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease;';
-                        img.loading = 'lazy';
-                        img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
+                // Split content by placeholders
+                let lastIndex = 0;
+                let match;
 
-                        // Add fullscreen zoom click handler
-                        img.addEventListener('click', () => {
-                            openLightbox(imgSrc, img.alt);
-                        });
+                const createImgElement = (imgSrc, altText) => {
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'post-detail-img-wrapper';
+                    imgWrapper.style.cssText = 'position: relative; max-width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin: 15px auto;';
 
-                        // Subtle scale effect on hover
-                        img.addEventListener('mouseenter', () => {
-                            img.style.transform = 'scale(1.015)';
-                        });
-                        img.addEventListener('mouseleave', () => {
-                            img.style.transform = 'scale(1)';
-                        });
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = altText;
+                    img.style.cssText = 'display: block; width: 100%; max-width: 900px; height: auto; cursor: zoom-in; object-fit: contain; transition: transform 0.25s ease;';
+                    img.loading = 'lazy';
+                    img.title = "클릭하시면 원본 크기로 크게 볼 수 있습니다.";
 
-                        imgWrapper.appendChild(img);
-                        postImagesContainer.appendChild(imgWrapper);
+                    img.addEventListener('click', () => {
+                        openLightbox(imgSrc, altText);
                     });
-                } else {
-                    postImagesContainer.style.display = 'none';
+
+                    img.addEventListener('mouseenter', () => {
+                        img.style.transform = 'scale(1.015)';
+                    });
+                    img.addEventListener('mouseleave', () => {
+                        img.style.transform = 'scale(1)';
+                    });
+
+                    imgWrapper.appendChild(img);
+                    return imgWrapper;
+                };
+
+                const createTextParagraph = (text) => {
+                    const p = document.createElement('div');
+                    p.style.cssText = 'white-space: pre-wrap; word-break: break-word; width: 100%; margin-bottom: 12px;';
+                    p.textContent = text;
+                    return p;
+                };
+
+                // Find all matches and interleave
+                while ((match = placeholderRegex.exec(content)) !== null) {
+                    const matchIndex = match.index;
+                    const imgIdx = parseInt(match[1], 10);
+
+                    // 1. Append preceding text block if any
+                    const precedingText = content.substring(lastIndex, matchIndex);
+                    if (precedingText.trim() !== "") {
+                        postBodyContainer.appendChild(createTextParagraph(precedingText));
+                    }
+
+                    // 2. Append the inline image if the index exists
+                    if (imgIdx >= 0 && imgIdx < images.length) {
+                        const imgSrc = images[imgIdx];
+                        postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${imgIdx + 1}`));
+                        usedImageIndices.add(imgIdx);
+                    } else {
+                        // If placeholder points to non-existent image, just leave it as text placeholder
+                        postBodyContainer.appendChild(createTextParagraph(`[img${imgIdx}]`));
+                    }
+
+                    lastIndex = placeholderRegex.lastIndex;
+                }
+
+                // Append remaining text
+                const remainingText = content.substring(lastIndex);
+                if (remainingText.trim() !== "") {
+                    postBodyContainer.appendChild(createTextParagraph(remainingText));
+                }
+
+                // Fallback: Append all unused images at the bottom
+                const unusedImages = images.filter((_, idx) => !usedImageIndices.has(idx));
+                if (unusedImages.length > 0) {
+                    const separator = document.createElement('div');
+                    separator.style.cssText = 'width: 100%; height: 1px; background: var(--border-color); margin: 20px 0;';
+                    postBodyContainer.appendChild(separator);
+
+                    unusedImages.forEach((imgSrc, originalIdx) => {
+                        postBodyContainer.appendChild(createImgElement(imgSrc, `${post.title} - 이미지 ${originalIdx + 1}`));
+                    });
                 }
             };
 

@@ -16,7 +16,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=34">
+    <link rel="stylesheet" href="styles.css?v=35">
 </head>
 
 <body class="light-theme">
@@ -286,6 +286,9 @@
                     </div>
                     <div class="form-group">
                         <label for="postContent">Content</label>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">
+                            💡 본문 작성 도중 사진을 중간에 배치하고 싶다면, 위 이미지 썸네일 아래의 <strong>[imgX] 본문에 삽입</strong> 버튼을 누르거나 원하는 곳에 <code>[img0]</code>, <code>[img1]</code> 등의 태그를 직접 입력해 넣으세요.
+                        </div>
                         <textarea class="form-textarea" id="postContent" placeholder="내용을 작성하세요." required></textarea>
                     </div>
                 </form>
@@ -324,7 +327,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=34"></script>
+    <script src="app.js?v=35"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
@@ -784,8 +787,14 @@
                 imagePreviewContainer.replaceChildren();
 
                 currentUploadedImages.forEach((imgSrc, idx) => {
+                    // Wrapper for thumbnail and insert button
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 10px;';
+
                     const thumbnail = document.createElement('div');
                     thumbnail.className = 'preview-thumbnail';
+                    thumbnail.style.position = 'relative';
 
                     const img = document.createElement('img');
                     img.src = imgSrc;
@@ -803,7 +812,40 @@
                     });
                     thumbnail.appendChild(removeBtn);
 
-                    imagePreviewContainer.appendChild(thumbnail);
+                    // Insert tag [imgX] button (Placed cleanly underneath the thumbnail)
+                    const insertBtn = document.createElement('button');
+                    insertBtn.type = 'button';
+                    insertBtn.className = 'insert-tag-btn';
+                    insertBtn.textContent = `[img${idx}] 본문에 삽입`;
+                    insertBtn.title = '이 사진을 본문 커서 위치에 삽입합니다.';
+                    insertBtn.style.cssText = 'background: #0066cc; color: white; border: none; padding: 5px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);';
+                    
+                    insertBtn.addEventListener('mouseenter', () => {
+                        insertBtn.style.background = '#004080';
+                    });
+                    insertBtn.addEventListener('mouseleave', () => {
+                        insertBtn.style.background = '#0066cc';
+                    });
+
+                    insertBtn.addEventListener('click', () => {
+                        const contentArea = document.getElementById('postContent');
+                        if (contentArea) {
+                            const startPos = contentArea.selectionStart;
+                            const endPos = contentArea.selectionEnd;
+                            const text = contentArea.value;
+                            const tag = `\n[img${idx}]\n`;
+                            
+                            contentArea.value = text.substring(0, startPos) + tag + text.substring(endPos);
+                            contentArea.focus();
+                            contentArea.selectionStart = startPos + tag.length;
+                            contentArea.selectionEnd = startPos + tag.length;
+                        }
+                    });
+
+                    previewItem.appendChild(thumbnail);
+                    previewItem.appendChild(insertBtn);
+
+                    imagePreviewContainer.appendChild(previewItem);
                 });
             };
 
