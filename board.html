@@ -599,79 +599,122 @@
                     }
                 } else {
                     try {
-                        // 1. Process and upload any new base64 images to GitHub first (to prevent payload size limits)
-                        for (let p of posts) {
+                        const token = localStorage.getItem('midas_github_token');
+                        if (!token) {
+                            alert("GitHub Pages에서 변경 내용을 저장하려면 Admin Authentication 창에서 GitHub Personal Access Token을 먼저 입력해 주셔야 합니다.");
+                            throw new Error("Missing GitHub Token");
+                        }
+                        const { owner, repo } = getGitHubRepoDetails();
+
+                        // 1. 모든 base64 이미지를 병렬로 GitHub에 업로드
+                        const imageUploadTasks = [];
+                        for (const p of posts) {
                             if (!p || !p.img) continue;
                             for (let i = 0; i < p.img.length; i++) {
                                 const imageSrc = p.img[i];
                                 if (imageSrc && imageSrc.startsWith('data:image/')) {
-                                    // Determine extension
                                     let ext = 'png';
                                     const mimeMatch = imageSrc.match(/^data:image\/([a-zA-Z0-9+]+);base64,/);
                                     if (mimeMatch) {
                                         ext = mimeMatch[1];
                                         if (ext === 'jpeg') ext = 'jpg';
                                     }
-                                    
-                                    // Generate a unique path
                                     const randomId = Math.random().toString(36).substring(2, 8);
                                     const filePath = `data/images/img_${p.id}_${i}_${Date.now().toString(36)}_${randomId}.${ext}`;
-                                    
-                                    // Extract pure base64 payload
                                     const base64Data = imageSrc.split(',')[1];
-                                    
-                                    // Upload to GitHub
-                                    const token = localStorage.getItem('midas_github_token');
-                                    const { owner, repo } = getGitHubRepoDetails();
                                     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-                                    
-                                    const body = {
-                                        message: `Upload image for post ${p.id}`,
-                                        content: base64Data
-                                    };
-                                    
-                                    const putRes = await fetch(url, {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Authorization': `token ${token}`,
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify(body)
-                                    });
-                                    
-                                    if (!putRes.ok) {
-                                        const errData = await putRes.json().catch(() => ({}));
-                                        throw new Error(`Failed to upload post image ${i}: ` + (errData.message || putRes.status));
-                                    }
-                                    
-                                    // Replace base64 in post with relative path
-                                    p.img[i] = filePath;
-                                    
-                                    // Update localStorage with updated path so we don't lose it if subsequent uploads fail
-                                    try {
-                                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                                    } catch(err) {}
+
+                                    // 각 이미지 업로드를 Promise로 모아서 병렬 실행
+                                    imageUploadTasks.push(
+                                        fetch(url, {
+                                            method: 'PUT',
+                                            headers: {
+                                                'Authorization': `token ${token}`,
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({ message: `Upload image for post ${p.id}`, content: base64Data })
+                                        }).then(async res => {
+                                            if (!res.ok) {
+                                                const err = await res.json().catch(() => ({}));
+                                                throw new Error(`이미지 업로드 실패 (post ${p.id}, idx ${i}): ` + (err.message || res.status));
+                                            }
+                                            // 경로 교체
+                                            p.img[i] = filePath;
+                                        })
+                                    );
                                 }
                             }
                         }
 
+                        // 이미지 업로드 전부 병렬로 기다림
+                        if (imageUploadTasks.length > 0) {
+                            await Promise.all(imageUploadTasks);
+                            // 업로드 완료 후 로컬 스토리지 업데이트
+                            try { localStorage.setItem('midas_board_posts', JSON.stringify(posts)); } catch(e) {}
+                        }
+
+                        // 2. posts.json SHA와 news_ticker.json SHA를 병렬로 가져옴
+                        const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json`;
+                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json`;
+
+                        const [postsInfoRes, tickerInfoRes] = await Promise.all([
+                            fetch(postsUrl, { headers: { 'Authorization': `token ${token}` } }),
+                            fetch(tickerUrl, { headers: { 'Authorization': `token ${token}` } })
+                        ]);
+
+                        const postsSha = postsInfoRes.ok ? (await postsInfoRes.json()).sha : null;
+                        const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
+
+                        // 3. news ticker 데이터 준비
                         const newsPosts = posts.filter(p => p && p.category === 'news');
                         newsPosts.sort((a, b) => {
-                            const dateA = new Date(a.date);
-                            const dateB = new Date(b.date);
-                            if (dateB - dateA !== 0) return dateB - dateA;
-                            return (b.id || 0) - (a.id || 0);
+                            const diff = new Date(b.date) - new Date(a.date);
+                            return diff !== 0 ? diff : (b.id || 0) - (a.id || 0);
                         });
                         const topNews = newsPosts.slice(0, 3).map(p => ({
-                            id: p.id,
-                            title: p.title,
-                            date: p.date,
-                            category: p.category
+                            id: p.id, title: p.title, date: p.date, category: p.category
                         }));
 
-                        await saveFileToGitHub('data/posts.json', JSON.stringify(posts, null, 2), 'Update posts database');
-                        await saveFileToGitHub('data/news_ticker.json', JSON.stringify(topNews, null, 2), 'Update news ticker');
-                        alert("GitHub에 저장 요청이 전송되었습니다! 변경사항이 반영되기까지 약 1~2분이 소요됩니다.");
+                        // 4. posts.json과 news_ticker.json을 병렬로 저장
+                        const encodeToBase64 = (str) => {
+                            const utf8Bytes = new TextEncoder().encode(str);
+                            let binaryString = "";
+                            const chunkSize = 0xffff;
+                            for (let i = 0; i < utf8Bytes.length; i += chunkSize) {
+                                binaryString += String.fromCharCode.apply(null, utf8Bytes.subarray(i, i + chunkSize));
+                            }
+                            return btoa(binaryString);
+                        };
+
+                        const postsBody = { message: 'Update posts database', content: encodeToBase64(JSON.stringify(posts, null, 2)) };
+                        if (postsSha) postsBody.sha = postsSha;
+
+                        const tickerBody = { message: 'Update news ticker', content: encodeToBase64(JSON.stringify(topNews, null, 2)) };
+                        if (tickerSha) tickerBody.sha = tickerSha;
+
+                        const [putPostsRes, putTickerRes] = await Promise.all([
+                            fetch(postsUrl, {
+                                method: 'PUT',
+                                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                                body: JSON.stringify(postsBody)
+                            }),
+                            fetch(tickerUrl, {
+                                method: 'PUT',
+                                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                                body: JSON.stringify(tickerBody)
+                            })
+                        ]);
+
+                        if (!putPostsRes.ok) {
+                            const err = await putPostsRes.json().catch(() => ({}));
+                            throw new Error('posts.json 저장 실패: ' + (err.message || putPostsRes.status));
+                        }
+                        if (!putTickerRes.ok) {
+                            const err = await putTickerRes.json().catch(() => ({}));
+                            throw new Error('news_ticker.json 저장 실패: ' + (err.message || putTickerRes.status));
+                        }
+
+                        alert("GitHub에 저장 완료! 변경사항이 반영되기까지 약 1~2분이 소요됩니다.");
                     } catch (e) {
                         alert("GitHub에 저장하지 못했습니다: " + e.message);
                     }
