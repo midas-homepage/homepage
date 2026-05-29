@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=37">
+    <link rel="stylesheet" href="styles.css?v=38">
 </head>
 
 <body class="light-theme">
@@ -430,21 +430,34 @@
             // Clipboard Paste handler (for images pasted inline)
             quill.root.addEventListener('paste', async (e) => {
                 const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                let hasImage = false;
                 for (const item of items) {
                     if (item.kind === 'file' && item.type.startsWith('image/')) {
-                        e.preventDefault();
-                        const file = item.getAsFile();
-                        try {
-                            const compressedBase64 = await resizeAndCompressImage(file);
-                            const range = quill.getSelection(true);
-                            quill.insertEmbed(range.index, 'image', compressedBase64);
-                            quill.setSelection(range.index + 1);
-                        } catch (err) {
-                            console.error('Clipboard image paste failed:', err);
+                        hasImage = true;
+                        break;
+                    }
+                }
+
+                if (hasImage) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+
+                    for (const item of items) {
+                        if (item.kind === 'file' && item.type.startsWith('image/')) {
+                            const file = item.getAsFile();
+                            try {
+                                const compressedBase64 = await resizeAndCompressImage(file);
+                                const range = quill.getSelection(true);
+                                quill.insertEmbed(range.index, 'image', compressedBase64);
+                                quill.setSelection(range.index + 1);
+                            } catch (err) {
+                                console.error('Clipboard image paste failed:', err);
+                            }
                         }
                     }
                 }
-            });
+            }, true); // Use capture phase to intercept before Quill gets the event
 
             // Editor Drag & Drop handler (for images dropped directly onto the editor viewport)
             quill.root.addEventListener('drop', async (e) => {
@@ -459,6 +472,9 @@
                     }
                     if (hasImage) {
                         e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+
                         for (const file of files) {
                             if (file.type.startsWith('image/')) {
                                 try {
@@ -472,7 +488,7 @@
                         }
                     }
                 }
-            });
+            }, true); // Use capture phase
 
             // Carousel States
             let currentSlideIndex = 0;
