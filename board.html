@@ -310,6 +310,16 @@
 
 
 
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Sync Loading Overlay -->
+    <div class="sync-loading-overlay" id="syncLoadingOverlay">
+        <div class="sync-spinner"></div>
+        <div class="sync-loading-text" id="syncLoadingText">서버와 동기화 중...</div>
+        <div class="sync-loading-subtext">잠시만 기다려주세요.</div>
+    </div>
+
     <!-- Back to top button -->
     <button id="top_btn" aria-label="맨 위로 이동">▲</button>
 
@@ -572,9 +582,62 @@
                 console.log(`Successfully saved ${path} to GitHub: ${owner}/${repo}`);
             };
 
+            // Toast & Loading Utils
+            const showToast = (title, message, type = 'info') => {
+                const container = document.getElementById('toastContainer');
+                if (!container) return;
+
+                const toast = document.createElement('div');
+                toast.className = `custom-toast ${type}`;
+
+                let icon = 'ℹ️';
+                if (type === 'success') icon = '✅';
+                if (type === 'error') icon = '❌';
+
+                toast.innerHTML = `
+                    <div class="toast-icon">${icon}</div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close">&times;</button>
+                `;
+
+                container.appendChild(toast);
+
+                setTimeout(() => toast.classList.add('show'), 50);
+
+                const closeToast = () => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 400);
+                };
+
+                toast.querySelector('.toast-close').addEventListener('click', closeToast);
+                setTimeout(closeToast, 4000);
+            };
+
+            const showLoading = (text = '서버와 동기화 중...') => {
+                const overlay = document.getElementById('syncLoadingOverlay');
+                const textEl = document.getElementById('syncLoadingText');
+                if (overlay) {
+                    if (textEl) textEl.textContent = text;
+                    overlay.classList.add('active');
+                }
+            };
+
+            const hideLoading = () => {
+                const overlay = document.getElementById('syncLoadingOverlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
+            };
+
             const syncPostsToServer = async () => {
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                 localStorage.setItem('midas_posts_sync_time', Date.now().toString());
+                
+                showLoading("서버와 데이터를 동기화하고 있습니다...");
+                
                 if (isLocal) {
                     try {
                         const res = await fetch('/api/save-posts', {
@@ -584,8 +647,8 @@
                         });
                         if (!res.ok) {
                             console.error('Failed to sync posts to local server');
+                            showToast("동기화 실패", "로컬 서버 저장에 실패했습니다.", "error");
                         } else {
-                            // Fetch fresh database from local server to sync the converted file URLs
                             const freshRes = await fetch(`data/posts.json?v=${Date.now()}`);
                             if (freshRes.ok) {
                                 const freshPosts = await freshRes.json();
@@ -593,20 +656,25 @@
                                 posts.push(...freshPosts);
                                 localStorage.setItem('midas_board_posts', JSON.stringify(posts));
                             }
+                            showToast("동기화 성공", "로컬 저장소에 변경사항이 저장되었습니다.", "success");
                         }
                     } catch (e) {
                         console.error('Error syncing posts locally:', e);
+                        showToast("에러 발생", "로컬 동기화 중 오류가 발생했습니다: " + e.message, "error");
+                    } finally {
+                        hideLoading();
                     }
                 } else {
                     try {
                         const token = localStorage.getItem('midas_github_token');
                         if (!token) {
-                            alert("GitHub Pages에서 변경 내용을 저장하려면 Admin Authentication 창에서 GitHub Personal Access Token을 먼저 입력해 주셔야 합니다.");
+                            showToast("인증 오류", "GitHub Access Token이 누락되었습니다. Admin Authentication을 완료해주세요.", "error");
                             throw new Error("Missing GitHub Token");
                         }
                         const { owner, repo } = getGitHubRepoDetails();
 
-                        // 1. 모든 base64 이미지를 병렬로 GitHub에 업로드
+                        showLoading("이미지 파일을 업로드하는 중...");
+
                         const imageUploadTasks = [];
                         for (const p of posts) {
                             if (!p || !p.img) continue;
@@ -624,7 +692,6 @@
                                     const base64Data = imageSrc.split(',')[1];
                                     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
-                                    // 각 이미지 업로드를 Promise로 모아서 병렬 실행
                                     imageUploadTasks.push(
                                         fetch(url, {
                                             method: 'PUT',
@@ -638,7 +705,6 @@
                                                 const err = await res.json().catch(() => ({}));
                                                 throw new Error(`이미지 업로드 실패 (post ${p.id}, idx ${i}): ` + (err.message || res.status));
                                             }
-                                            // 경로 교체
                                             p.img[i] = filePath;
                                         })
                                     );
@@ -646,14 +712,13 @@
                             }
                         }
 
-                        // 이미지 업로드 전부 병렬로 기다림
                         if (imageUploadTasks.length > 0) {
                             await Promise.all(imageUploadTasks);
-                            // 업로드 완료 후 로컬 스토리지 업데이트
                             try { localStorage.setItem('midas_board_posts', JSON.stringify(posts)); } catch(e) {}
                         }
 
-                        // 2. posts.json SHA와 news_ticker.json SHA를 병렬로 가져옴
+                        showLoading("데이터베이스 메타데이터를 저장하는 중...");
+
                         const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json`;
                         const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json`;
 
@@ -665,7 +730,6 @@
                         const postsSha = postsInfoRes.ok ? (await postsInfoRes.json()).sha : null;
                         const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
 
-                        // 3. news ticker 데이터 준비
                         const newsPosts = posts.filter(p => p && p.category === 'news');
                         newsPosts.sort((a, b) => {
                             const diff = new Date(b.date) - new Date(a.date);
@@ -675,7 +739,6 @@
                             id: p.id, title: p.title, date: p.date, category: p.category
                         }));
 
-                        // 4. posts.json과 news_ticker.json을 병렬로 저장
                         const encodeToBase64 = (str) => {
                             const utf8Bytes = new TextEncoder().encode(str);
                             let binaryString = "";
@@ -714,9 +777,11 @@
                             throw new Error('news_ticker.json 저장 실패: ' + (err.message || putTickerRes.status));
                         }
 
-                        alert("GitHub에 저장 완료! 변경사항이 반영되기까지 약 1~2분이 소요됩니다.");
+                        showToast("저장 완료", "변경사항이 서버에 동기화되었습니다. 배포 완료까지 약 1~2분이 소요됩니다.", "success");
                     } catch (e) {
-                        alert("GitHub에 저장하지 못했습니다: " + e.message);
+                        showToast("저장 실패", "GitHub 동기화 중 오류가 발생했습니다: " + e.message, "error");
+                    } finally {
+                        hideLoading();
                     }
                 }
             };
@@ -733,27 +798,72 @@
                     }
                 };
 
-                // 최근 5분 이내에 저장한 경우 GitHub Pages 재빌드 중으로 간주 → localStorage 우선 사용
-                const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
-                const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000; // 5분
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const token = localStorage.getItem('midas_github_token');
 
-                if (isRebuilding) {
-                    console.log("GitHub Pages 재빌드 중. 로컬 캐시에서 게시물을 불러옵니다.");
-                    loadPostsFromLocalStorage();
-                } else {
+                if (isLocal) {
                     try {
                         const response = await fetch(`data/posts.json?t=${Date.now()}`);
                         if (response.ok) {
                             posts = await response.json();
                             localStorage.setItem('midas_board_posts', JSON.stringify(posts));
                         } else {
-                            throw new Error("Failed to load posts.json");
+                            throw new Error("Failed to load local posts.json");
                         }
                     } catch (err) {
-                        console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                        console.warn("Failed to fetch local posts.json, falling back to localStorage:", err);
                         loadPostsFromLocalStorage();
                     }
-                } // end isRebuilding else
+                } else if (token) {
+                    try {
+                        const { owner, repo } = getGitHubRepoDetails();
+                        const url = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json?t=${Date.now()}`;
+                        const res = await fetch(url, {
+                            headers: { 'Authorization': `token ${token}` }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            const decodeBase64 = (base64Str) => {
+                                const binaryString = atob(base64Str.replace(/\s/g, ''));
+                                const bytes = new Uint8Array(binaryString.length);
+                                for (let i = 0; i < binaryString.length; i++) {
+                                    bytes[i] = binaryString.charCodeAt(i);
+                                }
+                                return new TextDecoder().decode(bytes);
+                            };
+                            const jsonText = decodeBase64(data.content);
+                            posts = JSON.parse(jsonText);
+                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                            console.log("Loaded fresh posts.json directly from GitHub API.");
+                        } else {
+                            throw new Error(`GitHub API error: ${res.status}`);
+                        }
+                    } catch (err) {
+                        console.warn("Failed to fetch fresh posts.json from GitHub API, falling back to local cache:", err);
+                        loadPostsFromLocalStorage();
+                    }
+                } else {
+                    const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+                    const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000; // 5 mins
+
+                    if (isRebuilding) {
+                        console.log("GitHub Pages rebuilding. Using local cached posts.");
+                        loadPostsFromLocalStorage();
+                    } else {
+                        try {
+                            const response = await fetch(`data/posts.json?t=${Date.now()}`);
+                            if (response.ok) {
+                                posts = await response.json();
+                                localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                            } else {
+                                throw new Error("Failed to load posts.json");
+                            }
+                        } catch (err) {
+                            console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                            loadPostsFromLocalStorage();
+                        }
+                    }
+                }
 
                 // Trigger rendering
                 const urlParams = new URLSearchParams(window.location.search);
