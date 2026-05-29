@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=36">
+    <link rel="stylesheet" href="styles.css?v=37">
 </head>
 
 <body class="light-theme">
@@ -252,7 +252,7 @@
 
     <!-- Write Post Modal -->
     <div class="modal-overlay" id="writePostModal">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 1000px; width: 95%; max-height: 90vh;">
             <div class="modal-header">
                 <h3 id="writeModalTitle">Write New Post</h3>
                 <button class="modal-close-btn" id="closeWriteModalBtn">&times;</button>
@@ -293,7 +293,7 @@
                             💡 글자 크기, 서식 조절이 가능하며 본문 내 원하는 위치에 사진을 붙여넣거나(Ctrl+V) 직접 드래그하여 진짜 블로그처럼 작성할 수 있습니다.
                         </div>
                         <div id="postEditorContainer" style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background: white; margin-top: 5px;">
-                            <div id="postContent" style="height: 400px; font-size: 1rem; color: #333; line-height: 1.6; outline: none;"></div>
+                            <div id="postContent" style="height: 550px; font-size: 1rem; color: #333; line-height: 1.6; outline: none;"></div>
                         </div>
                     </div>
                 </form>
