@@ -226,7 +226,7 @@
       "Jae Jin Kim",
       "Peter Zapol*"
     ],
-    "journal": "Journal of Power Sources, 635, 236448 (2025)",
+    "journal": "Journal of Power Source, 635, 236448 (2025)",
     "year": 2025,
     "status": "published",
     "doi": "https://doi.org/10.1016/j.jpowsour.2025.236448",
@@ -306,7 +306,7 @@
       "Haesun Park*",
       "Soo-Kil Kim*"
     ],
-    "journal": "Applied Catalysis B: Environmental, 346, 123738 (2024)",
+    "journal": "Appl. Catal. B 346, 123738 (2024)",
     "year": 2024,
     "status": "published",
     "doi": "https://doi.org/10.1016/j.apcatb.2024.123738",
@@ -325,7 +325,7 @@
       "Kyoungmin Min*",
       "Seungchul Lee*"
     ],
-    "journal": "Physical Chemistry Chemical Physics, 26, 10769 (2024)",
+    "journal": "Phys. Chem. Chem. Phys. 26, 10769 (2024)",
     "year": 2024,
     "status": "published",
     "doi": "https://doi.org/10.1039/D3CP06337B",
@@ -346,10 +346,10 @@
       "Robert F Klie",
       "Timothy T Fister*"
     ],
-    "journal": "Chemistry of Materials, 36 (3), 1342 (2024)",
+    "journal": "Chem. Mater. 36 (3), 1342 (2024)",
     "year": 2024,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.3c02490",
+    "doi": "https://doi.org/10.1039/D3CP06337B",
     "pdf": "data/publications/2024_chem_mater_1.pdf"
   },
   {
@@ -366,7 +366,7 @@
       "Peter Zapol",
       "John T Vaughey"
     ],
-    "journal": "Chemistry of Materials, 35 (6), 2363–2370 (2023)",
+    "journal": "Chem. Mater. 35, (6), 2363–2370 (2023)",
     "year": 2023,
     "status": "published",
     "doi": "https://doi.org/10.1021/acs.chemmater.2c03343",
@@ -389,7 +389,7 @@
       "Saul H. Lapidus",
       "John T. Vaughey*"
     ],
-    "journal": "Nano Letters, 22 (6), 2228-2235 (2022)",
+    "journal": "Nano Lett. 22, (6), 2228-2235 (2022)",
     "year": 2022,
     "status": "published",
     "doi": "https://doi.org/10.1021/acs.nanolett.1c04157",
@@ -591,7 +591,7 @@
       "John T. Vaughey",
       "Peter Zapol"
     ],
-    "journal": "Journal of Physical Chemistry C, 124, 11, 5902–5909 (2020)",
+    "journal": "Journla of Physical Chemistry C 124, 11, 5902–5909 (2020)",
     "year": 2020,
     "status": "published",
     "doi": "https://doi.org/10.1021/acs.jpcc.9b11910",
@@ -641,6 +641,7 @@
     "authors": [
       "Haesun Park†",
       "Nitin Kumar†",
+      "Marko Melander†",
       "Tejs Vegge",
       "Juan Maria Garcia Lastra",
       "Donald J. Siegel*"
