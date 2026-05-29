@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=45">
+    <link rel="stylesheet" href="styles.css?v=46">
 </head>
 
 <body class="light-theme">
@@ -282,6 +282,7 @@
                             <span class="upload-text">Drag & drop files here or click to browse</span>
                             <input type="file" id="postImageFiles" multiple accept="image/*" style="display: none;">
                         </div>
+                        <div id="imagePreviewContainer" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px;"></div>
                     </div>
                     <div class="form-group">
                         <label for="postDate">Date</label>
@@ -403,6 +404,10 @@
                         ['clean']
                     ]
                 }
+            });
+
+            quill.on('text-change', () => {
+                updateImagePreviews();
             });
 
             // Custom Quill Image Handler (Image toolbar icon override)
@@ -937,7 +942,54 @@
             };
 
             const updateImagePreviews = () => {
-                // No-op: Images are managed inside Quill editor directly
+                if (!imagePreviewContainer) return;
+                imagePreviewContainer.innerHTML = '';
+                
+                // Find all img elements inside Quill editor workspace
+                const imgTags = quill.root.querySelectorAll('img');
+                
+                if (imgTags.length === 0) {
+                    imagePreviewContainer.style.display = 'none';
+                    return;
+                }
+                
+                imagePreviewContainer.style.display = 'flex';
+                
+                imgTags.forEach((img, idx) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.style.cssText = 'position: relative; width: 80px; height: 80px; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: #f8f9fa;';
+                    
+                    const thumbnail = document.createElement('img');
+                    thumbnail.src = img.src;
+                    thumbnail.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                    
+                    // Small red absolute delete button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.style.cssText = 'position: absolute; top: 2px; right: 2px; background: rgba(229, 62, 62, 0.9); color: white; border: none; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; transition: background 0.2s; z-index: 10;';
+                    deleteBtn.title = '이 이미지 삭제';
+                    
+                    deleteBtn.addEventListener('mouseenter', () => {
+                        deleteBtn.style.background = '#e53e3e';
+                    });
+                    deleteBtn.addEventListener('mouseleave', () => {
+                        deleteBtn.style.background = 'rgba(229, 62, 62, 0.9)';
+                    });
+                    
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (confirm('본문에서 이 사진을 삭제하시겠습니까?')) {
+                            img.remove(); // Delete img element from Quill editor
+                            quill.update(); // Update Quill representation
+                            updateImagePreviews(); // Re-render preview thumbnails list
+                        }
+                    });
+                    
+                    wrapper.appendChild(thumbnail);
+                    wrapper.appendChild(deleteBtn);
+                    imagePreviewContainer.appendChild(wrapper);
+                });
             };
 
             const openWriteModal = () => {
@@ -952,6 +1004,8 @@
                 const today = new Date().toISOString().split('T')[0];
                 const postDateInput = document.getElementById('postDate');
                 if (postDateInput) postDateInput.value = today;
+
+                updateImagePreviews();
 
                 writePostModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
@@ -989,6 +1043,8 @@
                 } else {
                     quill.root.innerHTML = contentToLoad.split('\n').map(line => `<p>${line}</p>`).join('');
                 }
+
+                updateImagePreviews();
 
                 writePostModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
