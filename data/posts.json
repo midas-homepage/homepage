@@ -526,16 +526,5 @@
       "data/images/img_62_2_1780040604_cvwf4r.jpg"
     ],
     "content": "2026 Commencement ceremony 2026년 겨울 졸업식"
-  },
-  {
-    "id": 64,
-    "category": "news",
-    "title": "테스트",
-    "date": "2026-05-29",
-    "img": [
-      "data/images/img_64_0_1780040604_ye7jdw.jpg",
-      "data/images/img_64_1_1780040604_r48uo0.jpg"
-    ],
-    "content": "<p class=\"ql-align-center\">테스트입니다.</p><p class=\"ql-align-center\"><img src=\"data/images/img_inline_64_0_1780040604_gybptp.jpg\"></p><p class=\"ql-align-center\">귀여운 고양이</p><p class=\"ql-align-center\"><img src=\"data/images/img_inline_64_1_1780040604_ao64tf.jpg\">귀여운 강아지</p>"
   }
 ]
