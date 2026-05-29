@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=44">
+    <link rel="stylesheet" href="styles.css?v=45">
 </head>
 
 <body class="light-theme">
@@ -570,12 +570,79 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(posts)
                         });
-                        if (!res.ok) console.error('Failed to sync posts to local server');
+                        if (!res.ok) {
+                            console.error('Failed to sync posts to local server');
+                        } else {
+                            // Fetch fresh database from local server to sync the converted file URLs
+                            const freshRes = await fetch(`data/posts.json?v=${Date.now()}`);
+                            if (freshRes.ok) {
+                                const freshPosts = await freshRes.json();
+                                posts.length = 0;
+                                posts.push(...freshPosts);
+                                localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                            }
+                        }
                     } catch (e) {
                         console.error('Error syncing posts locally:', e);
                     }
                 } else {
                     try {
+                        // 1. Process and upload any new base64 images to GitHub first (to prevent payload size limits)
+                        for (let p of posts) {
+                            if (!p || !p.img) continue;
+                            for (let i = 0; i < p.img.length; i++) {
+                                const imageSrc = p.img[i];
+                                if (imageSrc && imageSrc.startsWith('data:image/')) {
+                                    // Determine extension
+                                    let ext = 'png';
+                                    const mimeMatch = imageSrc.match(/^data:image\/([a-zA-Z0-9+]+);base64,/);
+                                    if (mimeMatch) {
+                                        ext = mimeMatch[1];
+                                        if (ext === 'jpeg') ext = 'jpg';
+                                    }
+                                    
+                                    // Generate a unique path
+                                    const randomId = Math.random().toString(36).substring(2, 8);
+                                    const filePath = `data/images/img_${p.id}_${i}_${Date.now().toString(36)}_${randomId}.${ext}`;
+                                    
+                                    // Extract pure base64 payload
+                                    const base64Data = imageSrc.split(',')[1];
+                                    
+                                    // Upload to GitHub
+                                    const token = localStorage.getItem('midas_github_token');
+                                    const { owner, repo } = getGitHubRepoDetails();
+                                    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+                                    
+                                    const body = {
+                                        message: `Upload image for post ${p.id}`,
+                                        content: base64Data
+                                    };
+                                    
+                                    const putRes = await fetch(url, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Authorization': `token ${token}`,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(body)
+                                    });
+                                    
+                                    if (!putRes.ok) {
+                                        const errData = await putRes.json().catch(() => ({}));
+                                        throw new Error(`Failed to upload post image ${i}: ` + (errData.message || putRes.status));
+                                    }
+                                    
+                                    // Replace base64 in post with relative path
+                                    p.img[i] = filePath;
+                                    
+                                    // Update localStorage with updated path so we don't lose it if subsequent uploads fail
+                                    try {
+                                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                                    } catch(err) {}
+                                }
+                            }
+                        }
+
                         const newsPosts = posts.filter(p => p && p.category === 'news');
                         newsPosts.sort((a, b) => {
                             const dateA = new Date(a.date);

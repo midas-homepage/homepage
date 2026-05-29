@@ -147,12 +147,53 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         elif self.path == '/api/save-posts':
             try:
                 import json
+                import re
+                import base64
+                import time
+                import random
+                
                 content_length = int(self.headers['Content-Length'])
                 post_data = self.rfile.read(content_length)
                 data = json.loads(post_data.decode('utf-8'))
                 
                 if not isinstance(data, list):
                     raise ValueError("Data must be a JSON array")
+                
+                # Make sure data/images directory exists
+                images_dir = os.path.join(os.getcwd(), 'data', 'images')
+                if not os.path.exists(images_dir):
+                    os.makedirs(images_dir, exist_ok=True)
+                
+                # Process and save any base64 images as local files
+                for post in data:
+                    if not post or 'img' not in post or not isinstance(post['img'], list):
+                        continue
+                    for idx, img_src in enumerate(post['img']):
+                        if img_src and img_src.startswith('data:image/'):
+                            # Parse extension
+                            ext = 'png'
+                            match = re.match(r'^data:image/([a-zA-Z0-9+]+);base64,', img_src)
+                            if match:
+                                ext = match.group(1)
+                                if ext == 'jpeg':
+                                    ext = 'jpg'
+                            
+                            # Extract base64 payload
+                            base64_data = img_src.split(',')[1]
+                            image_bytes = base64.b64decode(base64_data)
+                            
+                            # Generate unique filename
+                            timestamp = int(time.time())
+                            rand_suffix = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=6))
+                            filename = f"img_{post.get('id', 'new')}_{idx}_{timestamp}_{rand_suffix}.{ext}"
+                            file_path = os.path.join(images_dir, filename)
+                            
+                            # Write file
+                            with open(file_path, 'wb') as img_f:
+                                img_f.write(image_bytes)
+                            
+                            # Replace with relative URL path
+                            post['img'][idx] = f"data/images/{filename}"
                 
                 target_path = os.path.join(os.getcwd(), 'data', 'posts.json')
                 with open(target_path, 'w', encoding='utf-8') as f:
