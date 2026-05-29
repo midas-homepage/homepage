@@ -16,7 +16,7 @@
     <meta name="author" content="MIDAS Lab @ CAU">
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=33">
+    <link rel="stylesheet" href="styles.css?v=34">
 </head>
 
 <body class="light-theme">
@@ -299,47 +299,7 @@
         </div>
     </div>
 
-    <!-- Detail View Modal -->
-    <div class="modal-overlay" id="postDetailModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="detailTitle">Post Details</h3>
-                <button class="modal-close-btn" id="closeDetailModalBtn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="carousel-container" id="detailCarouselContainer">
-                    <div class="carousel-track" id="carouselTrack">
-                        <!-- Slides dynamically rendered here -->
-                    </div>
-                    <button class="carousel-btn prev" id="carouselPrevBtn" aria-label="이전 이미지">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                stroke-linejoin="round" fill="none" />
-                        </svg>
-                    </button>
-                    <button class="carousel-btn next" id="carouselNextBtn" aria-label="다음 이미지">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                stroke-linejoin="round" fill="none" />
-                        </svg>
-                    </button>
-                    <div class="carousel-dots" id="carouselDots">
-                        <!-- Dots dynamically rendered here -->
-                    </div>
-                </div>
-                <div class="detail-meta">
-                    <span class="board-badge" id="detailBadge">Category</span>
-                    <span class="board-date" id="detailDate">Date</span>
-                </div>
-                <div class="detail-content" id="detailContent">
-                    Content details...
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-write" id="closeDetailBtn" style="padding: 10px 22px;">Close</button>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Back to top button -->
     <button id="top_btn" aria-label="맨 위로 이동">▲</button>
@@ -364,7 +324,7 @@
     </footer>
 
     <!-- Core App JS -->
-    <script src="app.js?v=33"></script>
+    <script src="app.js?v=34"></script>
 
     <!-- Board Storage & Render Script -->
     <script>
@@ -421,19 +381,7 @@
             const postImageFilesInput = document.getElementById('postImageFiles');
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');
 
-            // Detail Modal with Carousel
-            const postDetailModal = document.getElementById('postDetailModal');
-            const closeDetailModalBtn = document.getElementById('closeDetailModalBtn');
-            const closeDetailBtn = document.getElementById('closeDetailBtn');
-            const detailTitle = document.getElementById('detailTitle');
-            const detailCarouselContainer = document.getElementById('detailCarouselContainer');
-            const carouselTrack = document.getElementById('carouselTrack');
-            const carouselPrevBtn = document.getElementById('carouselPrevBtn');
-            const carouselNextBtn = document.getElementById('carouselNextBtn');
-            const carouselDots = document.getElementById('carouselDots');
-            const detailBadge = document.getElementById('detailBadge');
-            const detailDate = document.getElementById('detailDate');
-            const detailContent = document.getElementById('detailContent');
+
 
             // Carousel States
             let currentSlideIndex = 0;
@@ -671,7 +619,9 @@
                         overlay.appendChild(overlayIcon);
                         imgWrapper.appendChild(overlay);
 
-                        imgWrapper.addEventListener('click', () => openDetailModal(post));
+                        imgWrapper.addEventListener('click', () => {
+                            window.location.href = 'post.html?id=' + post.id;
+                        });
                         card.appendChild(imgWrapper);
                     }
 
@@ -699,7 +649,9 @@
                     const title = document.createElement('h4');
                     title.className = 'board-item-title';
                     title.textContent = post.title;
-                    title.addEventListener('click', () => openDetailModal(post));
+                    title.addEventListener('click', () => {
+                        window.location.href = 'post.html?id=' + post.id;
+                    });
                     info.appendChild(title);
 
                     // Description text (truncated in CSS)
@@ -718,7 +670,9 @@
                     const readDoc = new DOMParser().parseFromString(readSvg, 'image/svg+xml');
                     readBtn.appendChild(readDoc.documentElement);
                     readBtn.appendChild(document.createTextNode(' Read'));
-                    readBtn.addEventListener('click', () => openDetailModal(post));
+                    readBtn.addEventListener('click', () => {
+                        window.location.href = 'post.html?id=' + post.id;
+                    });
                     actions.appendChild(readBtn);
 
                     const editBtn = document.createElement('button');
@@ -780,117 +734,7 @@
                 renderPosts(activeFilter ? activeFilter.dataset.filter : 'all');
             };
 
-            // 7. Carousel Slider Controller
-            const updateCarousel = () => {
-                carouselTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
 
-                // Update dots active status
-                const dots = carouselDots.querySelectorAll('.carousel-dot');
-                dots.forEach((dot, idx) => {
-                    if (idx === currentSlideIndex) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
-                });
-            };
-
-            carouselPrevBtn.addEventListener('click', () => {
-                if (currentSlides.length <= 1) return;
-                currentSlideIndex = (currentSlideIndex - 1 + currentSlides.length) % currentSlides.length;
-                updateCarousel();
-            });
-
-            carouselNextBtn.addEventListener('click', () => {
-                if (currentSlides.length <= 1) return;
-                currentSlideIndex = (currentSlideIndex + 1) % currentSlides.length;
-                updateCarousel();
-            });
-
-            // 8. Detail Modal logic
-            const openDetailModal = (post) => {
-                detailTitle.textContent = post.title;
-                detailBadge.textContent = post.category === 'news' ? 'News' : 'Photo';
-                detailBadge.className = `board-badge badge-${post.category}`;
-                detailDate.textContent = post.date;
-                detailContent.textContent = post.content;
-
-                const images = getImages(post);
-                currentSlides = images;
-                currentSlideIndex = 0;
-
-                // Clear previous carousel data
-                carouselTrack.replaceChildren();
-                carouselDots.replaceChildren();
-
-                if (images.length > 0) {
-                    detailCarouselContainer.style.display = 'block';
-
-                    // Build Slides
-                    images.forEach((imgSrc) => {
-                        const slide = document.createElement('div');
-                        slide.className = 'carousel-slide';
-
-                        const img = document.createElement('img');
-                        img.src = imgSrc;
-                        img.alt = post.title;
-                        img.title = "Click to view original image in a new tab";
-                        img.loading = 'lazy';
-
-                        // Click to open original image in a new tab (new page view)
-                        img.addEventListener('click', () => {
-                            window.open(imgSrc, '_blank');
-                        });
-
-                        slide.appendChild(img);
-                        carouselTrack.appendChild(slide);
-                    });
-
-                    // Build Dots and navigation visibility controls
-                    if (images.length > 1) {
-                        carouselPrevBtn.style.display = 'flex';
-                        carouselNextBtn.style.display = 'flex';
-                        carouselDots.style.display = 'flex';
-
-                        images.forEach((_, idx) => {
-                            const dot = document.createElement('button');
-                            dot.className = 'carousel-dot';
-                            if (idx === 0) dot.classList.add('active');
-                            dot.addEventListener('click', () => {
-                                currentSlideIndex = idx;
-                                updateCarousel();
-                            });
-                            carouselDots.appendChild(dot);
-                        });
-                    } else {
-                        carouselPrevBtn.style.display = 'none';
-                        carouselNextBtn.style.display = 'none';
-                        carouselDots.style.display = 'none';
-                    }
-
-                    // Reset track slide offset without transition first, then re-enable
-                    carouselTrack.style.transition = 'none';
-                    carouselTrack.style.transform = 'translateX(0)';
-                    carouselTrack.offsetHeight; // Reflow trigger
-                    carouselTrack.style.transition = '';
-                } else {
-                    detailCarouselContainer.style.display = 'none';
-                }
-
-                postDetailModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-
-            const closeDetailModal = () => {
-                postDetailModal.classList.remove('active');
-                document.body.style.overflow = '';
-            };
-
-            closeDetailModalBtn.addEventListener('click', closeDetailModal);
-            closeDetailBtn.addEventListener('click', closeDetailModal);
-            postDetailModal.addEventListener('click', (e) => {
-                if (e.target === postDetailModal) closeDetailModal();
-            });
 
             // 9. Write Modal logic (Image upload, compression, presets, submit)
             let currentUploadedImages = [];
