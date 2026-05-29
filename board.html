@@ -916,7 +916,7 @@
             };
 
             // 6. Delete post handler
-            const deletePost = (id) => {
+            const deletePost = async (id) => {
                 if (sessionStorage.getItem('isAdmin') !== 'true') {
                     alert('관리자 권한이 필요합니다.');
                     return;
@@ -924,11 +924,16 @@
                 posts = posts.filter(p => p.id !== id);
                 try {
                     localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                    syncPostsToServer();
-                } catch (err) { }
+                } catch (err) { console.warn('localStorage 저장 실패:', err); }
 
                 const activeFilter = document.querySelector('.filter-btn.active');
                 renderPosts(activeFilter ? activeFilter.dataset.filter : 'all');
+
+                try {
+                    await syncPostsToServer();
+                } catch (err) {
+                    alert('서버 저장 실패: ' + err.message);
+                }
             };
 
 
@@ -1128,7 +1133,7 @@
             });
 
             // Form Submit handler
-            writePostForm.addEventListener('submit', (e) => {
+            writePostForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
                 if (sessionStorage.getItem('isAdmin') !== 'true') {
@@ -1202,13 +1207,19 @@
 
                 try {
                     localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                    syncPostsToServer();
-                } catch (err) { }
+                } catch (err) { console.warn('localStorage 저장 실패:', err); }
 
                 closeWriteModal();
 
                 const activeFilter = document.querySelector('.filter-btn.active');
                 renderPosts(activeFilter ? activeFilter.dataset.filter : 'all');
+
+                // GitHub에 비동기 저장 (await 사용, 에러 메시지 표시)
+                try {
+                    await syncPostsToServer();
+                } catch (err) {
+                    alert('서버 저장 실패: ' + err.message);
+                }
             });
 
             // 10. Filter buttons click logic
