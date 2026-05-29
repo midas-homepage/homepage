@@ -733,8 +733,11 @@
 
                         showLoading("posts.json 데이터베이스 저장 중...");
 
-                        const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json`;
-                        const postsInfoRes = await fetch(postsUrl, { headers: { 'Authorization': `token ${token}` } });
+                        const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json?t=${Date.now()}`;
+                        const postsInfoRes = await fetch(postsUrl, { 
+                            headers: { 'Authorization': `token ${token}` },
+                            cache: 'no-store'
+                        });
                         const postsSha = postsInfoRes.ok ? (await postsInfoRes.json()).sha : null;
 
                         const encodeToBase64 = (str) => {
@@ -763,8 +766,11 @@
 
                         showLoading("news_ticker.json 롤링 데이터 저장 중...");
 
-                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json`;
-                        const tickerInfoRes = await fetch(tickerUrl, { headers: { 'Authorization': `token ${token}` } });
+                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json?t=${Date.now()}`;
+                        const tickerInfoRes = await fetch(tickerUrl, { 
+                            headers: { 'Authorization': `token ${token}` },
+                            cache: 'no-store'
+                        });
                         const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
 
                         const newsPosts = posts.filter(p => p && p.category === 'news');
