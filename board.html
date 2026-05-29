@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=38">
+    <link rel="stylesheet" href="styles.css?v=39">
 </head>
 
 <body class="light-theme">
@@ -664,6 +664,17 @@
             // 4. Admin Auth Logic (Handled globally by app.js)
 
 
+            // Strip HTML tags helper for card preview summary
+            const getPlainSummary = (htmlOrText) => {
+                if (!htmlOrText) return "";
+                if (!htmlOrText.includes('<') && !htmlOrText.includes('>')) {
+                    return htmlOrText;
+                }
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlOrText;
+                return tempDiv.textContent || tempDiv.innerText || "";
+            };
+
             // 5. Safe programmatic Card Renderer
             const renderPosts = (currentFilter = 'all') => {
                 boardGrid.replaceChildren();
@@ -764,7 +775,7 @@
                     // Description text (truncated in CSS)
                     const desc = document.createElement('p');
                     desc.className = 'board-item-description';
-                    desc.textContent = post.content;
+                    desc.textContent = getPlainSummary(post.content);
                     info.appendChild(desc);
 
                     // Actions (Read, Delete)
@@ -1008,6 +1019,13 @@
                     return;
                 }
 
+                // Clean up any null elements in posts array to prevent TypeErrors
+                if (Array.isArray(posts)) {
+                    posts = posts.filter(Boolean);
+                } else {
+                    posts = [];
+                }
+
                 const category = document.getElementById('postCategory').value;
                 const title = document.getElementById('postTitle').value.trim();
                 const date = document.getElementById('postDate').value;
@@ -1030,7 +1048,7 @@
                 const editIdStr = editPostId.value;
                 if (editIdStr) {
                     const editId = parseInt(editIdStr, 10);
-                    const postIndex = posts.findIndex(p => p.id === editId);
+                    const postIndex = posts.findIndex(p => p && p.id === editId);
                     if (postIndex > -1) {
                         posts[postIndex] = {
                             ...posts[postIndex],
@@ -1042,7 +1060,7 @@
                         };
                     }
                 } else {
-                    const maxId = posts.reduce((max, p) => p.id > max ? p.id : max, 0);
+                    const maxId = posts.reduce((max, p) => (p && p.id) > max ? p.id : max, 0);
                     const newPost = {
                         id: maxId + 1,
                         category,
