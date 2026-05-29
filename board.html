@@ -686,9 +686,31 @@
                         }
                         const { owner, repo } = getGitHubRepoDetails();
 
-                        showLoading("이미지 파일을 업로드하는 중...");
+                        showLoading("GitHub 최신 저장소 상태 확인 중...");
 
-                        let uploadedAnyImage = false;
+                        // 1. 최신 커밋 및 트리 정보 조회
+                        const refRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/main?t=${Date.now()}`, {
+                            headers: { 'Authorization': `token ${token}` },
+                            cache: 'no-store'
+                        });
+                        if (!refRes.ok) {
+                            throw new Error(`Git reference 조회 실패: ${refRes.status}`);
+                        }
+                        const refData = await refRes.json();
+                        const commitSha = refData.object.sha;
+
+                        const commitRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits/${commitSha}`, {
+                            headers: { 'Authorization': `token ${token}` }
+                        });
+                        if (!commitRes.ok) {
+                            throw new Error(`Commit 상세 조회 실패: ${commitRes.status}`);
+                        }
+                        const commitData = await commitRes.json();
+                        const baseTreeSha = commitData.tree.sha;
+
+                        // 2. 업로드 큐 빌드 (대용량 이미지 파일 및 JSON 데이터베이스 추출)
+                        const uploadQueue = [];
+
                         for (const p of posts) {
                             if (!p || !p.img) continue;
                             for (let i = 0; i < p.img.length; i++) {
@@ -703,43 +725,18 @@
                                     const randomId = Math.random().toString(36).substring(2, 8);
                                     const filePath = `data/images/img_${p.id}_${i}_${Date.now().toString(36)}_${randomId}.${ext}`;
                                     const base64Data = imageSrc.split(',')[1];
-                                    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-
-                                    showLoading(`이미지 업로드 중 (${filePath.split('/').pop()})...`);
-
-                                    const imgRes = await fetch(url, {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Authorization': `token ${token}`,
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ message: `Upload image for post ${p.id}`, content: base64Data })
+                                    
+                                    uploadQueue.push({
+                                        path: filePath,
+                                        content: base64Data
                                     });
 
-                                    if (!imgRes.ok) {
-                                        const err = await imgRes.json().catch(() => ({}));
-                                        throw new Error(`이미지 업로드 실패 (post ${p.id}, idx ${i}): ` + (err.message || imgRes.status));
-                                    }
-
-                                    p.img[i] = filePath;
-                                    uploadedAnyImage = true;
+                                    p.img[i] = filePath; // 배열 이미지 소스를 업로드될 파일 경로로 바꿈
                                 }
                             }
                         }
 
-                        if (uploadedAnyImage) {
-                            try { localStorage.setItem('midas_board_posts', JSON.stringify(posts)); } catch(e) {}
-                        }
-
-                        showLoading("posts.json 데이터베이스 저장 중...");
-
-                        const postsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/posts.json?t=${Date.now()}`;
-                        const postsInfoRes = await fetch(postsUrl, { 
-                            headers: { 'Authorization': `token ${token}` },
-                            cache: 'no-store'
-                        });
-                        const postsSha = postsInfoRes.ok ? (await postsInfoRes.json()).sha : null;
-
+                        // posts.json 및 news_ticker.json 준비
                         const encodeToBase64 = (str) => {
                             const utf8Bytes = new TextEncoder().encode(str);
                             let binaryString = "";
@@ -750,29 +747,13 @@
                             return btoa(binaryString);
                         };
 
-                        const postsBody = { message: 'Update posts database', content: encodeToBase64(JSON.stringify(posts, null, 2)) };
-                        if (postsSha) postsBody.sha = postsSha;
-
-                        const putPostsRes = await fetch(postsUrl, {
-                            method: 'PUT',
-                            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                            body: JSON.stringify(postsBody)
+                        const postsContent = JSON.stringify(posts, null, 2);
+                        uploadQueue.push({
+                            path: 'data/posts.json',
+                            content: encodeToBase64(postsContent)
                         });
 
-                        if (!putPostsRes.ok) {
-                            const err = await putPostsRes.json().catch(() => ({}));
-                            throw new Error('posts.json 저장 실패: ' + (err.message || putPostsRes.status));
-                        }
-
-                        showLoading("news_ticker.json 롤링 데이터 저장 중...");
-
-                        const tickerUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data/news_ticker.json?t=${Date.now()}`;
-                        const tickerInfoRes = await fetch(tickerUrl, { 
-                            headers: { 'Authorization': `token ${token}` },
-                            cache: 'no-store'
-                        });
-                        const tickerSha = tickerInfoRes.ok ? (await tickerInfoRes.json()).sha : null;
-
+                        // news_ticker.json 가공 및 큐 삽입
                         const newsPosts = posts.filter(p => p && p.category === 'news');
                         newsPosts.sort((a, b) => {
                             const diff = new Date(b.date) - new Date(a.date);
@@ -781,22 +762,116 @@
                         const topNews = newsPosts.slice(0, 3).map(p => ({
                             id: p.id, title: p.title, date: p.date, category: p.category
                         }));
-
-                        const tickerBody = { message: 'Update news ticker', content: encodeToBase64(JSON.stringify(topNews, null, 2)) };
-                        if (tickerSha) tickerBody.sha = tickerSha;
-
-                        const putTickerRes = await fetch(tickerUrl, {
-                            method: 'PUT',
-                            headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                            body: JSON.stringify(tickerBody)
+                        const tickerContent = JSON.stringify(topNews, null, 2);
+                        uploadQueue.push({
+                            path: 'data/news_ticker.json',
+                            content: encodeToBase64(tickerContent)
                         });
 
-                        if (!putTickerRes.ok) {
-                            const err = await putTickerRes.json().catch(() => ({}));
-                            throw new Error('news_ticker.json 저장 실패: ' + (err.message || putTickerRes.status));
+                        // 3. Blob 동시 병렬 생성 (Promise.all)
+                        const totalBlobs = uploadQueue.length;
+                        showLoading(`파일 및 이미지 전송 중... (0/${totalBlobs})`);
+
+                        let completedCount = 0;
+                        const uploadBlobWithProgress = async (item) => {
+                            const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/blobs`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `token ${token}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    content: item.content,
+                                    encoding: 'base64'
+                                })
+                            });
+                            if (!res.ok) {
+                                const err = await res.json().catch(() => ({}));
+                                throw new Error(`${item.path} Blob 생성 실패: ` + (err.message || res.status));
+                            }
+                            const data = await res.json();
+                            completedCount++;
+                            showLoading(`파일 및 이미지 전송 중... (${completedCount}/${totalBlobs})`);
+                            return {
+                                path: item.path,
+                                sha: data.sha
+                            };
+                        };
+
+                        const blobResults = await Promise.all(uploadQueue.map(uploadBlobWithProgress));
+
+                        // 4. 단일 Tree 생성
+                        showLoading("Git 트리 오브젝트 생성 중...");
+                        const treeArray = blobResults.map(b => ({
+                            path: b.path,
+                            mode: "100644",
+                            type: "blob",
+                            sha: b.sha
+                        }));
+
+                        const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `token ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                base_tree: baseTreeSha,
+                                tree: treeArray
+                            })
+                        });
+                        if (!treeRes.ok) {
+                            const err = await treeRes.json().catch(() => ({}));
+                            throw new Error("Git Tree 생성 실패: " + (err.message || treeRes.status));
+                        }
+                        const treeData = await treeRes.json();
+                        const newTreeSha = treeData.sha;
+
+                        // 5. 단일 Commit 생성
+                        showLoading("Git 커밋 생성 중...");
+                        const commitRes2 = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `token ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                message: 'Update database and upload assets [skip ci]',
+                                tree: newTreeSha,
+                                parents: [commitSha]
+                            })
+                        });
+                        if (!commitRes2.ok) {
+                            const err = await commitRes2.json().catch(() => ({}));
+                            throw new Error("Git Commit 생성 실패: " + (err.message || commitRes2.status));
+                        }
+                        const newCommitData = await commitRes2.json();
+                        const newCommitSha = newCommitData.sha;
+
+                        // 6. Ref 업데이트 (Main 브랜치 헤드 이동 - 최종 커밋 갱신)
+                        showLoading("저장소 메인 브랜치 헤드 업데이트 중...");
+                        const refUpdateRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/main`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': `token ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                sha: newCommitSha,
+                                force: false
+                            })
+                        });
+                        if (!refUpdateRes.ok) {
+                            const err = await refUpdateRes.json().catch(() => ({}));
+                            throw new Error("HEAD Ref 업데이트 실패: " + (err.message || refUpdateRes.status));
                         }
 
-                        showToast("저장 완료", "변경사항이 서버에 동기화되었습니다. 배포 완료까지 약 1~2분이 소요됩니다.", "success");
+                        // 로컬 스토리지 데이터 동기화
+                        try {
+                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                        } catch (e) {}
+
+                        showToast("저장 완료", "변경사항이 서버에 초고속 동기화되었습니다. 배포 반영까지 약 1~2분이 소요됩니다.", "success");
                     } catch (e) {
                         showToast("저장 실패", "GitHub 동기화 중 오류가 발생했습니다: " + e.message, "error");
                     } finally {
@@ -918,9 +993,48 @@
                     const targetPost = posts.find(p => p.id === targetPostId);
                     if (targetPost) {
                         setTimeout(() => {
-                            openDetailModal(targetPost);
+                            window.location.href = 'post.html?id=' + targetPost.id;
                         }, 250);
                     }
+                }
+            };
+
+            // Real-time GitHub Pages build image recovery helper
+            const resolveGitHubImage = (imgElement, path) => {
+                if (!path) return;
+                if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) {
+                    imgElement.src = path;
+                    return;
+                }
+                
+                // Fallback default path assignment
+                imgElement.src = path;
+                
+                const isLocal = 
+                    window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.hostname === '0.0.0.0' || 
+                    window.location.hostname === '[::1]' ||
+                    window.location.hostname.startsWith('192.168.') || 
+                    window.location.hostname.startsWith('10.') || 
+                    window.location.hostname.startsWith('172.16.') || 
+                    window.location.hostname.startsWith('172.17.') || 
+                    window.location.hostname.startsWith('172.18.') || 
+                    window.location.hostname.startsWith('172.19.') || 
+                    window.location.hostname.startsWith('172.2') || 
+                    window.location.hostname.startsWith('172.3') || 
+                    window.location.hostname.endsWith('.local') ||
+                    (window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443');
+
+                if (!isLocal && path.startsWith('data/images/')) {
+                    const handleImgError = () => {
+                        imgElement.removeEventListener('error', handleImgError);
+                        const { owner, repo } = getGitHubRepoDetails();
+                        const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/${path}?t=${Date.now()}`;
+                        console.log(`Image failed to load from ${path}. Falling back to Raw GitHub URL: ${rawUrl}`);
+                        imgElement.src = rawUrl;
+                    };
+                    imgElement.addEventListener('error', handleImgError);
                 }
             };
 
@@ -977,7 +1091,7 @@
                         imgWrapper.className = 'board-item-img-wrapper';
 
                         const img = document.createElement('img');
-                        img.src = images[0];
+                        resolveGitHubImage(img, images[0]);
                         img.alt = post.title;
                         img.loading = 'lazy';
                         imgWrapper.appendChild(img);
