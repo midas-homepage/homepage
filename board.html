@@ -733,18 +733,27 @@
                     }
                 };
 
-                try {
-                    const response = await fetch(`data/posts.json?t=${Date.now()}`);
-                    if (response.ok) {
-                        posts = await response.json();
-                        localStorage.setItem('midas_board_posts', JSON.stringify(posts));
-                    } else {
-                        throw new Error("Failed to load posts.json");
-                    }
-                } catch (err) {
-                    console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                // 최근 5분 이내에 저장한 경우 GitHub Pages 재빌드 중으로 간주 → localStorage 우선 사용
+                const lastSync = parseInt(localStorage.getItem('midas_posts_sync_time') || '0');
+                const isRebuilding = (Date.now() - lastSync) < 5 * 60 * 1000; // 5분
+
+                if (isRebuilding) {
+                    console.log("GitHub Pages 재빌드 중. 로컬 캐시에서 게시물을 불러옵니다.");
                     loadPostsFromLocalStorage();
-                }
+                } else {
+                    try {
+                        const response = await fetch(`data/posts.json?t=${Date.now()}`);
+                        if (response.ok) {
+                            posts = await response.json();
+                            localStorage.setItem('midas_board_posts', JSON.stringify(posts));
+                        } else {
+                            throw new Error("Failed to load posts.json");
+                        }
+                    } catch (err) {
+                        console.warn("Failed to fetch posts.json, falling back to localStorage:", err);
+                        loadPostsFromLocalStorage();
+                    }
+                } // end isRebuilding else
 
                 // Trigger rendering
                 const urlParams = new URLSearchParams(window.location.search);
