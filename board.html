@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <!-- CSS stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=41">
+    <link rel="stylesheet" href="styles.css?v=42">
 </head>
 
 <body class="light-theme">
@@ -870,8 +870,8 @@
                             let width = img.width;
                             let height = img.height;
 
-                            // Scale down if dimensions exceed 1000px
-                            const maxDim = 1000;
+                            // Scale down if dimensions exceed 1600px for high quality
+                            const maxDim = 1600;
                             if (width > maxDim || height > maxDim) {
                                 if (width > height) {
                                     height = Math.round((height * maxDim) / width);
@@ -886,10 +886,12 @@
                             canvas.height = height;
 
                             const ctx = canvas.getContext('2d');
+                            ctx.imageSmoothingEnabled = true;
+                            ctx.imageSmoothingQuality = 'high';
                             ctx.drawImage(img, 0, 0, width, height);
 
-                            // Export as JPEG with 0.7 quality
-                            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                            // Export as JPEG with 0.85 quality for professional clarity
+                            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
                             resolve(dataUrl);
                         };
                         img.onerror = (err) => reject(err);

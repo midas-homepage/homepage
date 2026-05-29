@@ -3699,10 +3699,29 @@ body.admin-mode .pub-admin-actions {
 }
 /* Ensure clean styling inside the post detail content container when in ql-editor class */
 #postBodyContainer {
+    text-align: left !important;
+}
+#postBodyContainer p,
+#postBodyContainer h1,
+#postBodyContainer h2,
+#postBodyContainer h3,
+#postBodyContainer h4,
+#postBodyContainer h5,
+#postBodyContainer h6,
+#postBodyContainer li,
+#postBodyContainer span,
+#postBodyContainer div {
+    text-align: left;
+}
+/* Preserve Quill's explicit alignments */
+#postBodyContainer .ql-align-center {
     text-align: center !important;
 }
-#postBodyContainer * {
-    text-align: center !important;
+#postBodyContainer .ql-align-right {
+    text-align: right !important;
+}
+#postBodyContainer .ql-align-justify {
+    text-align: justify !important;
 }
 #postBodyContainer.ql-editor {
     font-size: 1.1rem;
