@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 49
+ * Version: 50
  */
 
 // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
@@ -18,7 +18,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '49';
+        const CURRENT_VERSION = '50';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 

@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Home Page (index.html) Specialized Modules
- * Version: 49
+ * Version: 50
  */
 
 (() => {
@@ -398,12 +398,35 @@
                 if (newsPosts.length === 0) {
                     newsListEl.innerHTML = '<div class="empty-placeholder">No news articles found.</div>';
                 } else {
-                    newsListEl.innerHTML = newsPosts.map(p => `
-                        <a href="post.html?id=${p.id}" class="news-item">
-                            <span class="news-item-title">${p.title}</span>
-                            <span class="news-item-date">${p.date}</span>
-                        </a>
-                    `).join('');
+                    newsListEl.innerHTML = '';
+                    newsPosts.forEach(p => {
+                        const images = getImages(p);
+                        const representativeImg = images.length > 0 ? images[0] : 'images/logo.png';
+                        
+                        const cardLink = document.createElement('a');
+                        cardLink.href = `post.html?id=${p.id}`;
+                        cardLink.className = 'news-list-card';
+
+                        const thumbWrapper = document.createElement('div');
+                        thumbWrapper.className = 'news-list-thumb-wrapper';
+
+                        const imgEl = document.createElement('img');
+                        imgEl.className = 'news-list-thumb';
+                        imgEl.alt = p.title;
+                        resolveGitHubImage(imgEl, representativeImg);
+                        thumbWrapper.appendChild(imgEl);
+
+                        const infoDiv = document.createElement('div');
+                        infoDiv.className = 'news-list-info';
+                        infoDiv.innerHTML = `
+                            <span class="news-list-title">${p.title}</span>
+                            <span class="news-list-date">${p.date}</span>
+                        `;
+
+                        cardLink.appendChild(thumbWrapper);
+                        cardLink.appendChild(infoDiv);
+                        newsListEl.appendChild(cardLink);
+                    });
                 }
             }
 

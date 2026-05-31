@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Publications Page (publications.html) Specialized Modules
- * Version: 49
+ * Version: 50
  */
 
 (() => {

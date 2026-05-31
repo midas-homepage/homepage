@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - People Page (people.html) Specialized Modules
- * Version: 49
+ * Version: 50
  */
 
 (() => {
