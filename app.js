@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 50
+ * Version: 51
  */
 
 // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
@@ -18,7 +18,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '50';
+        const CURRENT_VERSION = '51';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
@@ -58,7 +58,7 @@ const initApp = () => {
     // ==========================================================================
     // 1. Theme Management (Dark / Light Mode Toggle)
     // ==========================================================================
-    const themeBtn = document.getElementById('themeBtn');
+    const themeBtn = document.getElementById('theme-toggle') || document.getElementById('themeBtn');
     const themeBtnMobile = document.getElementById('theme-toggle-mobile');
 
     const toggleTheme = () => {
@@ -66,6 +66,7 @@ const initApp = () => {
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
         
         bodyElement.classList.toggle('dark-theme', nextTheme === 'dark');
+        bodyElement.classList.toggle('light-theme', nextTheme === 'light');
         localStorage.setItem('theme', nextTheme);
     };
 
@@ -73,14 +74,21 @@ const initApp = () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             bodyElement.classList.add('dark-theme');
+            bodyElement.classList.remove('light-theme');
         } else {
             bodyElement.classList.remove('dark-theme');
+            bodyElement.classList.add('light-theme');
         }
     };
     loadSavedTheme();
 
-    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
-    if (themeBtnMobile) themeBtnMobile.addEventListener('click', toggleTheme);
+    const handleThemeToggleClick = (e) => {
+        if (e) e.preventDefault();
+        toggleTheme();
+    };
+
+    if (themeBtn) themeBtn.addEventListener('click', handleThemeToggleClick);
+    if (themeBtnMobile) themeBtnMobile.addEventListener('click', handleThemeToggleClick);
 
     // ==========================================================================
     // 2. Navigation Header Scroll Effect & Sticky Header (CAU AR Lab Style)
