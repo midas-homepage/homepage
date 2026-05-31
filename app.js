@@ -2020,6 +2020,155 @@ const initApp = () => {
         }
     };
     initHeroStats();
+
+    // ==========================================================================
+    // 15. Home News & Gallery Live Feeding
+    // ==========================================================================
+    const initHomeNewsGallery = async () => {
+        const newsListEl = document.getElementById('home-news-list');
+        const galleryGridEl = document.getElementById('home-gallery-grid');
+        if (!newsListEl && !galleryGridEl) return;
+
+        // GitHub Pages image loading fallback helper
+        const getGitHubRepoDetails = () => {
+            const hostname = window.location.hostname;
+            const pathname = window.location.pathname;
+            let owner = 'midas-homepage';
+            let repo = 'homepage';
+            if (hostname.endsWith('.github.io')) {
+                owner = hostname.replace('.github.io', '');
+                const parts = pathname.split('/').filter(Boolean);
+                if (parts.length > 0) {
+                    repo = parts[0];
+                }
+            }
+            return { owner, repo };
+        };
+
+        const resolveGitHubImage = (imgElement, path) => {
+            if (!path) return;
+            if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) {
+                imgElement.src = path;
+                return;
+            }
+            imgElement.src = path;
+
+            const isLocal = 
+                window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' || 
+                window.location.hostname === '0.0.0.0' || 
+                window.location.hostname === '[::1]' ||
+                window.location.hostname.startsWith('192.168.') || 
+                window.location.hostname.startsWith('10.') || 
+                window.location.hostname.startsWith('172.16.') || 
+                window.location.hostname.startsWith('172.17.') || 
+                window.location.hostname.startsWith('172.18.') || 
+                window.location.hostname.startsWith('172.19.') || 
+                window.location.hostname.startsWith('172.2') || 
+                window.location.hostname.startsWith('172.3') || 
+                window.location.hostname.endsWith('.local') ||
+                (window.location.port !== '' && window.location.port !== '80' && window.location.port !== '443');
+
+            if (!isLocal && path.startsWith('data/images/')) {
+                const handleImgError = () => {
+                    imgElement.removeEventListener('error', handleImgError);
+                    const { owner, repo } = getGitHubRepoDetails();
+                    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/${path}?t=${Date.now()}`;
+                    console.log(`[Home Gallery] Image failed to load: ${path}. Fallback to GitHub Raw URL: ${rawUrl}`);
+                    imgElement.src = rawUrl;
+                };
+                imgElement.addEventListener('error', handleImgError);
+            }
+        };
+
+        const getImages = (post) => {
+            if (!post.img) return [];
+            if (Array.isArray(post.img)) return post.img.filter(Boolean);
+            if (typeof post.img === 'string') {
+                return post.img.split(',').map(s => s.trim()).filter(Boolean);
+            }
+            return [];
+        };
+
+        try {
+            let posts = [];
+            // Try to load cached posts from localStorage first for faster rendering
+            const cachedPosts = localStorage.getItem('midas_posts');
+            if (cachedPosts) {
+                posts = JSON.parse(cachedPosts);
+            }
+
+            // Fetch fresh posts
+            const res = await fetch(`data/posts.json?t=${Date.now()}`);
+            if (res.ok) {
+                posts = await res.json();
+                localStorage.setItem('midas_posts', JSON.stringify(posts));
+            }
+
+            if (!posts || posts.length === 0) {
+                if (newsListEl) newsListEl.innerHTML = '<div class="empty-placeholder">No news articles found.</div>';
+                if (galleryGridEl) galleryGridEl.innerHTML = '<div class="empty-placeholder">No gallery images found.</div>';
+                return;
+            }
+
+            // Sort posts by date descending (newest first)
+            const sortedPosts = posts.filter(p => p && p.date).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Render News List (up to 5 items)
+            if (newsListEl) {
+                const newsPosts = sortedPosts.filter(p => p.category === 'news').slice(0, 5);
+                if (newsPosts.length === 0) {
+                    newsListEl.innerHTML = '<div class="empty-placeholder">No news articles found.</div>';
+                } else {
+                    newsListEl.innerHTML = newsPosts.map(p => `
+                        <a href="post.html?id=${p.id}" class="news-item">
+                            <span class="news-item-title">${p.title}</span>
+                            <span class="news-item-date">${p.date}</span>
+                        </a>
+                    `).join('');
+                }
+            }
+
+            // Render Gallery Grid (up to 4 items)
+            if (galleryGridEl) {
+                const photoPosts = sortedPosts.filter(p => p.category === 'photo').slice(0, 4);
+                if (photoPosts.length === 0) {
+                    galleryGridEl.innerHTML = '<div class="empty-placeholder">No gallery images found.</div>';
+                } else {
+                    galleryGridEl.innerHTML = '';
+                    photoPosts.forEach(p => {
+                        const images = getImages(p);
+                        const representativeImg = images.length > 0 ? images[0] : 'images/logo.png'; // fallback if no image
+                        
+                        const itemLink = document.createElement('a');
+                        itemLink.href = `post.html?id=${p.id}`;
+                        itemLink.className = 'gallery-item';
+
+                        const imgEl = document.createElement('img');
+                        imgEl.alt = p.title;
+                        resolveGitHubImage(imgEl, representativeImg);
+
+                        const infoDiv = document.createElement('div');
+                        infoDiv.className = 'gallery-item-info';
+                        infoDiv.innerHTML = `
+                            <h3 class="gallery-item-title">${p.title}</h3>
+                            <span class="gallery-item-date">${p.date}</span>
+                        `;
+
+                        itemLink.appendChild(imgEl);
+                        itemLink.appendChild(infoDiv);
+                        galleryGridEl.appendChild(itemLink);
+                    });
+                }
+            }
+
+        } catch (e) {
+            console.error("Failed to load news & gallery for home page:", e);
+            if (newsListEl) newsListEl.innerHTML = '<div class="empty-placeholder">Error loading news.</div>';
+            if (galleryGridEl) galleryGridEl.innerHTML = '<div class="empty-placeholder">Error loading gallery.</div>';
+        }
+    };
+    initHomeNewsGallery();
 };
 
 if (document.readyState === 'loading') {
