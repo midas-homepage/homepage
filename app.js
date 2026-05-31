@@ -2164,6 +2164,7 @@ const initApp = () => {
 
         } catch (e) {
             console.error("Failed to load news & gallery for home page:", e);
+            alert("Error in initHomeNewsGallery: " + e.message + "\nStack: " + e.stack);
             if (newsListEl) newsListEl.innerHTML = '<div class="empty-placeholder">Error loading news.</div>';
             if (galleryGridEl) galleryGridEl.innerHTML = '<div class="empty-placeholder">Error loading gallery.</div>';
         }
