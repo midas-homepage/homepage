@@ -529,11 +529,11 @@
   {
     "id": 63,
     "category": "photo",
-    "title": "2026 Spring KECS meeting 2026년 춘계 전기화학회",
+    "title": "KECS 2026 Spring Conference 2026 한국전기화학회 춘계학술대회",
     "date": "2026-04-03",
     "img": [
-      "data/images/img_63_0_mpqnhcra_loqmtz.jpg"
+      "https://midas-homepage.github.io/homepage/data/images/img_63_0_mpqnhcra_loqmtz.jpg"
     ],
-    "content": "<p>2026 Spring KECS meeting 2026년 춘계 전기화학회<img src=\"[img0]\"></p><p><br></p>"
+    "content": "<p>KECS 2026 Spring Conference 2026 한국전기화학회 춘계학술대회<img src=\"[img0]\"></p><p><br></p>"
   }
 ]
