@@ -697,15 +697,27 @@
                 const photoFile = memberPhotoFile ? memberPhotoFile.files[0] : null;
                 if (photoFile) {
                     const compressedData = await resizeAndCompressMemberImage(photoFile);
+                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                     
-                    const uploadRes = await fetch('/api/upload-member-photo', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ filename: imgVal, image: compressedData })
-                    });
-                    
-                    if (!uploadRes.ok) {
-                        throw new Error('사진 업로드에 실패했습니다. 서버 상태를 확인해주세요.');
+                    if (isLocal) {
+                        const uploadRes = await fetch('/api/upload-member-photo', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ filename: imgVal, image: compressedData })
+                        });
+                        
+                        if (!uploadRes.ok) {
+                            throw new Error('사진 업로드에 실패했습니다. 로컬 서버 상태를 확인해주세요.');
+                        }
+                    } else {
+                        // GitHub Pages: upload via GitHub API
+                        const base64Only = compressedData.split(',')[1];
+                        await saveFileToGitHub(
+                            `images/people/${imgVal}`,
+                            base64Only,
+                            `Upload member photo: ${imgVal}`,
+                            true
+                        );
                     }
                 }
 
