@@ -128,11 +128,11 @@
       "Haesun Park",
       "Hee-Dae Lim*"
     ],
-    "journal": "Accepted, Advanced Energy Materials",
-    "year": "2026",
+    "journal": "Advanced Energy Materials",
+    "year": 2026,
     "status": "published",
-    "doi": "",
-    "pdf": ""
+    "doi": "https://doi.org/10.1002/aenm.71086",
+    "pdf": "data/publications/advanced_energy_materials_2026_kim_fluorine_aligned_electrostatic_gatekeepers_regulating_polysulfide_migration_for.pdf"
   },
   {
     "title": "Unveiling the Hidden Interface: Pre-SEI governs Li morphology in Anode-Free Li Metal Batteries",
