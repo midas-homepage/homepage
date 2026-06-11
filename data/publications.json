@@ -31,11 +31,11 @@
       "Haesun Park*",
       "Soo-Kil Kim*"
     ],
-    "journal": "Under Review",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
+    "journal": "Journal of Materials Chemistry A",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D6TA01806H",
+    "pdf": "data/publications/j.mater.chem.a_2026.pdf"
   },
   {
     "title": "Phase-selective asymmetric SEI formation dynamics in Si–graphite composite electrodes",
