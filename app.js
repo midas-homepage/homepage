@@ -319,16 +319,45 @@ const initApp = () => {
 
             formFeedback.style.display = 'block';
             formFeedback.className = 'form-feedback-message success';
-            formFeedback.textContent = `감사합니다, ${nameVal}님! 작성하신 메시지 전송을 위해 이메일 클라이언트를 실행합니다. (수신처: yooonwoo0303@gmail.com)`;
+            formFeedback.textContent = '메시지를 전송 중입니다...';
 
-            const mailtoUrl = `mailto:yooonwoo0303@gmail.com?subject=${encodeURIComponent(subjectVal)}&body=${encodeURIComponent(`보낸 사람: ${nameVal} (${emailVal})\n\n${messageVal}`)}`;
-            window.location.href = mailtoUrl;
-
-            contactForm.reset();
-            
-            setTimeout(() => {
-                formFeedback.style.display = 'none';
-            }, 6000);
+            fetch("https://formsubmit.co/ajax/yooonwoo0303@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: nameVal,
+                    email: emailVal,
+                    subject: subjectVal,
+                    message: messageVal
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                formFeedback.className = 'form-feedback-message success';
+                if (data.success === "true" || data.success === true) {
+                    formFeedback.textContent = `감사합니다, ${nameVal}님! 메시지가 백엔드를 통해 성공적으로 발송되었습니다.`;
+                    contactForm.reset();
+                } else {
+                    if (data.message && data.message.toLowerCase().includes("activate")) {
+                        formFeedback.textContent = `최초 1회 인증 필요: yooonwoo0303@gmail.com 메일함으로 전송된 FormSubmit 활성화(Activate) 링크를 클릭해 주세요!`;
+                    } else {
+                        formFeedback.textContent = `메시지 전송 실패: ${data.message || '알 수 없는 오류'}`;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("Error submitting form:", error);
+                formFeedback.className = 'form-feedback-message error';
+                formFeedback.textContent = '메시지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+            });
         });
     }
 };
