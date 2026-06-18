@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 54
+ * Version: 56
  */
 
 const GOOGLE_MAIL_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
@@ -20,7 +20,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '54';
+        const CURRENT_VERSION = '56';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
@@ -311,11 +311,21 @@ const initApp = () => {
             const emailVal = document.getElementById('user-email').value.trim();
             const subjectVal = document.getElementById('user-subject').value.trim();
             const messageVal = document.getElementById('user-message').value.trim();
+            const honeypotVal = document.getElementById('user-honeypot') ? document.getElementById('user-honeypot').value : "";
 
             if (!nameVal || !emailVal || !subjectVal || !messageVal) {
                 formFeedback.style.display = 'block';
                 formFeedback.className = 'form-feedback-message error';
                 formFeedback.textContent = '모든 필드를 기입해 주십시오.';
+                return;
+            }
+
+            // Silent block for spambot in honeypot
+            if (honeypotVal && honeypotVal.trim() !== "") {
+                formFeedback.style.display = 'block';
+                formFeedback.className = 'form-feedback-message success';
+                formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
+                contactForm.reset();
                 return;
             }
 
@@ -339,7 +349,8 @@ const initApp = () => {
                     name: nameVal,
                     email: emailVal,
                     subject: subjectVal,
-                    message: messageVal
+                    message: messageVal,
+                    honeypot: honeypotVal
                 })
             })
             .then(response => {
@@ -349,7 +360,7 @@ const initApp = () => {
                 return response.json();
             })
             .then(data => {
-                if (data.result === "success") {
+                if (data.result === "success" || data.result === "spam") {
                     formFeedback.className = 'form-feedback-message success';
                     formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
                     contactForm.reset();

@@ -607,6 +607,8 @@
                     <div class="contact-form-block">
                         <h3>Send a Message</h3>
                         <form id="contact-form" class="inquiry-form">
+                            <!-- Honeypot field for spam prevention -->
+                            <input type="text" id="user-honeypot" style="display:none !important;" tabindex="-1" autocomplete="off">
                             <div class="form-group-row">
                                 <div class="form-input-group">
                                     <label for="user-name">성함 *</label>
@@ -869,7 +871,7 @@
     </footer>
 
     <!-- JS script -->
-    <script src="app.js?v=54"></script>
+    <script src="app.js?v=56"></script>
     <script src="js/home.js?v=52"></script>
 </body>
 
