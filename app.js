@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 52
+ * Version: 53
  */
 
 // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
@@ -18,7 +18,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '52';
+        const CURRENT_VERSION = '53';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
@@ -343,7 +343,7 @@ const initApp = () => {
             .then(data => {
                 formFeedback.className = 'form-feedback-message success';
                 if (data.success === "true" || data.success === true) {
-                    formFeedback.textContent = `감사합니다, ${nameVal}님! 메시지가 백엔드를 통해 성공적으로 발송되었습니다.`;
+                    formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
                     contactForm.reset();
                 } else {
                     if (data.message && data.message.toLowerCase().includes("activate")) {
