@@ -311,13 +311,18 @@ const initApp = () => {
             const messageVal = document.getElementById('user-message').value.trim();
 
             if (!nameVal || !emailVal || !subjectVal || !messageVal) {
+                formFeedback.style.display = 'block';
                 formFeedback.className = 'form-feedback-message error';
                 formFeedback.textContent = '모든 필드를 기입해 주십시오.';
                 return;
             }
 
+            formFeedback.style.display = 'block';
             formFeedback.className = 'form-feedback-message success';
-            formFeedback.textContent = `감사합니다, ${nameVal}님! 메시지가 정상적으로 가상 전송되었습니다. 박해선 교수님(parkh@cau.ac.kr)께 연락하시거나 답장을 대기해 주세요.`;
+            formFeedback.textContent = `감사합니다, ${nameVal}님! 작성하신 메시지 전송을 위해 이메일 클라이언트를 실행합니다. (수신처: yooonwoo0303@gmail.com)`;
+
+            const mailtoUrl = `mailto:yooonwoo0303@gmail.com?subject=${encodeURIComponent(subjectVal)}&body=${encodeURIComponent(`보낸 사람: ${nameVal} (${emailVal})\n\n${messageVal}`)}`;
+            window.location.href = mailtoUrl;
 
             contactForm.reset();
             
