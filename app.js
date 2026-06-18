@@ -1,7 +1,9 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 53
+ * Version: 54
  */
+
+const GOOGLE_MAIL_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
 if (!Element.prototype.replaceChildren) {
@@ -18,7 +20,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '53';
+        const CURRENT_VERSION = '54';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
@@ -319,13 +321,19 @@ const initApp = () => {
 
             formFeedback.style.display = 'block';
             formFeedback.className = 'form-feedback-message success';
-            formFeedback.textContent = '메시지를 전송 중입니다...';
+            formFeedback.textContent = '메세지를 전송 중입니다...';
 
-            fetch("https://formsubmit.co/ajax/yooonwoo0303@gmail.com", {
+            if (GOOGLE_MAIL_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE" || !GOOGLE_MAIL_SCRIPT_URL) {
+                formFeedback.className = 'form-feedback-message error';
+                formFeedback.textContent = '구글 앱스 스크립트 웹 앱 URL이 설정되지 않았습니다. app.js 파일을 확인해 주세요.';
+                return;
+            }
+
+            fetch(GOOGLE_MAIL_SCRIPT_URL, {
                 method: "POST",
+                mode: "cors",
                 headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Content-Type': 'text/plain;charset=utf-8'
                 },
                 body: JSON.stringify({
                     name: nameVal,
@@ -341,22 +349,19 @@ const initApp = () => {
                 return response.json();
             })
             .then(data => {
-                formFeedback.className = 'form-feedback-message success';
-                if (data.success === "true" || data.success === true) {
+                if (data.result === "success") {
+                    formFeedback.className = 'form-feedback-message success';
                     formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
                     contactForm.reset();
                 } else {
-                    if (data.message && data.message.toLowerCase().includes("activate")) {
-                        formFeedback.textContent = `최초 1회 인증 필요: yooonwoo0303@gmail.com 메일함으로 전송된 FormSubmit 활성화(Activate) 링크를 클릭해 주세요!`;
-                    } else {
-                        formFeedback.textContent = `메시지 전송 실패: ${data.message || '알 수 없는 오류'}`;
-                    }
+                    formFeedback.className = 'form-feedback-message error';
+                    formFeedback.textContent = `메세지 전송 실패: ${data.error || '알 수 없는 오류'}`;
                 }
             })
             .catch(error => {
                 console.error("Error submitting form:", error);
                 formFeedback.className = 'form-feedback-message error';
-                formFeedback.textContent = '메시지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+                formFeedback.textContent = '메세지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
             });
         });
     }
