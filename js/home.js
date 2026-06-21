@@ -4,8 +4,8 @@
  */
 
 (() => {
-    // Check if we are on the home page (index.html or root)
-    const hasHomeElements = document.querySelector('main > section[id="overview"]') || document.getElementById('home-news-gallery');
+    // Check if we are on the home page (index.html or root) or research subpage
+    const hasHomeElements = document.querySelector('main > section[id="overview"]') || document.getElementById('home-news-gallery') || document.querySelector('.research-tabs');
     if (!hasHomeElements) return;
 
     const initHomeModule = () => {
