@@ -434,6 +434,10 @@ img {
     overflow: hidden;
 }
 
+#svis.research-banner {
+    background: linear-gradient(135deg, rgba(3, 4, 52, 0.92) 0%, rgba(3, 4, 52, 0.7) 50%, rgba(3, 4, 52, 0.3) 100%), url('images/research_banner.png') no-repeat center center / cover;
+}
+
 #svis .bg {
     position: absolute;
     top: 0;

@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 58
+ * Version: 59
  */
 
 const GOOGLE_MAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWCmHoX-JjmiM-8LqAJl3DWeDYIh7MaIF-qw36208X-EYusMFcoVdkW-xcTcctTwhYDA/exec";
@@ -20,7 +20,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '58';
+        const CURRENT_VERSION = '59';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
