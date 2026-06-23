@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Publications Page (publications.html) Specialized Modules
- * Version: 51
+ * Version: 63
  */
 
 (() => {
@@ -123,8 +123,9 @@
             return;
         }
 
-        items.forEach((pub) => {
-            const originalIndex = publications.findIndex(p => p.title === pub.title && p.year === pub.year);
+        // Render in reverse order so newest is at the top of the UI
+        [...items].reverse().forEach((pub) => {
+            const originalIndex = publications.indexOf(pub);
 
             const article = document.createElement('article');
             article.className = 'pub-item glass-panel';
@@ -136,7 +137,7 @@
 
             const pubNum = document.createElement('span');
             pubNum.className = 'pub-num';
-            pubNum.textContent = `#${publications.length - originalIndex}`;
+            pubNum.textContent = `#${originalIndex + 1}`;
 
             const pubYear = document.createElement('span');
             pubYear.className = 'pub-year';

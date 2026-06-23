@@ -1,601 +1,57 @@
 [
   {
-    "title": "Aging-Driven Oxygen Vacancy Engineering in α-MnO2/GO Composite toward Near-Theoretical Lithium-Ion Storage",
-    "authors": [
-      "Seon-Yeong Lee†",
-      "Myung kyoon Kim†",
-      "Jonghun Shin†",
-      "GiWon Lee",
-      "Hae-ri Lee",
-      "Juyeon Hong",
-      "Hyeokjun Yoo",
-      "Seunggyun Han",
-      "Uhyeok Son",
-      "Haesun Park*",
-      "Han-Ik Joh*"
-    ],
-    "journal": "Under Review",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Surface-engineered Ni-Pt Alloys as Robust and Cost-effective Electrocatalysts for High-Performance Proton Exchange Membrane Water Electrolysis",
-    "authors": [
-      "Kyeong-Rim Yeo†",
-      "Daehyun Kim†",
-      "Hoyoung Kim",
-      "Sung Jong Yoo",
-      "Jong Hyun Jang",
-      "Haesun Park*",
-      "Soo-Kil Kim*"
-    ],
-    "journal": "Journal of Materials Chemistry A (2026)",
-    "year": 2026,
-    "status": "published",
-    "doi": "https://doi.org/10.1039/D6TA01806H",
-    "pdf": "data/publications/d6ta01806h.pdf"
-  },
-  {
-    "title": "Phase-selective asymmetric SEI formation dynamics in Si–graphite composite electrodes",
-    "authors": [
-      "Inho Kim†",
-      "Sunggyu Yoon†",
-      "Daehyun Kim†",
-      "Seoung-Bum Son",
-      "Sung-Jin Chang",
-      "Haesun Park*",
-      "Minkyu Kim*"
-    ],
-    "journal": "Under Review",
-    "year": "2026",
-    "status": "review",
-    "doi": "https://doi.org/10.21203/rs.3.rs-9220127/v1",
-    "pdf": ""
-  },
-  {
-    "title": "Isolated Ir Step Decoration on Pt(100) via Self-Terminated Electrodeposition for Enhanced Electrochemical Ammonia Oxidation",
-    "authors": [
-      "Hyunki Kim†",
-      "Daehyun Kim†",
-      "Seokjin Hong",
-      "Junbeom Bang",
-      "Haesun Park*",
-      "Sang Hyun Ahn*"
-    ],
-    "journal": "Under Review",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Enhancing the Mechanical Properties of Solid Electrolytes for Crack-Resistant Cathodes in All-Solid-State Batteries",
-    "authors": [
-      "Jae Yup Jung",
-      "Seung Ho Choi*",
-      "Mansang Ha",
-      "Chang Hoon Baek",
-      "Seung Woo Lee",
-      "Dong Joo Yoo",
-      "Haesun Park*",
-      "Min-Sik Park*",
-      "Woosuk Cho*"
-    ],
-    "journal": "Under Review",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Dendrite-Free Anodes Enabled by High Work Function Conductive Polymers for Long-Life Aqueous Rechargeable Zinc Batteries",
-    "authors": [
-      "Siyeon Lee†",
-      "Jeongmin Lee†",
-      "Minjae Kim†",
-      "Jonghun Shin†",
-      "Heejin Koo",
-      "Eunseo Noh",
-      "Kyungjin Kim",
-      "Jaemin Lim",
-      "Seoung Ho Lee",
-      "Haesun Park*",
-      "Byoung Hoon Lee*",
-      "Kwan Woo Nam*"
-    ],
-    "journal": "Submitted",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Fluorine-Aligned Electrostatic Gatekeepers Regulating Polysulfide Migration for Stable Lithium–Sulfur Batteries",
-    "authors": [
-      "Seonju Kim",
-      "Uijun Lee",
-      "Hee Seung Ryu",
-      "Junyoung Heo",
-      "Jonghun Shin",
-      "Jun-Won Lee",
-      "Seohyeon Mun",
-      "Hyeonmin Jo",
-      "Hyeongu Kang",
-      "Jiyoung Yun",
-      "Jun-Woo Park",
-      "Haesun Park",
-      "Hee-Dae Lim*"
-    ],
-    "journal": "Advanced Energy Materials (2026)",
-    "year": 2026,
-    "status": "published",
-    "doi": "https://doi.org/10.1002/aenm.71086",
-    "pdf": "data/publications/advanced_energy_materials_2026_kim_fluorine_aligned_electrostatic_gatekeepers_regulating_polysulfide_migration_for.pdf"
-  },
-  {
-    "title": "Unveiling the Hidden Interface: Pre-SEI governs Li morphology in Anode-Free Li Metal Batteries",
-    "authors": [
-      "Hyunmin Yoon†",
-      "Daehyun Kim†",
-      "Chiwon Choi",
-      "Jong-Min Oh",
-      "Jonghun Shin",
-      "Haesun Park*",
-      "Minkyung Kim*"
-    ],
-    "journal": "Advanced Materials, e21411 (2026)",
-    "year": 2026,
-    "status": "published",
-    "doi": "https://doi.org/10.1002/adma.202521411",
-    "pdf": "data/publications/advanced_materials_2026_yoon_unveiling_the_hidden_interface_pre_sei_governs_li_morphology_in_anode_free_li_metal_1_.pdf"
-  },
-  {
-    "title": "Tuning Interface Dynamics of Benzene-based Molecular Dipoles for High Capacity and Long Lifespan in Lithium Metal Batteries",
-    "authors": [
-      "Chae Yeong Son†",
-      "Daehyun Kim†",
-      "Huiju Kim",
-      "Haesun Park*",
-      "Won-Hee Ryu*"
-    ],
-    "journal": "Small, 21, e07079 (2025)",
-    "year": 2025,
-    "status": "published",
-    "doi": "https://doi.org/10.1002/smll.202507079",
-    "pdf": "data/publications/2025_5_small_1_.pdf"
-  },
-  {
-    "title": "Silver exsolution from Li-argyrodite electrolytes for initially anode-free all-solid-state batteries",
-    "authors": [
-      "Seung Ho Choi*†",
-      "Chang Hoon Baek†",
-      "Jihoon Oh",
-      "Geung-Jong Lee",
-      "Minsoo Kim",
-      "Hyesu Lee",
-      "Dong-Joo Yoo",
-      "Yoon Seok Jung",
-      "Kyungsu Kim",
-      "Ji-Sang Yu",
-      "Woosuk Cho*",
-      "Haesun Park*",
-      "Jang Wook Choi*"
-    ],
-    "journal": "Nature Communications, 16, 1-9, (2025)",
-    "year": 2025,
-    "status": "published",
-    "doi": "https://doi.org/10.1038/s41467-025-61074-9",
-    "pdf": "data/publications/2025_2_nat_comm_1_.pdf"
-  },
-  {
-    "title": "Multivalent Ion Mobility in Layered NbS2 and NbSe2 Structures with Trigonal Prismatic Transition Metal Coordination",
-    "authors": [
-      "Daehyun Kim",
-      "Haesun Park*"
-    ],
-    "journal": "ACS Applied Energy Materials, 8, 11, 7217-7225 (2025)",
-    "year": 2025,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acsaem.5c00560",
-    "pdf": "data/publications/2025_3_acs_aem.pdf"
-  },
-  {
-    "title": "Induced orbital asymmetry of nonpolar molecular additives for boosted rapid operating performance in lithium metal batteries",
-    "authors": [
-      "Seo-Young Jun",
-      "Chae Yeong Son",
-      "Suji Kim",
-      "Haesun Park",
-      "Won-Hee Ryu*"
-    ],
-    "journal": "EES Batteries, 1, 310 (2025)",
-    "year": 2025,
-    "status": "published",
-    "doi": "https://doi.org/10.1039/D5EB00021A",
-    "pdf": "data/publications/d5eb00021a.pdf"
-  },
-  {
-    "title": "Bayesian optimization of entropy-stabilized metal fluoride conversion cathodes and their synthesis",
-    "authors": [
-      "Aditya Sundar",
-      "Jehee Park",
-      "Haesun Park",
-      "Eungje Lee",
-      "Jae Jin Kim",
-      "Peter Zapol*"
-    ],
-    "journal": "Journal of Power Source, 635, 236448 (2025)",
-    "year": 2025,
-    "status": "published",
-    "doi": "https://doi.org/10.1016/j.jpowsour.2025.236448",
-    "pdf": "data/publications/2025_1_power_source.pdf"
-  },
-  {
-    "title": "Active and Stable Plasma-Enhanced ALD Pt@Ni-YSZ Hydrogen Electrode for Steam Reversible Solid Oxide Cells",
-    "authors": [
-      "Hyong June Kim†",
-      "Haoyu Li†",
-      "Daehyun Kim†",
-      "Geonwoo Park",
-      "Sung Eun Jo",
-      "Kyoungjae Ju",
-      "Yongchai Kwon",
-      "Haesun Park*",
-      "Min Hwan Lee*",
-      "Jihwan An*"
-    ],
-    "journal": "Applied Catalysis B: Environmental, 362, 124740 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1016/j.apcatb.2024.124740",
-    "pdf": "data/publications/2024_appl_b_8.pdf"
-  },
-  {
-    "title": "Active Learning Framework for Expediting the Search of Thermodynamically Stable MXenes in the Extensive Chemical Space",
-    "authors": [
-      "Jaejung Park",
-      "Jongmok Lee",
-      "Jaejun Lee",
-      "Kyoungmin Min",
-      "Haesun Park*",
-      "Seungchul Lee*"
-    ],
-    "journal": "ACS Nano, 18, 43, 29678 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acsnano.4c08621",
-    "pdf": "data/publications/2024_acs_nano.pdf"
-  },
-  {
-    "title": "Asymmetrical Functionalization of Polarizable Interface Restructuring Molecules for Rapid and Longer Operative Lithium Metal Batteries",
-    "authors": [
-      "Chae Yeong Son†",
-      "Daehyun Kim†",
-      "Seo-Young Jun",
-      "Haesun Park*",
-      "Won-Hee Ryu*"
-    ],
-    "journal": "Small, 2405143 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1002/smll.202405143",
-    "pdf": "data/publications/2024_5_small.pdf"
-  },
-  {
-    "title": "Computational Screening of Ca-Containing Coating Materials for Electrodes of Ca-Ion Batteries",
-    "authors": [
-      "Myeongjun Kim",
-      "Haesun Park*"
-    ],
-    "journal": "International Journal of Energy Research, 2024 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1155/2024/7007091",
-    "pdf": "data/publications/2024_4_inter_energy_research.pdf"
-  },
-  {
-    "title": "Controlled Doping of Ultralow Amounts Ru on Ni Cathode for PEMWE: Experimental and Theoretical Elucidation of Enhanced Performance",
-    "authors": [
-      "Kyeong-Rim Yeo",
-      "Hoyoung Kim",
-      "Kug-Seung Lee",
-      "Seongbeen Kim",
-      "Jinwoo Lee*",
-      "Haesun Park*",
-      "Soo-Kil Kim*"
-    ],
-    "journal": "Applied Catalysis B: Environment and Energy 346, 123738 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1016/j.apcatb.2024.123738",
-    "pdf": "data/publications/2024_3_appl_b.pdf"
-  },
-  {
-    "title": "Exploring the large chemical space in search of thermodynamically stable and mechanically robust MXenes via machine learning",
-    "authors": [
-      "Jaejung Park",
-      "Minseon Kim",
-      "Heekyu Kim",
-      "Jaejun Lee",
-      "Inhyo Lee",
-      "Haesun Park",
-      "Anna Lee",
-      "Kyoungmin Min*",
-      "Seungchul Lee*"
-    ],
-    "journal": "Physical Chemistry Chemical Physics   26, 10769 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1039/D3CP06337B",
-    "pdf": "data/publications/2024_pccp.pdf"
-  },
-  {
-    "title": "Strain-Driven Surface Reactivity in Magnesium-Ion Battery Cathodes",
-    "authors": [
-      "Jae Jin Kim*",
-      "Bilash KC",
-      "Haesun Park",
-      "Aditya Sundar",
-      "Guennadi Evmenenko",
-      "D Bruce Buchholz",
-      "Jinglong Guo",
-      "Brian J Ingram",
-      "Peter Zapol",
-      "Robert F Klie",
-      "Timothy T Fister*"
-    ],
-    "journal": "Chemistry of Materials 36 (3), 1342 (2024)",
-    "year": 2024,
-    "status": "published",
-    "doi": "https://doi.org/10.1039/D3CP06337B",
-    "pdf": "data/publications/2024_chem_mater_1.pdf"
-  },
-  {
-    "title": "Investigation of Rechargeable Calcium Metal-Selenium Batteries Enabled by Borate-Based Electrolytes",
-    "authors": [
-      "Sanghyeon Kim*",
-      "Nathan T Hahn",
-      "Timothy T Fister",
-      "Noel J Leon",
-      "Xiao-Min Lin",
-      "Haesun Park",
-      "Saul H Lapidus",
-      "Chen Liao",
-      "Peter Zapol",
-      "John T Vaughey"
-    ],
-    "journal": "Chemistry of Materials 35, (6), 2363–2370 (2023)",
-    "year": 2023,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.2c03343",
-    "pdf": "data/publications/2023_chem_mater.pdf"
-  },
-  {
-    "title": "Investigation of Ca Insertion into α-MoO3 Nanoparticles for High Capacity Ca-Ion Cathodes",
-    "authors": [
-      "Sanghyeon Kim",
-      "Liang Yin",
-      "Seong-Min Bak",
-      "Timothy T. Fister",
-      "Haesun Park",
-      "Prakash Parajuli",
-      "Jihyeon Gim",
-      "Zhenzhen Yang",
-      "Robert F. Klie",
-      "Peter Zapol",
-      "Yonghua Du",
-      "Saul H. Lapidus",
-      "John T. Vaughey*"
-    ],
-    "journal": "Nano Letters 22, (6), 2228-2235 (2022)",
-    "year": 2022,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acs.nanolett.1c04157",
-    "pdf": "data/publications/2022_nano_letters_park.pdf"
-  },
-  {
-    "title": "Layered Transition Metal Oxides as Ca Intercalation Cathodes: A Systematic First-Principles Evaluation",
-    "authors": [
-      "Haesun Park*",
-      "Christopher J. Bartel",
-      "Gerbrand Ceder",
-      "Peter Zapol*"
-    ],
-    "journal": "Advanced Energy Materials 11, 2101698 (2021)",
-    "year": 2021,
-    "status": "published",
-    "doi": "https://doi.org/10.1002/aenm.202101698",
-    "pdf": "data/publications/2021_aem_park.pdf"
-  },
-  {
-    "title": "Atomic-Scale Structure of Chemically Distinct Surface Oxygens in Redox Reactions",
-    "authors": [
-      "Anusheela Das",
-      "Haesun Park",
-      "Yanna Chen",
-      "Devika Choudhury",
-      "Tien-Lin Lee",
-      "Jeffrey W. Elam",
-      "Peter Zapol",
-      "Michael J. Bedzyk*"
-    ],
-    "journal": "Journal of the American Chemical Society 143, (43), 17937-17941 (2021)",
-    "year": 2021,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/jacs.1c07926",
-    "pdf": "data/publications/2021_jacs_das.pdf"
-  },
-  {
-    "title": "Predicting Charge Transfer Stability between Sulfide Solid Electrolytes and Li Metal Anodes",
+    "title": "First-Principles Study of Redox End Members in Lithium–Sulfur Batteries",
     "authors": [
       "Haesun Park",
-      "Seungho Yu",
+      "Hyun Seung Koh",
       "Donald J. Siegel*"
     ],
-    "journal": "ACS Energy Letters, 6, (1), 150-157 (2021)",
-    "year": 2021,
+    "journal": "The Journal of Physical Chemistry C 119, 9, 4675–4683 (2015)",
+    "year": 2015,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acsenergylett.0c02372",
-    "pdf": "data/publications/2021_energy_lett_park.pdf"
+    "doi": "https://doi.org/10.1021/jp513023v",
+    "pdf": "data/publications/2015_jpcc.pdf"
   },
   {
-    "title": "Direct Observation of Electron Beam-Induced Phase Transition in MgCrMnO4",
+    "title": "Tuning the Adsorption of Polysulfides in Lithium–Sulfur Batteries with Metal–Organic Frameworks",
     "authors": [
-      "Prakash Parajuli*†",
+      "Haesun Park",
+      "Donald J. Siegel*"
+    ],
+    "journal": "Chemistry of Materials 29, 11, 4932–4939 (2017)",
+    "year": 2017,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acs.chemmater.7b01166",
+    "pdf": "data/publications/2017_cm.pdf"
+  },
+  {
+    "title": "Adiabatic and Nonadiabatic Charge Transport in Li–S Batteries",
+    "authors": [
       "Haesun Park†",
-      "Bob Jin Kwon",
-      "Jinglong Guo",
-      "Baris Key",
-      "John T. Vaughey",
-      "Peter Zapol",
-      "Robert F. Klie*"
+      "Nitin Kumar†",
+      "Marko Melander†",
+      "Tejs Vegge",
+      "Juan Maria Garcia Lastra",
+      "Donald J. Siegel*"
     ],
-    "journal": "Chemistry of Materials 32, 24, 10456-10462 (2020)",
-    "year": 2020,
+    "journal": "Chemistry of Materials 30, 3, 915–928 (2017)",
+    "year": 2017,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.0c03121",
-    "pdf": "data/publications/2020_cm_parajuli.pdf"
+    "doi": "https://doi.org/10.1021/acs.chemmater.7b04618",
+    "pdf": "data/publications/2018_cm.pdf"
   },
   {
-    "title": "Thermodynamic and kinetic properties of layered-CaCo2O4 for the Ca-ion batteries: a systematic first-principles study",
+    "title": "Thermodynamic Assessment of Coating Materials for Solid-State Li, Na, and K Batteries",
     "authors": [
-      "Haesun Park*",
-      "Peter Zapol*"
-    ],
-    "journal": "Journal of Materials Chemistry A 8, (41), 21700-21710 (2020)",
-    "year": 2020,
-    "status": "published",
-    "doi": "https://doi.org/10.1039/D0TA07573F",
-    "pdf": "data/publications/2020_jmca_park.pdf"
-  },
-  {
-    "title": "High-Voltage Phosphate Cathodes for Rechargeable Ca-Ion Batteries",
-    "authors": [
-      "Sanghyeon Kim",
-      "Liang Yin",
-      "Myeong Hwan Lee",
-      "Prakash Parajuli",
-      "Lauren Blanc",
-      "Timothy T Fister",
+      "Seungho Yu",
       "Haesun Park",
-      "Bob Jin Kwon",
-      "Brian J. Ingram",
-      "Peter Zapol",
-      "Robert F Klie",
-      "Kisuk Kang",
-      "Linda F. Nazar*",
-      "Saul H. Lapidus",
-      "John T. Vaughey*"
+      "Donald J. Siegel*"
     ],
-    "journal": "ACS Energy Letters 5, (10), 3203–3211 (2023)",
-    "year": 2020,
+    "journal": "ACS Applied Materials & Interfaces 11, 40, 36607–36615 (2019)",
+    "year": 2019,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acsenergylett.0c01663",
-    "pdf": "data/publications/2020_acs_energy_lett_kim.pdf"
-  },
-  {
-    "title": "High Capacity for Mg2+ Deintercalation in Spinel Vanadium Oxide Nanocrystals",
-    "authors": [
-      "Linhua Hu",
-      "Jacob R. Jokisaari",
-      "Bob Jin Kwon",
-      "Liang Yin",
-      "Soojeong Kim",
-      "Haesun Park",
-      "Saul H. Lapidus",
-      "Robert F. Klie",
-      "Baris Key",
-      "Peter Zapol",
-      "Brian J. Ingram",
-      "John T. Vaughey",
-      "Jordi Cabana*"
-    ],
-    "journal": "ACS Energy Letters 5, (8), 2721-2727 (2023)",
-    "year": 2023,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acsenergylett.0c01193",
-    "pdf": "data/publications/2020_acs_energy_lett_hu.pdf"
-  },
-  {
-    "title": "High Voltage Mg-Ion Battery Cathode via a Solid Solution Cr–Mn Spinel Oxide",
-    "authors": [
-      "Bob Jin Kwon*",
-      "Liang Yin",
-      "Haesun Park",
-      "Prakash Parajuli",
-      "Khagesh Kumar",
-      "Sanghyeon Kim",
-      "Mengxi Yang",
-      "Megan Murphy",
-      "Peter Zapol",
-      "Chen Liao",
-      "Timothy T. Fister",
-      "Robert F Klie",
-      "Jordi Cabana",
-      "John T. Vaughey",
-      "Saul H. Lapidus",
-      "Baris Key*"
-    ],
-    "journal": "Chemistry of Materials 32, 15, 6577–6587 (2020)",
-    "year": 2020,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.0c02058",
-    "pdf": "data/publications/2020_cm_kwom.pdf"
-  },
-  {
-    "title": "Theoretical Design of Lithium Chloride Superionic Conductors for All-Solid-State High-Voltage Lithium-Ion Batteries",
-    "authors": [
-      "Dongsu Park",
-      "Haesun Park",
-      "Yongheum Lee",
-      "Sang-Ok Kim",
-      "Hun-Gi Jung",
-      "Kyung Yoon Chung",
-      "Joon Hyung Shim",
-      "Seungho Yu*"
-    ],
-    "journal": "ACS Applied Materials & Interfaces 12, 31, 34806–34814 (2020)",
-    "year": 2020,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acsami.0c09120",
-    "pdf": "data/publications/2020_aami.pdf"
-  },
-  {
-    "title": "The effect of water vapor on surface oxygen exchange kinetics of thin film (La,Sr)(Co,Fe)O3-δ",
-    "authors": [
-      "Dongwei Xu",
-      "E. Mitchell Hopper",
-      "Kee-Chul Chang",
-      "Peter M Baldo",
-      "Haesun Park",
-      "Jeffrey A. Eastman",
-      "Hoydoo You",
-      "Paul H. Fuoss",
-      "Brian J Ingram*",
-      "Peter Zapol*"
-    ],
-    "journal": "Journal of Power Sources 451, 227478 (2020)",
-    "year": 2020,
-    "status": "published",
-    "doi": "https://doi.org/10.1016/j.jpowsour.2019.227478",
-    "pdf": "data/publications/2020_jps_xu.pdf"
-  },
-  {
-    "title": "Ca Cobaltites as Potential Cathode Materials for Rechargeable Ca-Ion Batteries: Theory and Experiment",
-    "authors": [
-      "Haesun Park",
-      "Yanjie Cui",
-      "Sanghyeon Kim",
-      "John T. Vaughey",
-      "Peter Zapol*"
-    ],
-    "journal": "Journla of Physical Chemistry C 124, 11, 5902–5909 (2020)",
-    "year": 2020,
-    "status": "published",
-    "doi": "https://doi.org/10.1021/acs.jpcc.9b11910",
-    "pdf": "data/publications/2020_jpcc_park.pdf"
+    "doi": "https://doi.org/10.1021/acsami.9b11001",
+    "pdf": "data/publications/2019_aami.pdf"
   },
   {
     "title": "Probing Electrochemical Mg-Ion Activity in MgCr2–xVxO4 Spinel Oxides",
@@ -624,57 +80,601 @@
     "pdf": "data/publications/2019_cm_kwon.pdf"
   },
   {
-    "title": "Thermodynamic Assessment of Coating Materials for Solid-State Li, Na, and K Batteries",
+    "title": "Ca Cobaltites as Potential Cathode Materials for Rechargeable Ca-Ion Batteries: Theory and Experiment",
     "authors": [
-      "Seungho Yu",
       "Haesun Park",
-      "Donald J. Siegel*"
+      "Yanjie Cui",
+      "Sanghyeon Kim",
+      "John T. Vaughey",
+      "Peter Zapol*"
     ],
-    "journal": "ACS Applied Materials & Interfaces 11, 40, 36607–36615 (2019)",
-    "year": 2019,
+    "journal": "Journla of Physical Chemistry C 124, 11, 5902–5909 (2020)",
+    "year": 2020,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acsami.9b11001",
-    "pdf": "data/publications/2019_aami.pdf"
+    "doi": "https://doi.org/10.1021/acs.jpcc.9b11910",
+    "pdf": "data/publications/2020_jpcc_park.pdf"
   },
   {
-    "title": "Adiabatic and Nonadiabatic Charge Transport in Li–S Batteries",
+    "title": "The effect of water vapor on surface oxygen exchange kinetics of thin film (La,Sr)(Co,Fe)O3-δ",
     "authors": [
+      "Dongwei Xu",
+      "E. Mitchell Hopper",
+      "Kee-Chul Chang",
+      "Peter M Baldo",
+      "Haesun Park",
+      "Jeffrey A. Eastman",
+      "Hoydoo You",
+      "Paul H. Fuoss",
+      "Brian J Ingram*",
+      "Peter Zapol*"
+    ],
+    "journal": "Journal of Power Sources 451, 227478 (2020)",
+    "year": 2020,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.jpowsour.2019.227478",
+    "pdf": "data/publications/2020_jps_xu.pdf"
+  },
+  {
+    "title": "Theoretical Design of Lithium Chloride Superionic Conductors for All-Solid-State High-Voltage Lithium-Ion Batteries",
+    "authors": [
+      "Dongsu Park",
+      "Haesun Park",
+      "Yongheum Lee",
+      "Sang-Ok Kim",
+      "Hun-Gi Jung",
+      "Kyung Yoon Chung",
+      "Joon Hyung Shim",
+      "Seungho Yu*"
+    ],
+    "journal": "ACS Applied Materials & Interfaces 12, 31, 34806–34814 (2020)",
+    "year": 2020,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acsami.0c09120",
+    "pdf": "data/publications/2020_aami.pdf"
+  },
+  {
+    "title": "High Voltage Mg-Ion Battery Cathode via a Solid Solution Cr–Mn Spinel Oxide",
+    "authors": [
+      "Bob Jin Kwon*",
+      "Liang Yin",
+      "Haesun Park",
+      "Prakash Parajuli",
+      "Khagesh Kumar",
+      "Sanghyeon Kim",
+      "Mengxi Yang",
+      "Megan Murphy",
+      "Peter Zapol",
+      "Chen Liao",
+      "Timothy T. Fister",
+      "Robert F Klie",
+      "Jordi Cabana",
+      "John T. Vaughey",
+      "Saul H. Lapidus",
+      "Baris Key*"
+    ],
+    "journal": "Chemistry of Materials 32, 15, 6577–6587 (2020)",
+    "year": 2020,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acs.chemmater.0c02058",
+    "pdf": "data/publications/2020_cm_kwom.pdf"
+  },
+  {
+    "title": "High Capacity for Mg2+ Deintercalation in Spinel Vanadium Oxide Nanocrystals",
+    "authors": [
+      "Linhua Hu",
+      "Jacob R. Jokisaari",
+      "Bob Jin Kwon",
+      "Liang Yin",
+      "Soojeong Kim",
+      "Haesun Park",
+      "Saul H. Lapidus",
+      "Robert F. Klie",
+      "Baris Key",
+      "Peter Zapol",
+      "Brian J. Ingram",
+      "John T. Vaughey",
+      "Jordi Cabana*"
+    ],
+    "journal": "ACS Energy Letters 5, (8), 2721-2727 (2023)",
+    "year": 2023,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acsenergylett.0c01193",
+    "pdf": "data/publications/2020_acs_energy_lett_hu.pdf"
+  },
+  {
+    "title": "High-Voltage Phosphate Cathodes for Rechargeable Ca-Ion Batteries",
+    "authors": [
+      "Sanghyeon Kim",
+      "Liang Yin",
+      "Myeong Hwan Lee",
+      "Prakash Parajuli",
+      "Lauren Blanc",
+      "Timothy T Fister",
+      "Haesun Park",
+      "Bob Jin Kwon",
+      "Brian J. Ingram",
+      "Peter Zapol",
+      "Robert F Klie",
+      "Kisuk Kang",
+      "Linda F. Nazar*",
+      "Saul H. Lapidus",
+      "John T. Vaughey*"
+    ],
+    "journal": "ACS Energy Letters 5, (10), 3203–3211 (2023)",
+    "year": 2020,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acsenergylett.0c01663",
+    "pdf": "data/publications/2020_acs_energy_lett_kim.pdf"
+  },
+  {
+    "title": "Thermodynamic and kinetic properties of layered-CaCo2O4 for the Ca-ion batteries: a systematic first-principles study",
+    "authors": [
+      "Haesun Park*",
+      "Peter Zapol*"
+    ],
+    "journal": "Journal of Materials Chemistry A 8, (41), 21700-21710 (2020)",
+    "year": 2020,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D0TA07573F",
+    "pdf": "data/publications/2020_jmca_park.pdf"
+  },
+  {
+    "title": "Direct Observation of Electron Beam-Induced Phase Transition in MgCrMnO4",
+    "authors": [
+      "Prakash Parajuli*†",
       "Haesun Park†",
-      "Nitin Kumar†",
-      "Marko Melander†",
-      "Tejs Vegge",
-      "Juan Maria Garcia Lastra",
-      "Donald J. Siegel*"
+      "Bob Jin Kwon",
+      "Jinglong Guo",
+      "Baris Key",
+      "John T. Vaughey",
+      "Peter Zapol",
+      "Robert F. Klie*"
     ],
-    "journal": "Chemistry of Materials 30, 3, 915–928 (2017)",
-    "year": 2017,
+    "journal": "Chemistry of Materials 32, 24, 10456-10462 (2020)",
+    "year": 2020,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.7b04618",
-    "pdf": "data/publications/2018_cm.pdf"
+    "doi": "https://doi.org/10.1021/acs.chemmater.0c03121",
+    "pdf": "data/publications/2020_cm_parajuli.pdf"
   },
   {
-    "title": "Tuning the Adsorption of Polysulfides in Lithium–Sulfur Batteries with Metal–Organic Frameworks",
+    "title": "Predicting Charge Transfer Stability between Sulfide Solid Electrolytes and Li Metal Anodes",
     "authors": [
       "Haesun Park",
+      "Seungho Yu",
       "Donald J. Siegel*"
     ],
-    "journal": "Chemistry of Materials 29, 11, 4932–4939 (2017)",
-    "year": 2017,
+    "journal": "ACS Energy Letters, 6, (1), 150-157 (2021)",
+    "year": 2021,
     "status": "published",
-    "doi": "https://doi.org/10.1021/acs.chemmater.7b01166",
-    "pdf": "data/publications/2017_cm.pdf"
+    "doi": "https://doi.org/10.1021/acsenergylett.0c02372",
+    "pdf": "data/publications/2021_energy_lett_park.pdf"
   },
   {
-    "title": "First-Principles Study of Redox End Members in Lithium–Sulfur Batteries",
+    "title": "Atomic-Scale Structure of Chemically Distinct Surface Oxygens in Redox Reactions",
     "authors": [
+      "Anusheela Das",
       "Haesun Park",
-      "Hyun Seung Koh",
-      "Donald J. Siegel*"
+      "Yanna Chen",
+      "Devika Choudhury",
+      "Tien-Lin Lee",
+      "Jeffrey W. Elam",
+      "Peter Zapol",
+      "Michael J. Bedzyk*"
     ],
-    "journal": "The Journal of Physical Chemistry C 119, 9, 4675–4683 (2015)",
-    "year": 2015,
+    "journal": "Journal of the American Chemical Society 143, (43), 17937-17941 (2021)",
+    "year": 2021,
     "status": "published",
-    "doi": "https://doi.org/10.1021/jp513023v",
-    "pdf": "data/publications/2015_jpcc.pdf"
+    "doi": "https://doi.org/10.1021/jacs.1c07926",
+    "pdf": "data/publications/2021_jacs_das.pdf"
+  },
+  {
+    "title": "Layered Transition Metal Oxides as Ca Intercalation Cathodes: A Systematic First-Principles Evaluation",
+    "authors": [
+      "Haesun Park*",
+      "Christopher J. Bartel",
+      "Gerbrand Ceder",
+      "Peter Zapol*"
+    ],
+    "journal": "Advanced Energy Materials 11, 2101698 (2021)",
+    "year": 2021,
+    "status": "published",
+    "doi": "https://doi.org/10.1002/aenm.202101698",
+    "pdf": "data/publications/2021_aem_park.pdf"
+  },
+  {
+    "title": "Investigation of Ca Insertion into α-MoO3 Nanoparticles for High Capacity Ca-Ion Cathodes",
+    "authors": [
+      "Sanghyeon Kim",
+      "Liang Yin",
+      "Seong-Min Bak",
+      "Timothy T. Fister",
+      "Haesun Park",
+      "Prakash Parajuli",
+      "Jihyeon Gim",
+      "Zhenzhen Yang",
+      "Robert F. Klie",
+      "Peter Zapol",
+      "Yonghua Du",
+      "Saul H. Lapidus",
+      "John T. Vaughey*"
+    ],
+    "journal": "Nano Letters 22, (6), 2228-2235 (2022)",
+    "year": 2022,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acs.nanolett.1c04157",
+    "pdf": "data/publications/2022_nano_letters_park.pdf"
+  },
+  {
+    "title": "Investigation of Rechargeable Calcium Metal-Selenium Batteries Enabled by Borate-Based Electrolytes",
+    "authors": [
+      "Sanghyeon Kim*",
+      "Nathan T Hahn",
+      "Timothy T Fister",
+      "Noel J Leon",
+      "Xiao-Min Lin",
+      "Haesun Park",
+      "Saul H Lapidus",
+      "Chen Liao",
+      "Peter Zapol",
+      "John T Vaughey"
+    ],
+    "journal": "Chemistry of Materials 35, (6), 2363–2370 (2023)",
+    "year": 2023,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acs.chemmater.2c03343",
+    "pdf": "data/publications/2023_chem_mater.pdf"
+  },
+  {
+    "title": "Strain-Driven Surface Reactivity in Magnesium-Ion Battery Cathodes",
+    "authors": [
+      "Jae Jin Kim*",
+      "Bilash KC",
+      "Haesun Park",
+      "Aditya Sundar",
+      "Guennadi Evmenenko",
+      "D Bruce Buchholz",
+      "Jinglong Guo",
+      "Brian J Ingram",
+      "Peter Zapol",
+      "Robert F Klie",
+      "Timothy T Fister*"
+    ],
+    "journal": "Chemistry of Materials 36 (3), 1342 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D3CP06337B",
+    "pdf": "data/publications/2024_chem_mater_1.pdf"
+  },
+  {
+    "title": "Exploring the large chemical space in search of thermodynamically stable and mechanically robust MXenes via machine learning",
+    "authors": [
+      "Jaejung Park",
+      "Minseon Kim",
+      "Heekyu Kim",
+      "Jaejun Lee",
+      "Inhyo Lee",
+      "Haesun Park",
+      "Anna Lee",
+      "Kyoungmin Min*",
+      "Seungchul Lee*"
+    ],
+    "journal": "Physical Chemistry Chemical Physics   26, 10769 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D3CP06337B",
+    "pdf": "data/publications/2024_pccp.pdf"
+  },
+  {
+    "title": "Controlled Doping of Ultralow Amounts Ru on Ni Cathode for PEMWE: Experimental and Theoretical Elucidation of Enhanced Performance",
+    "authors": [
+      "Kyeong-Rim Yeo",
+      "Hoyoung Kim",
+      "Kug-Seung Lee",
+      "Seongbeen Kim",
+      "Jinwoo Lee*",
+      "Haesun Park*",
+      "Soo-Kil Kim*"
+    ],
+    "journal": "Applied Catalysis B: Environment and Energy 346, 123738 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.apcatb.2024.123738",
+    "pdf": "data/publications/2024_3_appl_b.pdf"
+  },
+  {
+    "title": "Computational Screening of Ca-Containing Coating Materials for Electrodes of Ca-Ion Batteries",
+    "authors": [
+      "Myeongjun Kim",
+      "Haesun Park*"
+    ],
+    "journal": "International Journal of Energy Research, 2024 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1155/2024/7007091",
+    "pdf": "data/publications/2024_4_inter_energy_research.pdf"
+  },
+  {
+    "title": "Asymmetrical Functionalization of Polarizable Interface Restructuring Molecules for Rapid and Longer Operative Lithium Metal Batteries",
+    "authors": [
+      "Chae Yeong Son†",
+      "Daehyun Kim†",
+      "Seo-Young Jun",
+      "Haesun Park*",
+      "Won-Hee Ryu*"
+    ],
+    "journal": "Small, 2405143 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1002/smll.202405143",
+    "pdf": "data/publications/2024_5_small.pdf"
+  },
+  {
+    "title": "Active Learning Framework for Expediting the Search of Thermodynamically Stable MXenes in the Extensive Chemical Space",
+    "authors": [
+      "Jaejung Park",
+      "Jongmok Lee",
+      "Jaejun Lee",
+      "Kyoungmin Min",
+      "Haesun Park*",
+      "Seungchul Lee*"
+    ],
+    "journal": "ACS Nano, 18, 43, 29678 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acsnano.4c08621",
+    "pdf": "data/publications/2024_acs_nano.pdf"
+  },
+  {
+    "title": "Active and Stable Plasma-Enhanced ALD Pt@Ni-YSZ Hydrogen Electrode for Steam Reversible Solid Oxide Cells",
+    "authors": [
+      "Hyong June Kim†",
+      "Haoyu Li†",
+      "Daehyun Kim†",
+      "Geonwoo Park",
+      "Sung Eun Jo",
+      "Kyoungjae Ju",
+      "Yongchai Kwon",
+      "Haesun Park*",
+      "Min Hwan Lee*",
+      "Jihwan An*"
+    ],
+    "journal": "Applied Catalysis B: Environmental, 362, 124740 (2024)",
+    "year": 2024,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.apcatb.2024.124740",
+    "pdf": "data/publications/2024_appl_b_8.pdf"
+  },
+  {
+    "title": "Bayesian optimization of entropy-stabilized metal fluoride conversion cathodes and their synthesis",
+    "authors": [
+      "Aditya Sundar",
+      "Jehee Park",
+      "Haesun Park",
+      "Eungje Lee",
+      "Jae Jin Kim",
+      "Peter Zapol*"
+    ],
+    "journal": "Journal of Power Source, 635, 236448 (2025)",
+    "year": 2025,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.jpowsour.2025.236448",
+    "pdf": "data/publications/2025_1_power_source.pdf"
+  },
+  {
+    "title": "Induced orbital asymmetry of nonpolar molecular additives for boosted rapid operating performance in lithium metal batteries",
+    "authors": [
+      "Seo-Young Jun",
+      "Chae Yeong Son",
+      "Suji Kim",
+      "Haesun Park",
+      "Won-Hee Ryu*"
+    ],
+    "journal": "EES Batteries, 1, 310 (2025)",
+    "year": 2025,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D5EB00021A",
+    "pdf": "data/publications/d5eb00021a.pdf"
+  },
+  {
+    "title": "Multivalent Ion Mobility in Layered NbS2 and NbSe2 Structures with Trigonal Prismatic Transition Metal Coordination",
+    "authors": [
+      "Daehyun Kim",
+      "Haesun Park*"
+    ],
+    "journal": "ACS Applied Energy Materials, 8, 11, 7217-7225 (2025)",
+    "year": 2025,
+    "status": "published",
+    "doi": "https://doi.org/10.1021/acsaem.5c00560",
+    "pdf": "data/publications/2025_3_acs_aem.pdf"
+  },
+  {
+    "title": "Silver exsolution from Li-argyrodite electrolytes for initially anode-free all-solid-state batteries",
+    "authors": [
+      "Seung Ho Choi*†",
+      "Chang Hoon Baek†",
+      "Jihoon Oh",
+      "Geung-Jong Lee",
+      "Minsoo Kim",
+      "Hyesu Lee",
+      "Dong-Joo Yoo",
+      "Yoon Seok Jung",
+      "Kyungsu Kim",
+      "Ji-Sang Yu",
+      "Woosuk Cho*",
+      "Haesun Park*",
+      "Jang Wook Choi*"
+    ],
+    "journal": "Nature Communications, 16, 1-9, (2025)",
+    "year": 2025,
+    "status": "published",
+    "doi": "https://doi.org/10.1038/s41467-025-61074-9",
+    "pdf": "data/publications/2025_2_nat_comm_1_.pdf"
+  },
+  {
+    "title": "Tuning Interface Dynamics of Benzene-based Molecular Dipoles for High Capacity and Long Lifespan in Lithium Metal Batteries",
+    "authors": [
+      "Chae Yeong Son†",
+      "Daehyun Kim†",
+      "Huiju Kim",
+      "Haesun Park*",
+      "Won-Hee Ryu*"
+    ],
+    "journal": "Small, 21, e07079 (2025)",
+    "year": 2025,
+    "status": "published",
+    "doi": "https://doi.org/10.1002/smll.202507079",
+    "pdf": "data/publications/2025_5_small_1_.pdf"
+  },
+  {
+    "title": "Unveiling the Hidden Interface: Pre-SEI governs Li morphology in Anode-Free Li Metal Batteries",
+    "authors": [
+      "Hyunmin Yoon†",
+      "Daehyun Kim†",
+      "Chiwon Choi",
+      "Jong-Min Oh",
+      "Jonghun Shin",
+      "Haesun Park*",
+      "Minkyung Kim*"
+    ],
+    "journal": "Advanced Materials, e21411 (2026)",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1002/adma.202521411",
+    "pdf": "data/publications/advanced_materials_2026_yoon_unveiling_the_hidden_interface_pre_sei_governs_li_morphology_in_anode_free_li_metal_1_.pdf"
+  },
+  {
+    "title": "Fluorine-Aligned Electrostatic Gatekeepers Regulating Polysulfide Migration for Stable Lithium–Sulfur Batteries",
+    "authors": [
+      "Seonju Kim",
+      "Uijun Lee",
+      "Hee Seung Ryu",
+      "Junyoung Heo",
+      "Jonghun Shin",
+      "Jun-Won Lee",
+      "Seohyeon Mun",
+      "Hyeonmin Jo",
+      "Hyeongu Kang",
+      "Jiyoung Yun",
+      "Jun-Woo Park",
+      "Haesun Park",
+      "Hee-Dae Lim*"
+    ],
+    "journal": "Advanced Energy Materials (2026)",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1002/aenm.71086",
+    "pdf": "data/publications/advanced_energy_materials_2026_kim_fluorine_aligned_electrostatic_gatekeepers_regulating_polysulfide_migration_for.pdf"
+  },
+  {
+    "title": "Dendrite-Free Anodes Enabled by High Work Function Conductive Polymers for Long-Life Aqueous Rechargeable Zinc Batteries",
+    "authors": [
+      "Siyeon Lee†",
+      "Jeongmin Lee†",
+      "Minjae Kim†",
+      "Jonghun Shin†",
+      "Heejin Koo",
+      "Eunseo Noh",
+      "Kyungjin Kim",
+      "Jaemin Lim",
+      "Seoung Ho Lee",
+      "Haesun Park*",
+      "Byoung Hoon Lee*",
+      "Kwan Woo Nam*"
+    ],
+    "journal": "Submitted",
+    "year": "2026",
+    "status": "review",
+    "doi": "",
+    "pdf": ""
+  },
+  {
+    "title": "Enhancing the Mechanical Properties of Solid Electrolytes for Crack-Resistant Cathodes in All-Solid-State Batteries",
+    "authors": [
+      "Jae Yup Jung",
+      "Seung Ho Choi*",
+      "Mansang Ha",
+      "Chang Hoon Baek",
+      "Seung Woo Lee",
+      "Dong Joo Yoo",
+      "Haesun Park*",
+      "Min-Sik Park*",
+      "Woosuk Cho*"
+    ],
+    "journal": "Under Review",
+    "year": "2026",
+    "status": "review",
+    "doi": "",
+    "pdf": ""
+  },
+  {
+    "title": "Isolated Ir Step Decoration on Pt(100) via Self-Terminated Electrodeposition for Enhanced Electrochemical Ammonia Oxidation",
+    "authors": [
+      "Hyunki Kim†",
+      "Daehyun Kim†",
+      "Seokjin Hong",
+      "Junbeom Bang",
+      "Haesun Park*",
+      "Sang Hyun Ahn*"
+    ],
+    "journal": "Under Review",
+    "year": "2026",
+    "status": "review",
+    "doi": "",
+    "pdf": ""
+  },
+  {
+    "title": "Phase-selective asymmetric SEI formation dynamics in Si–graphite composite electrodes",
+    "authors": [
+      "Inho Kim†",
+      "Sunggyu Yoon†",
+      "Daehyun Kim†",
+      "Seoung-Bum Son",
+      "Sung-Jin Chang",
+      "Haesun Park*",
+      "Minkyu Kim*"
+    ],
+    "journal": "Under Review",
+    "year": "2026",
+    "status": "review",
+    "doi": "https://doi.org/10.21203/rs.3.rs-9220127/v1",
+    "pdf": ""
+  },
+  {
+    "title": "Surface-engineered Ni-Pt Alloys as Robust and Cost-effective Electrocatalysts for High-Performance Proton Exchange Membrane Water Electrolysis",
+    "authors": [
+      "Kyeong-Rim Yeo†",
+      "Daehyun Kim†",
+      "Hoyoung Kim",
+      "Sung Jong Yoo",
+      "Jong Hyun Jang",
+      "Haesun Park*",
+      "Soo-Kil Kim*"
+    ],
+    "journal": "Journal of Materials Chemistry A (2026)",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1039/D6TA01806H",
+    "pdf": "data/publications/d6ta01806h.pdf"
+  },
+  {
+    "title": "Aging-Driven Oxygen Vacancy Engineering in α-MnO2/GO Composite toward Near-Theoretical Lithium-Ion Storage",
+    "authors": [
+      "Seon-Yeong Lee†",
+      "Myung kyoon Kim†",
+      "Jonghun Shin†",
+      "GiWon Lee",
+      "Hae-ri Lee",
+      "Juyeon Hong",
+      "Hyeokjun Yoo",
+      "Seunggyun Han",
+      "Uhyeok Son",
+      "Haesun Park*",
+      "Han-Ik Joh*"
+    ],
+    "journal": "Under Review",
+    "year": "2026",
+    "status": "review",
+    "doi": "",
+    "pdf": ""
   }
 ]
