@@ -1,6 +1,6 @@
 /**
  * MIDAS Lab Homepage - Publications Page (publications.html) Specialized Modules
- * Version: 63
+ * Version: 64
  */
 
 (() => {
@@ -15,8 +15,8 @@
     let publications = [];
     let members = [];
 
-    // Load members from localStorage to highlight them in the author list
-    const loadMembersForHighlight = () => {
+    // Load members from localStorage / data/members.json to highlight them in the author list
+    const loadMembers = async () => {
         const storedMembers = localStorage.getItem('midas_members');
         if (storedMembers) {
             try {
@@ -25,8 +25,16 @@
                 console.error("Failed to parse stored members for highlight:", e);
             }
         }
+        try {
+            const response = await fetch(`data/members.json?t=${Date.now()}`);
+            if (response.ok) {
+                members = await response.json();
+                localStorage.setItem('midas_members', JSON.stringify(members));
+            }
+        } catch (err) {
+            console.warn("Failed to fetch members.json for highlight:", err);
+        }
     };
-    loadMembersForHighlight();
 
     const getGitHubRepoDetails = () => {
         const hostname = window.location.hostname;
@@ -352,6 +360,7 @@
     };
 
     const initPublications = async () => {
+        await loadMembers();
         const lastSync = parseInt(localStorage.getItem('midas_publications_sync_time') || '0');
         const isRebuilding = (Date.now() - lastSync) < 120000;
 
