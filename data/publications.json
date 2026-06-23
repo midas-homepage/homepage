@@ -676,5 +676,16 @@
     "status": "review",
     "doi": "",
     "pdf": ""
+  },
+  {
+    "title": "test",
+    "authors": [
+      "test"
+    ],
+    "journal": "test",
+    "year": 2027,
+    "status": "published",
+    "doi": "https://aim.cau.ac.kr/publications.html?v=63",
+    "pdf": ""
   }
 ]
