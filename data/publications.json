@@ -676,5 +676,16 @@
     "status": "published",
     "doi": "https://doi.org/10.1021/jp513023v",
     "pdf": "data/publications/2015_jpcc.pdf"
+  },
+  {
+    "title": "test",
+    "authors": [
+      "test"
+    ],
+    "journal": "test",
+    "year": 2027,
+    "status": "published",
+    "doi": "https://aim.cau.ac.kr/publications.html",
+    "pdf": ""
   }
 ]
