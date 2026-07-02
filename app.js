@@ -1,9 +1,9 @@
 /**
  * MIDAS Lab Homepage - Core Common Application JS
- * Version: 64
+ * Version: 65
  */
 
-const GOOGLE_MAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWCmHoX-JjmiM-8LqAJl3DWeDYIh7MaIF-qw36208X-EYusMFcoVdkW-xcTcctTwhYDA/exec";
+const GOOGLE_MAIL_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7a0r7BLvczwYp0XEhombQDtkFyAzaqd3If_VEVPwGq2Mm6d-C0Z_d05p8oh5bMwK9kg/exec";
 
 // Element.prototype.replaceChildren Polyfill for legacy mobile browser compatibility
 if (!Element.prototype.replaceChildren) {
@@ -20,7 +20,7 @@ const initApp = () => {
     // Cache Busting & LocalStorage Clean Sync (Force reload client-side if version mismatch)
     // ==========================================================================
     try {
-        const CURRENT_VERSION = '64';
+        const CURRENT_VERSION = '65';
         const currentUrl = new URL(window.location.href);
         const hasLatestVersionQuery = currentUrl.searchParams.get('v') === CURRENT_VERSION;
 
@@ -31,7 +31,7 @@ const initApp = () => {
             if (savedTheme) localStorage.setItem('theme', savedTheme);
             if (githubToken) localStorage.setItem('midas_github_token', githubToken);
             localStorage.setItem('midas_app_version', CURRENT_VERSION);
-            
+
             currentUrl.searchParams.set('v', CURRENT_VERSION);
             window.location.href = currentUrl.toString();
             return;
@@ -66,7 +66,7 @@ const initApp = () => {
     const toggleTheme = () => {
         const currentTheme = bodyElement.classList.contains('dark-theme') ? 'dark' : 'light';
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
+
         bodyElement.classList.toggle('dark-theme', nextTheme === 'dark');
         bodyElement.classList.toggle('light-theme', nextTheme === 'light');
         localStorage.setItem('theme', nextTheme);
@@ -109,7 +109,7 @@ const initApp = () => {
     // ==========================================================================
     const mobileMenuBtn = document.querySelector('.mobileMenu');
     const gnbM = document.getElementById('gnbM');
-    
+
     if (mobileMenuBtn && gnbM) {
         const toggleMobileMenu = () => {
             const isOpen = gnbM.classList.toggle('open');
@@ -145,7 +145,7 @@ const initApp = () => {
     // ==========================================================================
     const lnbTitle = document.querySelector('.lnb_title a');
     const lnbMenu = document.querySelector('.lnb_menu');
-    
+
     if (lnbTitle && lnbMenu) {
         lnbTitle.addEventListener('click', (e) => {
             e.preventDefault();
@@ -225,7 +225,7 @@ const initApp = () => {
         if (isAdmin) {
             sessionStorage.removeItem('isAdmin');
             syncAdminUI();
-            
+
             // If we are on the board page, dynamically refresh listing to sync delete buttons
             const activeFilter = document.querySelector('.filter-btn.active');
             if (activeFilter && typeof window.renderPosts === 'function') {
@@ -342,7 +342,7 @@ const initApp = () => {
             fetch(GOOGLE_MAIL_SCRIPT_URL, {
                 method: "POST",
                 mode: "cors",
-                headers: { 
+                headers: {
                     'Content-Type': 'text/plain;charset=utf-8'
                 },
                 body: JSON.stringify({
@@ -353,27 +353,27 @@ const initApp = () => {
                     honeypot: honeypotVal
                 })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.result === "success" || data.result === "spam") {
-                    formFeedback.className = 'form-feedback-message success';
-                    formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
-                    contactForm.reset();
-                } else {
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === "success" || data.result === "spam") {
+                        formFeedback.className = 'form-feedback-message success';
+                        formFeedback.textContent = `감사합니다, ${nameVal}님! 메세지가 전송되었습니다!`;
+                        contactForm.reset();
+                    } else {
+                        formFeedback.className = 'form-feedback-message error';
+                        formFeedback.textContent = `메세지 전송 실패: ${data.error || '알 수 없는 오류'}`;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error submitting form:", error);
                     formFeedback.className = 'form-feedback-message error';
-                    formFeedback.textContent = `메세지 전송 실패: ${data.error || '알 수 없는 오류'}`;
-                }
-            })
-            .catch(error => {
-                console.error("Error submitting form:", error);
-                formFeedback.className = 'form-feedback-message error';
-                formFeedback.textContent = '메세지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
-            });
+                    formFeedback.textContent = '메세지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+                });
         });
     }
 };
