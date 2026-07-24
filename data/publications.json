@@ -702,5 +702,21 @@
     "status": "published",
     "doi": "https://doi.org/10.1016/j.carbpol.2026.125567",
     "pdf": "data/publications/1_s2.0_s0144861726006843_main_1_.pdf"
+  },
+  {
+    "title": "Atomic-scale Ir decoration on Pt(100) via self-terminated electrodeposition for electrochemical ammonia oxidation",
+    "authors": [
+      "Hyunki Kim†",
+      "Daehyun Kim†",
+      "Junbeom Bang†",
+      "Seokjin Hong",
+      "Haesun Park",
+      "Sang Hyun Ahn"
+    ],
+    "journal": "Chemical Engineering Journal",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.cej.2026.179698",
+    "pdf": "data/publications/1_s2.0_s1385894726071597_main.pdf"
   }
 ]
