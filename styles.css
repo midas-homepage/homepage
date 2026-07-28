@@ -174,7 +174,7 @@ img {
     font-size: 26px;
     letter-spacing: 5px;
     color: var(--color-navy);
-    text-transform: uppercase;
+    text-transform: none;
     line-height: 1;
     margin-left: 2px;
     transition: var(--transition);
