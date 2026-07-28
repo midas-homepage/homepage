@@ -1,5 +1,5 @@
 /**
- * MIDAS Lab Homepage - Publications Page (publications.html) Specialized Modules
+ * AiM Lab Homepage - Publications Page (publications.html) Specialized Modules
  * Version: 64
  */
 

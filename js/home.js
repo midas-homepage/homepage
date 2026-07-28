@@ -1,5 +1,5 @@
 /**
- * MIDAS Lab Homepage - Home Page (index.html) Specialized Modules
+ * AiM Lab Homepage - Home Page (index.html) Specialized Modules
  * Version: 51
  */
 

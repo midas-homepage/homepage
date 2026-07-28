@@ -1,5 +1,5 @@
 /**
- * MIDAS Lab Homepage - Core Common Application JS
+ * AiM Lab Homepage - Core Common Application JS
  * Version: 67
  */
 
