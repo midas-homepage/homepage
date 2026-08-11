@@ -268,5 +268,23 @@
         "detail": "in Integrative Engineering, Chung-Ang University"
       }
     ]
+  },
+  {
+    "id": "seunghyun-cha",
+    "group": "undergraduate",
+    "nameKo": "차승현",
+    "nameEn": "Seunghyun Cha",
+    "role": "Undergraduate Intern",
+    "research": "Next Generation Batteries / ML screening",
+    "email": "sxhx0274@yonsei.ac.kr",
+    "current": "",
+    "img": "seunghyun-cha.jpg",
+    "education": [
+      {
+        "degree": "B.S. in Chemistry and Medical Chemistry",
+        "detail": "Yonsei University (2021 - Present)"
+      }
+    ],
+    "version": 1786434909684
   }
 ]
