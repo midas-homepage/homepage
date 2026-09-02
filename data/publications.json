@@ -566,28 +566,6 @@
     "pdf": "data/publications/advanced_energy_materials_2026_kim_fluorine_aligned_electrostatic_gatekeepers_regulating_polysulfide_migration_for.pdf"
   },
   {
-    "title": "Dendrite-Free Anodes Enabled by High Work Function Conductive Polymers for Long-Life Aqueous Rechargeable Zinc Batteries",
-    "authors": [
-      "Siyeon Lee†",
-      "Jeongmin Lee†",
-      "Minjae Kim†",
-      "Jonghun Shin†",
-      "Heejin Koo",
-      "Eunseo Noh",
-      "Kyungjin Kim",
-      "Jaemin Lim",
-      "Seoung Ho Lee",
-      "Haesun Park*",
-      "Byoung Hoon Lee*",
-      "Kwan Woo Nam*"
-    ],
-    "journal": "Submitted",
-    "year": "2026",
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
     "title": "Enhancing the Mechanical Properties of Solid Electrolytes for Crack-Resistant Cathodes in All-Solid-State Batteries",
     "authors": [
       "Jae Yup Jung",
@@ -702,63 +680,5 @@
     "status": "published",
     "doi": "https://doi.org/10.1016/j.est.2026.124426",
     "pdf": "data/publications/1_s2.0_s2352152x26040909_main.pdf"
-  },
-  {
-    "title": "Dendrite-Free Anodes Enabled by High Work Function Conductive Polymers for Long-Life Aqueous Rechargeable Zinc Batteries",
-    "authors": [
-      "Siyeon Lee†",
-      "Jeongmin Lee†",
-      "Minjae Kim†",
-      "Jonghun Shin†",
-      "Heejin Koo",
-      "Eunseo Noh",
-      "Kyungjin Kim",
-      "Jaemin Lim",
-      "Seoung Ho Lee",
-      "Haesun Park*",
-      "Byoung Hoon Lee*",
-      "Kwan Woo Nam*"
-    ],
-    "journal": "Submitted",
-    "year": 2026,
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Enhancing the Mechanical Properties of Solid Electrolytes for Crack-Resistant Cathodes in All-Solid-State Batteries",
-    "authors": [
-      "Jae Yup Jung",
-      "Seung Ho Choi*",
-      "Mansang Ha",
-      "Chang Hoon Baek",
-      "Seung Woo Lee",
-      "Dong Joo Yoo",
-      "Haesun Park*",
-      "Min-Sik Park*",
-      "Woosuk Cho*"
-    ],
-    "journal": "Under Review",
-    "year": 2026,
-    "status": "review",
-    "doi": "",
-    "pdf": ""
-  },
-  {
-    "title": "Phase-selective asymmetric SEI formation dynamics in Si–graphite composite electrodes",
-    "authors": [
-      "Inho Kim†",
-      "Sunggyu Yoon†",
-      "Daehyun Kim†",
-      "Seoung-Bum Son",
-      "Sung-Jin Chang",
-      "Haesun Park*",
-      "Minkyu Kim*"
-    ],
-    "journal": "Under Review",
-    "year": 2026,
-    "status": "review",
-    "doi": "https://doi.org/10.21203/rs.3.rs-9220127/v1",
-    "pdf": ""
   }
 ]
