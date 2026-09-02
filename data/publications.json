@@ -644,5 +644,24 @@
     "status": "published",
     "doi": "https://doi.org/10.1016/j.est.2026.124426",
     "pdf": "data/publications/1_s2.0_s2352152x26040909_main.pdf"
+  },
+  {
+    "title": "Enhancing the Mechanical Properties of Solid Electrolytes for Crack-Resistant Cathodes in All-Solid-State Batteries",
+    "authors": [
+      "Jae Yup Jung",
+      "Seung Ho Choi*",
+      "Mansang Ha",
+      "Chang Hoon Baek",
+      "Seung Woo Lee",
+      "Dong Joo Yoo",
+      "Haesun Park*",
+      "Min-Sik Park*",
+      "Woosuk Cho*"
+    ],
+    "journal": "Advanced Functional Materials (Accepted)",
+    "year": 2026,
+    "status": "published",
+    "doi": "",
+    "pdf": ""
   }
 ]
