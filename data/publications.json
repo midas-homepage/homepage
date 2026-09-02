@@ -753,5 +753,20 @@
     "status": "review",
     "doi": "",
     "pdf": ""
+  },
+  {
+    "title": "Accelerated Discovery Protocol for Electrodeposited HER Catalysts through Machine Learning Interatomic Potential Screening and Quantum Chemical Refinement",
+    "authors": [
+      "Daehyun Kim†",
+      "Suyeon Lee†",
+      "HyoungJoon Jeon",
+      "Soo-Kil Kim*",
+      "Haesun Park*"
+    ],
+    "journal": "Submitted",
+    "year": 2026,
+    "status": "review",
+    "doi": "",
+    "pdf": ""
   }
 ]
