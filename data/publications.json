@@ -702,5 +702,26 @@
     "status": "published",
     "doi": "https://doi.org/10.1016/j.cej.2026.179698",
     "pdf": "data/publications/1_s2.0_s1385894726071597_main.pdf"
+  },
+  {
+    "title": "Aging-Driven Oxygen Vacancy Engineering in α-MnO2/GO Composite toward Near-Theoretical Lithium-Ion Storage",
+    "authors": [
+      "Seon-Yeong Lee",
+      "Myung kyoon Kim",
+      "Jonghun Shin",
+      "Giwon Lee",
+      "Hae-ri Lee",
+      "Juyeon Hong",
+      "Hyeokjun Yoo",
+      "Seunggyun Han",
+      "Uhyeok Son",
+      "Haesun Park",
+      "Han-Ik Joh"
+    ],
+    "journal": "Journal of Energy Storage",
+    "year": 2026,
+    "status": "published",
+    "doi": "https://doi.org/10.1016/j.est.2026.124426",
+    "pdf": "data/publications/1_s2.0_s2352152x26040909_main.pdf"
   }
 ]
