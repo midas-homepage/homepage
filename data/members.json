@@ -152,10 +152,10 @@
   },
   {
     "id": "sanghyeon-nam",
-    "group": "undergraduate",
+    "group": "graduate",
     "nameKo": "남상현",
     "nameEn": "Sanghyeon Nam",
-    "role": "Undergraduate Intern",
+    "role": "M.S. Student",
     "research": "Data-Driven Materials Discovery",
     "email": "nam6592@gmail.com",
     "current": "",
@@ -165,7 +165,8 @@
         "degree": "B.S. in Chemical Engineering",
         "detail": "Chung-Ang University (2022 - Present)"
       }
-    ]
+    ],
+    "version": 1788416012930
   },
   {
     "id": "uk-jeong",
