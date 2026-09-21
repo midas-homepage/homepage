@@ -70,7 +70,7 @@
   },
   {
     "id": "jonghun-shin",
-    "group": "graduate",
+    "group": "alumni",
     "nameKo": "신종훈",
     "nameEn": "JongHun Shin",
     "role": "M.S. Student",
@@ -87,7 +87,8 @@
         "degree": "B.S. in Integrative Engineering",
         "detail": "Chung-Ang University (2024)"
       }
-    ]
+    ],
+    "version": 1789976096472
   },
   {
     "id": "mansang-ha",
