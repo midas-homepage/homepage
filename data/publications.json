@@ -658,11 +658,11 @@
       "Min-Sik Park*",
       "Woosuk Cho*"
     ],
-    "journal": "Advanced Functional Materials (Accepted)",
+    "journal": "Advanced Functional Materials",
     "year": 2026,
     "status": "published",
-    "doi": "",
-    "pdf": ""
+    "doi": "https://doi.org/10.1002/adfm.78249",
+    "pdf": "data/publications/adv_funct_materials_2026_jung_enhancing_the_mechanical_properties_of_solid_electrolytes_for_crack_resistant_cathodes.pdf"
   },
   {
     "title": "Dendrite-Free Anodes Enabled by High Work Function Conductive Polymers for Long-Life Aqueous Rechargeable Zinc Batteries",
