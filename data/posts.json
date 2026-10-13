@@ -551,11 +551,11 @@
   },
   {
     "id": 65,
-    "category": "news",
+    "category": "photo",
     "title": "Group Dinner 연구실 회식",
     "date": "2026-07-10",
     "img": [
-      "data/images/img_65_0_mv6e7rf2_4dfqw2.jpg"
+      "https://aim.cau.ac.kr/data/images/img_65_0_mv6e7rf2_4dfqw2.jpg"
     ],
     "content": "<h4><span style=\"background-color: rgb(255, 255, 255); color: rgb(51, 51, 51);\">Group Dinner 연구실 회식</span></h4><p><img src=\"[img0]\"></p><p><br></p>"
   }
