@@ -814,5 +814,18 @@
     "status": "review",
     "doi": "",
     "pdf": ""
+  },
+  {
+    "title": "(Invited) Accelerating the Discovery of Materials with Targeted Thermal Conductivity via a Data-Driven Active Learning Framework",
+    "authors": [
+      "Wonwoo Yoon†",
+      "Jinhyuk Kim†",
+      "and Haesun Park*"
+    ],
+    "journal": "Submitted",
+    "year": 2026,
+    "status": "review",
+    "doi": "",
+    "pdf": ""
   }
 ]
