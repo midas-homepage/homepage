@@ -569,5 +569,15 @@
       "data/images/img_66_1_mv6ed81o_dcva16.jpg"
     ],
     "content": "<p><span style=\"background-color: rgb(255, 255, 255); color: var(--text-muted);\">박해선 교수가 2026년 중앙대학교 대학원 동문회 공로상 수상하였습니다!</span></p><p><img src=\"[img0]\"></p><p><img src=\"[img1]\"></p><p><br></p>"
+  },
+  {
+    "id": 67,
+    "category": "photo",
+    "title": "KSME Annual Meeting 2026 대한기계학회 2026년 학술대회",
+    "date": "2026-11-11",
+    "img": [
+      "data/images/img_67_0_mwsne2sl_t0a91j.jpg"
+    ],
+    "content": "<p><img src=\"[img0]\"></p><p><br></p>"
   }
 ]
