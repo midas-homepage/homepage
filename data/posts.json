@@ -579,5 +579,16 @@
       "data/images/img_67_0_mwsne2sl_t0a91j.jpg"
     ],
     "content": "<p><img src=\"[img0]\"></p><p><br></p>"
+  },
+  {
+    "id": 68,
+    "category": "photo",
+    "title": "Haesun gave a talk at the 2026 Fall Meeting of the Korean Electrochemical Society",
+    "date": "2026-11-20",
+    "img": [
+      "data/images/img_68_0_mwsnquaa_v9qs8h.jpg",
+      "data/images/img_68_1_mwsnquaa_wngd5e.jpg"
+    ],
+    "content": "<p><span style=\"background-color: rgb(255, 255, 255); color: rgb(38, 38, 38);\">Haesun gave an invited talk at the 2026 Fall Meeting of the Korean Electrochemical Society, on “Automating Battery Materials Simulations with Agentic AI”</span></p><p><img src=\"[img0]\"><img src=\"[img1]\"></p>"
   }
 ]
